@@ -5,5 +5,5 @@
  */
 export default function log(module: string, ...info: unknown[]) {
   // eslint-disable-next-line no-console
-  console.debug(module, `@[${window.name.substring(0, 7)}]`, ...info);
+  console.debug(module, `@[${window.name?.substring(0, 7)}]`, ...info);
 }

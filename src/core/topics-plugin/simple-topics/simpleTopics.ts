@@ -46,9 +46,7 @@ class SimpleTopics {
     }
     this.subscriptions.get(topic)?.set(subsciptionId, callback);
     (this.context.services?.getCurrentValue as CallableFunction)(topic).then((lastValue: unknown) => {
-      if (lastValue) {
-        callback(lastValue);
-      }
+      callback(lastValue);
     });
 
     const unsubscribeCallback = () => {

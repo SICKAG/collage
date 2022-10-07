@@ -19,7 +19,14 @@ export function legacyFallbackUUID(): string {
 }
 
 export function v4(): string {
-  return crypto?.randomUUID ? crypto.randomUUID() : legacyFallbackUUID();
+  return (
+    (
+      typeof crypto !== 'undefined'
+      && crypto?.randomUUID
+      && (() => crypto.randomUUID())
+    )
+    || legacyFallbackUUID
+  )();
 }
 
 export const fragmentUuidIdentifier = 'collage-fragment';

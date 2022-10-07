@@ -40,3 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Toolchain update
+
+## 0.2.1
+
+### Changed
+
+- Hardened use of global api. Use fallbacks where appropriate
+- Topic listeners will always receive the last message (or null) when registered

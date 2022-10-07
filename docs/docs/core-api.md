@@ -478,6 +478,9 @@ For both topic types, it is possible to subscribe multiple times for the same to
 Do not use `subscribe`, and `publish` as Topic names or as names for Services with Topics!
 :::
 
+::: tip
+When subscribing to a topic which has never been published a value to, the subscription callback gets initially called with undefined as message.
+:::
 
 #### Simple Topics
 Topics are defined dynamically at runtime and don`t need to be defined in the Frontend Description Object.
