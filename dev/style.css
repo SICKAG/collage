@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap');
+
+* {
+  font-family: Lato, sans-serif;
+  color: aliceblue;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: #22272e;
+  /*
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  */
+}
+
+.app {
+  display: grid;
+  grid-template-columns: auto 20vw;
+  grid-template-rows: 20vh auto;
+  grid-template-areas: "main head"
+                       "main nav"
+  ;
+}
+
+.doc {
+  padding: 2em;
+}
+
+.app > header {
+  grid-area: head;
+}
+
+h1 {
+  font-size: 18pt;
+}
+
+h2 {
+  font-size: 14pt;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color: lightskyblue;
+}
+
+.app > aside {
+  grid-area: nav;
+}
+
+header,
+aside {
+  padding: 1em;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+nav section {
+  display: flex;
+  flex-direction: column;
+}
+
+.app > main {
+  grid-area: main;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  border-right: 1px solid aliceblue
+}
+
+iframe {
+  border: none;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, .7);
+}

@@ -1,17 +1,6 @@
-/**
- * @copyright
- * Copyright(c) 2021 SICK AG
- */
+import './elements/fragment-element';
 
-/**
- * DEPRECATED!
- * Old 'non'-api expose
- */
-// eslint-disable-next-line camelcase
-export { expose as _internal_expose, Observable } from './Context';
+// eslint-disable-next-line import/prefer-default-export
+export { default as expose } from './core';
 
-/**
- * SICK api expose
- */
-export { default as expose } from './sick-api/index';
-export * from './api/sugar';
+export { default as onloaded } from './lib/sugar';

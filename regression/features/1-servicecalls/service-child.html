@@ -11,7 +11,7 @@
       }
     </style>
     <script type="module">
-      import { expose } from "/bundle/collage.js";
+      import { expose } from "@sick-davinci/collage";
 
       expose({
         services: {
@@ -26,9 +26,13 @@
               document.querySelector("#my-output").textContent = "Uiiiiiiiiii!";
             },
           },
+          bla(bla) {
+            return "I am a child! " + bla;
+          },
         },
-      }).then(({ services }) => {
-        document.services = services;
+      }).then((context) => {
+        console.log('I got CONTEXT', context.services)
+        document.services = context.services;
       });
     </script>
   </head>
@@ -41,6 +45,8 @@
     <button id="btn-call-foo" onclick="document.services.foo()">Foo</button>
     <button id="btn-call-bar" onclick="document.services.bar()">bar</button>
     <button id="btn-call-bazz" onclick="document.services.named.bazz()">bazz</button>
-    <div style="height: 600px; background-color: red">blubb</div>
+    <button id="btn-call-bla" onclick="document.services.bla('blub').then(resp => {console.log(resp);})">bla</button>
+
+    <div style="height: 600vh; background-color: red">blubb</div>
   </body>
 </html>

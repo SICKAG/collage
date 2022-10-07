@@ -1,7 +1,6 @@
 node_modules/
 out/
 bundle/
-lib/
 coverage/
 *.tgz
 yarn-error.log

@@ -1,0 +1,13 @@
+{
+  "name": "@sick-davinci/collage-docs",
+  "version": "1.0.0",
+  "description": "Documentation App for the collage lib",
+  "main": "vuepress-config.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

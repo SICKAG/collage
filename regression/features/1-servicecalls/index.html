@@ -6,17 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      html {
+      html, body {
         height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
+
       body {
-        height: 100%;
+        padding: 1em;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
       }
     </style>
     <script type="module">
-      import { expose } from "/bundle/collage.js";
+      import { expose } from "@sick-davinci/collage";
 
       expose({
         services: {
@@ -28,9 +33,13 @@
               document.querySelector("#my-output").textContent = "Uiiiiiiiiii!";
             },
           },
+          async bla(bla) {
+            return (await fetch('www.example.com')).text;
+          },
         },
-      }).then(({ services }) => {
+      }).then(({ services, id }) => {
         document.services = services;
+        document.querySelector('footer').textContent = id;
       });
     </script>
     <!-- http://localhost:8080/test/features/1-servicecalls/ -->
@@ -46,6 +55,9 @@
       <button onclick="document.services.foo()">Foo</button>
       <button onclick="document.services.bar()">bar</button>
     </div>
-    <collage-fragment url="./service-child"></collage-fragment>
+    <collage-fragment url="./service-child.html"></collage-fragment>
+    <footer>
+
+    </footer>
   </body>
 </html>
