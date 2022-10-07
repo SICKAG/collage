@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .has-modal {
+      background-color: greenyellow;
+      justify-content: flex-start;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .is-full-focus {
+      height: 100%;
+    }
+
+    collage-fragment {
+      height: 600px;
+    }
+  </style>
+  <script type="module">
+    import { expose } from "@sick-davinci/collage";
+    function findFragment(id) {
+      return [...document.querySelectorAll('collage-fragment')]
+        .find(element => element.querySelector('iframe').name == id);
+    }
+    const classes = {
+      fullFocus: 'is-full-focus',
+      hasModal: 'has-modal',
+      hidden: 'hidden'
+    };
+    function fragment(id) {
+      const fragment = findFragment(id);
+      return {
+        get modal() {
+          return fragment
+            && fragment.classList.contains(classes.fullFocus)
+            && document.body.classList.contains(classes.hasModal);
+        },
+        set modal(flag) {
+          if (fragment) {
+            fragment.classList.toggle(classes.fullFocus, flag);
+            document.body.classList.toggle(classes.hasModal, flag);
+            document.querySelectorAll('.arrangement-content').forEach(element => element.classList.toggle(classes.hidden, flag));
+            document.querySelectorAll('collage-fragment').forEach(element => {
+              if (!element.classList.contains(classes.fullFocus)) {
+                element.classList.toggle(classes.hidden, flag)
+              }
+            }
+            );
+          }
+        },
+      };
+    }
+    expose({
+      services: {
+        modal: {
+          set(id) {
+            const frag = fragment(id);
+            frag.modal = true;
+          },
+          unset(id) {
+            fragment(id).modal = false;
+          },
+        }
+      },
+    }).then((context) => {
+      document.querySelector('header').textContent = context.id;
+    });
+  </script>
+</head>
+
+<body>
+  <header class="arrangement-content"></header>
+  <div class="arrangement-content">
+    <h1>Modal Service</h1>
+    <p>If the modal service is called, the specific fragment, which called it, is focused</p>
+  </div>
+  <collage-fragment url="./modalFragment.html"></collage-fragment>
+  <collage-fragment url="./modalFragment.html"></collage-fragment>
+</body>
+
+</html>

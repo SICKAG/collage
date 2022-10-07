@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: lightseagreen;
+      }
+    </style>
+    <script type="module">
+      import { expose } from "@sick-davinci/collage";
+
+      expose({
+        services: {
+          blubb() {
+            document.querySelector("#my-output").textContent = "I child!";
+          },
+          bar() {
+            document.querySelector("#my-output").textContent = "I am groot!";
+          },
+          named: {
+            bazz() {
+              document.querySelector("#my-output").textContent = "Uiiiiiiiiii!";
+            },
+            named2: {
+              barr() {
+                document.querySelector("#my-output").textContent = "Barrrrr!";
+              }
+            },
+          },
+          parentService(bla) {
+            return "I am a child! " + bla;
+          },
+          onlyInChild1(bla) {
+            return "I am a child! " + bla;
+          },
+        },
+      }).then((context) => {
+        console.log('I got CONTEXT', context.services)
+        document.querySelector("#context").addEventListener('click', () => {
+          console.log('Context: ', context.services);
+        });
+
+        document.querySelector('header').textContent = context.id;
+
+        document.querySelector('#btn-call-foo').addEventListener('click', async () => {
+          const response = await context.services.parentService();
+          console.log('#### Response from calling service in service-child: ', response);
+        });
+        document.querySelector('#btn-call-bar').addEventListener('click', () => {
+          console.log(context.services.onlyInChild1());
+        });
+        document.querySelector('#btn-call-bazz').addEventListener('click', () => {
+          context.services.named.bazz();
+        });
+        document.querySelector('#btn-call-named-barr').addEventListener('click', () => {
+          context.services.named.named2.barr();
+        });
+
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+    </header>
+    <h1>The service child</h1>
+    <hr />
+    <p id="my-output"></p>
+    <hr />
+    <button id="context"> Context</button>
+    <button id="btn-call-foo" >parentService</button>
+    <button id="btn-call-bar">Only in child 1</button>
+    <button id="btn-call-bazz">bazz</button>
+    <button id="btn-call-named-barr">named.named2.barr</button>
+    <collage-fragment style="height: 500px;" url="./service-child2.html"></collage-fragment>
+
+    <!-- <div style="height: 600vh; background-color: red">blubb</div> -->
+  </body>
+</html>

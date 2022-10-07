@@ -111,14 +111,19 @@ To initialize your frontend and start using `Collage` functionality, first descr
 
 ```javascript
 const {
-  children: { myChild },
+  fragments: { myChild },
   services,
 } = expose({
-  config: {
+  fragmentsConfig: {
     name: "My awesome frontend",
     version: "1.0.0",
   },
-  topics: ["foo", "bar", "baz"],
+  services: {
+    bazz: {
+      bar: () => {},
+      topics: ["foo", "bar", "baz"],
+    }
+  }
   functions: {
     foo: () => {},
     bar: (baz) => {
@@ -135,7 +140,7 @@ This behaviour enables you to explicitly expose your children's functions as you
 It also enables you to interact with child functionality while composing your own functions or define abstraction layers between your and your childrens' function contracts.
 
 ```javascript
-collage.expose((children) => {
+collage.expose((fragments) => {
   // interact with your children via the name you gave them in the html
   return {
     /* ... */
@@ -143,13 +148,13 @@ collage.expose((children) => {
       /**
        * forward the `something()` function call to your `foo` child
        */
-      something: children.foo.something,
+      something: fragments.foo.something,
 
       /**
        * use child functionality in your own functions
        */
       anotherthing: (times) => {
-        [...Array(5)].forEach(children.foo.bother("Hi!"));
+        [...Array(5)].forEach(fragments.foo.bother("Hi!"));
       },
     },
   };

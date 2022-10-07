@@ -1,15 +1,15 @@
 # Your first Collage Project
 
-To wet your appetite and give you a feeling for the Collage library, **let's create a simple todo list as a micro frontend and integrate it within a larger application** were a user can choose backlog items as their own todos or promote personal todos as backlog items.
+To wet your appetite and give you a feeling for the Collage library, **let's create a simple todo list as a micro frontend and integrate it within a larger application** where a user can choose backlog items as their own todos or promote personal todos as backlog items.
 
-> **Micro Frontends Primer**
+> **Micro Frontend**
 >
 > A micro frontend is a small dedicated frontend application that serves a
 > specific purpose independend from other parts of a greater application.
 >
 > The term [micro frontends](https://micro-frontends.org/) is relatively new. The
 > gist however is, that frontends can serve smaller purposes and assemble into
-> a greater whole with better seperation of complexity.
+> a greater whole with better separation of complexity.
 >
 > **Collage** is a library which aims to facilitate communication between such
 > micro frontends via _Services_, _Topics_, _Function Calls_ and _Configuration_
@@ -371,7 +371,7 @@ document.addEventListener('click', ({target}) => {
 
     // since we added a name to the 'davinci-fragment' in our DOM, we can refer
     // directly to functions declared on that fragment.
-    context.children.todos.addTodoItem(name)
+    context.fragments.functions.todos.addTodoItem(name)
   }
 })
 ```

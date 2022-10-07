@@ -3,7 +3,7 @@
 ## Functional Features
 
 ### Expose capabilities
-Upgragde any web application to a micro frontend by exposing its capabilities.
+Upgrade any web application to a micro frontend by exposing its capabilities.
 
 ### Embedding of micro frontends
 Embed micro frontends in your application.

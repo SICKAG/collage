@@ -43,11 +43,20 @@ module.exports = {
             text: 'Features',
             link: '/docs/features',
           },
+        ],
+      },
+      {
+        text: 'v0.2.x',
+        children: [
           {
-            text: 'Architecture',
-            link: '/docs/architecture',
+            text: 'v0.1.x',
+            link: 'https://0-1-0.d16bk28qniba3b.amplifyapp.com/',
           },
         ],
+      },
+      {
+        text: 'GitLab',
+        link: 'https://gitlab.sick.com/platforms/davinci/libraries/collage',
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { v4 } from 'uuid';
+import { createFragmentUUID } from '../lib/uuid';
 
 export const elementName = 'collage-fragment';
 
@@ -19,10 +19,20 @@ function customStyle(): string {
 }
 
 export class Fragment extends HTMLElement {
-  fragmentContext: unknown;
+  set url(url: string) {
+    this.setAttribute('url', url);
+  }
 
-  get url() {
-    return this.getAttribute('url');
+  get url(): string {
+    return this.getAttribute('url') || '';
+  }
+
+  set name(name: string) {
+    this.setAttribute('name', name);
+  }
+
+  get name(): string {
+    return this.getAttribute('name') || '';
   }
 
   isComplete(): boolean {
@@ -43,7 +53,7 @@ export class Fragment extends HTMLElement {
 
   createFragment(): void {
     const iframe = document.createElement('iframe');
-    iframe.name = v4();
+    iframe.name = createFragmentUUID();
     iframe.src = this.url || '';
     this.appendChild(iframe);
   }

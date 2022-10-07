@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="module">
+      import { expose } from "@sick-davinci/collage";
+      expose({
+        functions: {
+          bla(bla) {
+            document.getElementById('state-output').textContent = (() => {
+              switch (bla) {
+                case '1':
+                  return `One`;
+                case '2':
+                  return `Two`;
+                case '3':
+                  return `Three`;
+                default:
+                  return 'Unkown number';
+              }
+            })();
+          }
+        },
+      });
+    </script>
+  </head>
+  <body>
+    <style>
+      body {
+        background-color: lightgreen;
+      }
+    </style>
+    <h1>Hi. I'm Ron</h1>
+    <span id="state-output"></span>
+  </body>
+</html>

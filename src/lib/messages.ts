@@ -1,53 +1,52 @@
+import log from './logging';
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-const THE_CONTEXT = 'rasztexrdytcufvgibkhgvjycfhtdxrgzs';
+const MESSAGE_TOKEN = '[collage-handshake-message-token]-1d87aa39-3bd5-4e01-b2c0-7698ea29a7da';
 
-// eslint-disable-next-line no-console
-const log = console.debug;
-
-type Message<T> = {
+type Message = {
   context: string,
   type: string,
-  message: T,
+  content: unknown,
 }
 
-export function listenFor<T>(
-  { type, context = THE_CONTEXT, targetOrigin } : {
+export function listenFor(
+  { type, context = MESSAGE_TOKEN, sourceOrigin } : {
     type: string,
     context?: string,
-    targetOrigin?: string,
+    sourceOrigin?: string,
   },
-  callback: (message: T, source: MessageEventSource) => unknown,
+  // TODO: which Type is message of?
+  callback: (message: unknown, source: MessageEventSource) => unknown,
 ) {
   window.addEventListener('message', ({ data, origin, source }) => {
-    if (!targetOrigin || targetOrigin === origin) {
+    if (!sourceOrigin || sourceOrigin === origin) {
       try {
-        const message = data as Message<T>;
+        const message = data as Message;
         if (context === message.context && type === message.type) {
-          log('<--', message);
-          callback(message.message, source!);
+          log('messages.ts', '<--', message, type);
+          callback(message.content, source!);
         }
       } catch (e) {
-        log('! Rejecting message:', e);
+        log('messages.ts', '! Rejecting message:', e);
       }
     }
   });
 }
 
-export function createSender(
+export function sendMessage(
   {
     recepient,
-    context = THE_CONTEXT,
+    context = MESSAGE_TOKEN,
     targetOrigin = '*',
     type,
+    content = '',
   }: {
     recepient: Window,
     context?: string,
     targetOrigin?: string,
     type: string,
+    content?: unknown,
   },
 ) {
-  return <T>(message: T) => {
-    log('-->', message);
-    recepient.postMessage({ context, type, message }, targetOrigin);
-  };
+  log('messages.ts', '-->', content, type);
+  recepient.postMessage({ context, type, content }, targetOrigin);
 }

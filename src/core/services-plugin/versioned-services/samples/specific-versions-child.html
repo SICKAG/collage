@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module">
+    import { expose } from '/bundle/collage.js'
+
+    expose({
+      services: {
+        aService: {
+          versions: {
+            '1.0': { aFunction: () => 'Hi from myself (version one).' },
+            '1.2': { aFunction: () => 'Hi from myself (improved version one).' }
+          }
+        }
+      }
+    }).then(({ services: { aService } }) => {
+      function field(name) {
+        return document.querySelector(`[name=${name}]`)
+      }
+
+      addEventListener('click', async ({target}) => {
+        if (target.closest('#btn-read-service')) {
+          const selected = field('version').value
+          console.log(selected, aService)
+          field('result').value = (await aService[selected].aFunction())
+        }
+      })
+    })
+  </script>
+</head>
+<body>
+  <fieldset>
+    <button id='btn-read-service'>read service</button>
+    <select name="version">
+      <option>1.0</option>
+      <option>1.2</option>
+    </select>
+    <input name="result">
+  </fieldset>
+</body>
+</html>

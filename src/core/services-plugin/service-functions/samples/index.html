@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    </style>
+    <script type="module">
+      import { expose } from "@sick-davinci/collage";
+
+      expose({
+        services: {
+          onlyInParent() {
+            document.querySelector("#my-output").textContent = "Hi there!";
+          },
+          named: {
+            bazz() {
+              document.querySelector("#my-output").textContent = "Uiiiiiiiiii!";
+            },
+            named2: {
+              barr() {
+                document.querySelector("#my-output").textContent = "Barrrrr!";
+              },
+              named2: {
+                barr() {
+                  document.querySelector("#my-output").textContent = "Barrrrr!";
+                }
+            }
+            }
+          },
+          parentService(bla) {
+            document.querySelector("#my-output").textContent = "Wazz up! " + bla;
+            return "Wazz Up!" + bla;
+          },
+        },
+      }).then((context) => {
+        document.querySelector('header').textContent = context.id;
+        document.querySelector('#btn1').addEventListener('click', () => {
+          context.services.onlyInParent()
+        });
+        document.querySelector('#btn2').addEventListener('click', async() => {
+          const response = await context.services.parentService('blablub');
+          console.log('#### Response from calling service: ', response);
+        });
+        document.querySelector('#btn3').addEventListener('click', () => {
+          const named = context.services.named
+          named.bazz();
+        });
+        document.querySelector('#btn4').addEventListener('click', () => {
+          context.services.named.named2.named2.barr();
+        });
+      });
+    </script>
+    <!-- http://localhost:8080/test/features/1-servicecalls/ -->
+  </head>
+  <body>
+    <header></header>
+    <div>
+      <h1>Call services</h1>
+      <p>I want to call a service but I don't care who implements it.</p>
+      <hr />
+      <p id="my-output"></p>
+      <hr />
+
+      <button id="btn1">Only in parent</button>
+      <button id="btn2">Parent service</button>
+      <button id="btn3">Invalid</button>
+      <button id="btn4">Nested service</button>
+
+    </div>
+    <collage-fragment style="height:600px" url="./service-child.html" name="child"></collage-fragment>
+  </body>
+</html>

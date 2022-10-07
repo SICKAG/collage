@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: lightseagreen;
+      }
+    </style>
+    <script type="module">
+      import { expose } from "@sick-davinci/collage";
+
+      expose({
+        services: {
+          // foo() {
+          //   document.querySelector("#my-output").textContent = "I child!";
+          // },
+          // bar() {
+          //   document.querySelector("#my-output").textContent = "I am groot!";
+          // },
+          named: {
+            bazz() {
+              document.querySelector("#my-output").textContent = "Bla!";
+            },
+          },
+          parentService(bla) {
+            return "I am a child! " + bla;
+          },
+          onlyInChild2(bla) {
+            return "I am a child! " + bla;
+          },
+        },
+      }).then((context) => {
+        console.log('I got CONTEXT', context.services)
+        document.services = context.services;
+        document.querySelector('header').textContent = context.id;
+
+        document.querySelector('#btn-call-foo').addEventListener('click', async () => {
+          const response = await context.services.parentService('im a child');
+          console.log('#### Response from calling service in service-child2: ', response);
+        });
+        document.querySelector('#btn-call-bar').addEventListener('click', () => {
+          context.services.onlyInChild2();
+        });
+        document.querySelector('#btn-call-bazz').addEventListener('click', () => {
+          context.services.named.bazz();
+        });
+      });
+
+      document.click2 = () => {
+        console.log('clicked');
+        document.services.named.bazz();
+      }
+    </script>
+  </head>
+  <body>
+    <header></header>
+    <h1>The service child</h1>
+    <hr />
+    <p id="my-output"></p>
+    <hr />
+
+    <button id="btn-call-foo">Parent Service</button>
+    <button id="btn-call-bar">Only in child 2</button>
+    <button id="btn-call-bazz" >bazz</button>
+
+
+    <!-- <div style="height: 600vh; background-color: red">blubb</div> -->
+  </body>
+</html>

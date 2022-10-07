@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuggetsframe</title>
   <script type="module">
-    import { expose, loaded } from '/bundle/collage.js'
+    import { expose, onLoaded } from "@sick-davinci/collage";
     const { children } = await expose({
       services: {
         config: () => ({
@@ -18,7 +18,8 @@
       }
     })
 
-    await loaded('first', 'second', 'third')
+
+    await onLoaded('first', 'second', 'third')
     children.first.setCards(3)
     children.second.setCards(1)
     children.third.setCards(6)

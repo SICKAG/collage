@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module">
+    import { expose } from "@sick-davinci/collage";
+    expose({}).then((context) => {
+      const subscriptions = [];
+
+      subscriptions.push(
+        context.topics.subscribe('messages.news', msg => {
+          document.querySelector('main').textContent = msg
+        })
+      )
+
+      document.querySelector('#post-message').addEventListener('click', () => {
+        context.topics.publish(
+          'messages.news',
+          document.querySelector('[name=message]').value
+        )
+      })
+
+      document.querySelector('#btn-unsubscribe').addEventListener(
+        'click',
+        () => subscriptions.forEach(unsubscribeCallback => unsubscribeCallback())
+      )
+    })
+  </script>
+</head>
+
+<body>
+  <main>
+  </main>
+  <input name="message" placeholder="write something">
+  <button id="post-message">POST</button>
+  <footer>
+    <button id="btn-unsubscribe">unsubscribe</button>
+  </footer>
+  <collage-fragment url="./topic-receiver2.html"></collage-fragment>
+
+</body>
+
+</html>

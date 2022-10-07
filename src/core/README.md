@@ -124,9 +124,9 @@ const definition = {
   functions: {},
 }
 
-const context = await expose(definition)
+const context = await expose(description)
 
-const arrangementContext = connectToArrangement(definition, context)
+const arrangementContext = connectToArrangement(description, context)
 
 const combined = combineContexts(context, arrangementContext)
 

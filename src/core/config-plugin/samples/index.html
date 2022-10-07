@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 1em;
+    }
+  </style>
+  <script type="module">
+    import { expose } from "@sick-davinci/collage";
+    const description = {
+      fragmentsConfig: {
+        "./config-fragment.html": {
+          embedded: false,
+          name: "overUrl",
+          bla: 'urlOnly',
+        },
+        child: {
+          embedded: true,
+          name: "overChild",
+          blub: 'childOnly',
+        }
+      },
+    };
+    expose(description).then((context) => {
+      document.querySelector("#fragments-config-display").innerHTML =
+        JSON.stringify(description.fragmentsConfig);
+
+      document.querySelector("#btn").addEventListener('click', () => {
+        console.log(context);
+      });
+
+      document.querySelector("#context-id").textContent = context.id;
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Config</h1>
+    <div>
+      <p id="context-id"></p>
+      <button id="btn">log context</button>
+    </div>
+  </header>
+  FragmentsConfig:
+  <div id="fragments-config-display"></div>
+  <collage-fragment style="height: 600px" url="./config-fragment.html" name="child" config-test="Halloho"
+    config-name="overProperty"></collage-fragment>
+</body>
+
+</html>

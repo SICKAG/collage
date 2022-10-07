@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The real Nugget</title>
   <script type="module">
-    import { expose } from '/bundle/collage.js'
+    import { expose } from "@sick-davinci/collage";
+    // import { expose, onConfigUpdated } from "@sick-davinci/collage";
     const cards = () => [...document.querySelectorAll('.card:not(.pseudo)')]
 
     function setCards(n = 0) {
@@ -26,11 +27,13 @@
 
     //TODO how to default?
     const context = await expose()
+    // onConfigUpdated((detail) => {
     const config = {
       title: 'My own title',
       cards: 3,
       mode: 'standalone',
       ...context.config
+      // ...detail.config
     }
 
     document.body.dataset.embedded = config.mode != 'standalone'
@@ -39,6 +42,7 @@
     
     //Remember! config values are unknown in their type by design  
     setCards(Number(config.cards))
+    // });
 
     document.body.dataset.loaded = true
   </script>

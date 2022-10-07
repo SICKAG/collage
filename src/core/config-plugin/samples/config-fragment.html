@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 1em;
+    }
+
+    header > div {
+      display: flex;
+    }
+  </style>
+  <script type="module">
+    import { expose, onConfigUpdated, onLoaded } from "@sick-davinci/collage";
+
+    const frontendDescription = {};
+
+    expose(frontendDescription).then((context) => {
+      // let mergedConfig = {
+      //   embedded: false,
+      //   name: "Child1",
+      //   child1specific: "",
+      // };
+      // onConfigUpdated((detail) => {
+      //   mergedConfig = {
+      //     ...mergedConfig,
+      //     ...detail.config,
+      //   };
+      //   onLoaded('peter', () => {
+      //     context.fragments.peter.updateConfig({ mergedConfig });
+      //   })
+      // });
+
+      document.querySelector("#fragments-config-display").innerHTML =
+        JSON.stringify(frontendDescription.fragmentsConfig);
+
+      onConfigUpdated(() => {
+        document.querySelector("#config-display").innerHTML =
+          JSON.stringify(context.config);
+      })
+
+      document.querySelector("#btn").addEventListener('click', () => {
+        console.log(context);
+      });
+
+      document.querySelector("#context-id").textContent = context.id;
+    });
+
+
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Config Fragment</h1>
+    <div>
+      <p id="context-id"></p>
+      <button id="btn">log context</button>
+    </div>
+  </header>
+  FragmentsConfig:
+  <div id="fragments-config-display"></div>
+  Own Config
+  <div id="config-display"></div>
+  <collage-fragment style="height: 600px" url="./config-fragment2.html" name="peter" config-foo="foo?">
+  </collage-fragment>
+</body>
+
+</html>

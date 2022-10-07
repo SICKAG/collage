@@ -17,8 +17,9 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "max-len": ["warn", 80],
+    "max-len": ["warn", 120],
     "import/extensions": "off",
-    "import/no-unresolved": "off"
+    "import/no-unresolved": "off",
+    "no-underscore-dangle": "off"
   }
 }

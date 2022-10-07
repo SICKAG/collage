@@ -6,18 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      html, body {
+      html {
         height: 100%;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
       }
-
       body {
-        padding: 1em;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
       }
     </style>
     <script type="module">
@@ -33,13 +28,9 @@
               document.querySelector("#my-output").textContent = "Uiiiiiiiiii!";
             },
           },
-          async bla(bla) {
-            return (await fetch('www.example.com')).text;
-          },
         },
-      }).then(({ services, id }) => {
+      }).then(({ services }) => {
         document.services = services;
-        document.querySelector('footer').textContent = id;
       });
     </script>
     <!-- http://localhost:8080/test/features/1-servicecalls/ -->
@@ -56,8 +47,5 @@
       <button onclick="document.services.bar()">bar</button>
     </div>
     <collage-fragment url="./service-child.html"></collage-fragment>
-    <footer>
-
-    </footer>
   </body>
 </html>

@@ -1,8 +1,8 @@
 # API
 
 <!-- TODO: Complete API description -->
-
-## expose Function
+  
+ ## expose Function
 
 :::: code-group
 ::: code-group-item src/api/index.ts>expose
@@ -35,7 +35,7 @@ The expose function can be called without a parameter, to just enable the basic 
 ::::
 Composing an application that uses other fragments as _children_ is enabled by the use of the `collage-fragment` custom element.
 
-The name property is required, if you want to integrate it in a way that fragments can communicate and share functionality with each other. If you just want to embed a fragment in the arrangement, you simply can omit it. A frontend without a can exist on your page and interact with **[topics](#topics-api)**.
+The name property is required, if you want to integrate it in a way that fragments can communicate and share functionality with each other. If you just want to embed a fragment in the arrangement, you simply can omit it. A frontend without it can exist on your page and interact with **[topics](#topics-api)**.
 
 <!-- TODO: add following text, when DAVIAF-109 is done:
 Collage takes care that the styling of the arrangement is **[synchronized](#style-synchronization)**.
@@ -61,16 +61,26 @@ This way, when your app initializes with Collage, you will find all functions, e
 
 ```js {2,6}
 const {
-  children: { myChild },
+  fragments: { myFragment },
   services,
 } = await expose();
 onClickAt("#btn-cast-spell", () => {
-  myChild.doSomeThing("with a value");
+  myFragment.functions.doSomeThing("with a value");
 });
 ```
 
 :::
 ::::
+
+To be sure, that the initialization process is completed and the embedded fragment can be used on the arrangement, there is a sugar method called _onLoaded_. This function takes the name of a fragment as first parameter and a callback as second.
+
+```js {2,6}
+const context = await expose();
+onLoaded("myFragment", () => {
+  context.fragments.myFragment.functions.doSomeThing("with a value");
+});
+```
+
 
 ## Frontend Description
 
@@ -79,12 +89,30 @@ onClickAt("#btn-cast-spell", () => {
 const frontendDescription = {
   services: {/*...*/},
   functions: {/*...*/},
-  config: {/*...*/},
+  fragmentsConfig: {/*...*/},
 };
 
 const contextApi = await expose(frontendDescription);
 // ...
 ```
+<details>
+<summary markdown="span">diff to v0.1</summary>
+
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
+
+  ```js {5}
+  // ...
+  const frontendDescription = {
+    services: {/*...*/},
+    functions: {/*...*/},
+    config: {/*...*/},
+  };
+
+  const contextApi = await expose(frontendDescription);
+  // ...
+  ```
+</div>
+</details>
 
 A Context is described by a Frontend Description Object. It consists of three parts, describing the capabilities, behavior and identity of a fragment.
 Each part is optional, you can combine them as it suites your use case.
@@ -126,23 +154,14 @@ context.services.myNamedServices.foo();
 context.services.myNamedServices.bar();
 ```
 
-#### Service with Versions
+#### coming soon - Service with Versions
 
-```js{3-4}
-services: {
-  myService: {
-    versions: {
-      '1.0': { aFunction: () => 'Hi from myself (version one).' },
-    }
-  }
-}
-```
+<details>
+<summary markdown="span">Services with versions are currently not supported, but will be integrated soon</summary>
 
-When developing contract first, it is important, that the implementation of a version does not change later. To guarantee compatibiliy, service can be versioned.
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
 
-On consuming the service, you then can select the implementation of a specific version.
-
-```js{12}
+```js
 const contextApi = await expose({
   services: {
     myService: {
@@ -156,6 +175,8 @@ const contextApi = await expose({
 
 context.services.myService['1.2'].aFunction().then(console.log);
 ```
+</div>
+</details>
 
 ### Functions
 
@@ -190,23 +211,55 @@ expose({
 
 ```js{2}
 const contextApi = await expose();
-context.children.namedChild.doSomething('my value');
+context.fragments.namedChild.functions.doSomething('my value');
 ```
 
 ::::
 
+<details>
+<summary markdown="span">diff to v0.1</summary>
+
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
+
+:::: code-group
+::: code-group-item arrangement.js
+
+```js{2}
+const contextApi = await expose();
+context.children.namedChild.doSomething('my value');
+```
+
+::::
+</div>
+</details>
+
 ### Config
 
 ```js
-config: {
+fragmentsConfig: {
   'myFragment': {
     configParam1: 'some value',
     configParam2: 'some other value',
   }
 }
 ```
+<details>
+<summary markdown="span">diff to v0.1</summary>
 
-The arrangement Configuration (aka config) allows an arrangement to overwrite a default configuration of its contained fragments.
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
+
+  ```js {1}
+    config: {
+      'myFragment': {
+        configParam1: 'some value',
+        configParam2: 'some other value',
+      }
+    }
+  ```
+</div>
+</details>
+
+The arrangement Configuration (aka fragmentsConfig) allows an arrangement to overwrite a default configuration of its contained fragments.
 To do so, an arrangement can define config objects in three different ways which then are merged to a final config object under the hood.
 
 Collage will merge configurations for specific fragments in following hierarchical order:
@@ -220,7 +273,7 @@ Collage will merge configurations for specific fragments in following hierarchic
 
 ``` js {3}
 await expose({
-  config: {
+  fragmentsConfig: {
     'http://path/to/the/child.html': {
       title: 'by url',
       value: 'url'
@@ -238,7 +291,7 @@ await expose({
 
 ``` js{3}
 await expose({
-  config: {
+  fragmentsConfig: {
     'myFragment': {
       title: 'by name',
       value: 'name',
@@ -302,6 +355,34 @@ const fragmentConfiguration = {
 
 ```
 
+It takes some time for the arrangement to overwrite the config of its fragment. To be sure that the config was updated from the arrangement, the sugar method _onConfigUpdated_ can be used. This function takes a callback, which it will execute, when the config was updated. But be careful: if there is no arrangement or the config is not overwritten, this callback will never be executed!
+
+```js
+const contextApi = await expose();
+onConfigUpdated(() => {
+  const config = contextApi.config;
+  const mergedConfig = {
+    title: 'My own title',
+    cards: 3,
+    mode: 'standalone',
+    ...config 
+  }; 
+  // do something, when the config was updated
+});
+
+```
+
+It is also possible to update a configuration of an embedded fragment at a later time.
+Therefore the _updateConfig_ method exists on embedded named fragments.
+
+```javascript
+  const config = {
+    title: 'I am embedded',
+    mode: 'embedded',
+  }; 
+  context.fragments.myFragment.updateConfig({ config });
+```
+
 ## Communication API
 
 Collage provides several APIs for different tasks of communication inside the application.
@@ -312,14 +393,30 @@ The [expose function](#expose-function) returns a ContextApi object:
 ```js
 const contextApi = {
   services: { /* ... */ },  // services exposed by this Context
+  fragments: { /* ... */ },  // all contained named fragments
+  topics: { /* ... */ },    // exposed topics
+  config: { /* ... */ },    // config described by containing arrangement
+  id: 'contextId',          // context id
+};
+```
+<details>
+<summary markdown="span">diff to v0.1</summary>
+
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
+
+  ```js {3}
+const contextApi = {
+  services: { /* ... */ },  // services exposed by this Context
   children: { /* ... */ },  // all contained fragments
   topics: { /* ... */ },    // exposed topics
   config: { /* ... */ },    // config described by containing arrangement
   id: 'contextId',          // context id
 };
 ```
+</div>
+</details>
 
-By calling the expose function, you get access to the Context API. You can call services, access named children (see [Initializing and Exposing](/docs/concepts.html#initializing-and-exposing)) config and id as well as publish and subscribe to topics.
+By calling the expose function, you get access to the Context API. You can call services, access named children (see [Initializing and Exposing](/docs/concepts.html#initializing-and-exposing)), config and id as well as publish and subscribe to topics.
 
 The expose function returns a Promise\<ContextApi\>, so you can simply await on it or do something in its then-callback.
 :::: code-group
@@ -351,38 +448,178 @@ expose(/* ... */).then((context) => {
 
 ```javascript
 const contextApi = await expose(/* ... */);
-context.child.someFunction();
+contextApi.fragments.childName.functions.someFunction();
 ```
 
-To use [functions](#functions) of the fragment, you need direct access to the fragments Context. You gain that via the Context APIs children object
+<details>
+<summary markdown="span">diff to v0.1</summary>
+
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
+
+```js {2}
+  const contextApi = await expose(/* ... */);
+  context.child.someFunction();
+```
+</div>
+</details>
+
+To use [functions](#functions) of the fragment, you need direct access to the fragments Context. You gain that via the Context APIs framents object
 
 ### Topics API
 
 See [**Topics**](/docs/concepts.html#topics) in the [Concepts description](/docs/concepts/).
 
-<!-- TODO: write section -->
+The Topics feature allows an easy way to subscribe to topics and publish new values on them.
 
-The syntax orients on [**RxJS**](https://rxjs.dev)
+There are two different topic types, that can be used with collage, simple topics and service topics.
+For both topic types, it is possible to subscribe multiple times for the same topic.
 
-#### Publishing Messages
+::: tip
+Do not use `subscribe`, and `publish` as Topic names or as names for Services with Topics!
+:::
+
+
+#### Simple Topics
+Topics are defined dynamically at runtime and don`t need to be defined in the Frontend Description Object.
+
+##### Subscribing to topics
+To subscribe to a topic, the topic name and a callback is needed. The subscribe returns an unsubscribeCallback, which can be used to unsubscribe again.
 
 ```javascript
-const contextApi = await expose(/* ... */);
-context.topics.someTopic.post(aMessage);
+const contextApi = await expose();
+const unsubscribeCallback = contextApi.topics.subscribe('myTopic', (msg) => doSomeThing(msg));
+```
+##### Unsubscribing a topic
+To unsubscribe from a topic just call the unsubscribeCallback.
+
+```javascript
+unsubscribeCallback();
 ```
 
-#### Subscribing to topics
+##### Publishing Messages
 
 ```javascript
-const contextApi = await expose(/* ... */);
-context.topics.someTopic.subscribe((msg) => doSomeThing(msg));
+const contextApi = await expose();
+contextApi.topics.publish('myTopic', 'a new Value');
 ```
-<!-- 
-There are use cases in which only a single subscriber should be able to react on messages to a certain topic.
-This is possible to configure via the options object.
+
+#### Service Topics
+Topics are defined in services at dev-time in the Frontend Description Object, like following:
 
 ```javascript
-collage.expose(/* ... */).then((context) => {
-  // ...
-  context.topics.someTopic.subscribe((msg) => doAThing(msg), { discardMessage: true });
-}); -->
+const frontendDescription = {
+  services: { 
+    foo: {
+      topics: ['myTopic']
+    }
+  }
+};
+const contextApi = await expose(frontendDescription);
+```
+##### Subscribing to topics
+To subscribe to a topic, the topic name and a callback is needed. The subscribe returns an unsubscribeCallback, which is needed to unsubscribe again.
+
+```javascript
+const unsubscribeCallback = contextApi.topics.foo.myTopic.subscribe((msg) => doSomeThing(msg));
+```
+
+##### Unsubscribing a topic
+To unsubscribe from a topic, just call the unsubscribeCallback.
+
+```javascript
+unsubscribeCallback();
+```
+
+<details>
+<summary markdown="span">diff to v0.1</summary>
+
+<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
+
+```js {1}
+contextApi.topics.foo.myTopic.unsubscribe()
+```
+</div>
+</details>
+
+##### Publishing Messages
+
+```javascript
+contextApi.topics.foo.myTopic.publish('a new Value');
+```
+
+
+### Lifecycle Hooks
+Collage is asynchronous. To trigger certain activities in an Arrangement or Fragment, you can use Lifecycle Hooks.
+
+A hook returns a function, which can be executed to deregister the hook (analogous to addEventListener and removeEventListener).
+
+ ```js {3,8}
+// Register a hook
+const context = await expose();
+const deregisterHook = onUpdated(() => {
+  context.fragments.myFragment.functions.doSomeThing("with a value");
+});
+
+// Deregister
+deregisterHook();
+```
+
+A hook accepts an options argument, which takes the same options analogous to addEventListener.
+```js {4,7}
+// EventListenerOptions
+const context = await expose();
+const callback = () => { context.fragments.myFragment.functions.doSomeThing("with a value"); }
+const options = { once: true };
+// Callback will only be executed once.
+// No need for using the returned deregister function
+onUpdated(callback, options);
+```
+##### onLoaded
+To be sure, that the initialization process is completed and the embedded fragment can be used on the arrangement, this hook exists. This hook takes the name of a fragment as first parameter and a callback as second. The third parameter is optional and represents the options argument of addEventListener.
+
+The onLoaded hook Executes a callback if a fragment with a specific name is loaded.
+
+ ```js {2-4}
+const context = await expose();
+onLoaded("myFragment", () => {
+  context.fragments.myFragment.functions.doSomeThing("with a value");
+});
+```
+The onLoaded hook is based on the `collage-fragment-loaded` event, which is dispatched, if an embedded fragment is completed with the initial loading. The event emits the context id of the fragment, which was loaded.
+You can use the event if necessary, but you should prefere the hook. 
+
+##### onUpdated
+Executes a callback if the context of this fragment is updated. This hook takes a callback as first parameter. The second parameter is optional and represents the options argument of addEventListener.
+
+ ```js {2-5}
+const context = await expose({ services: { doSomething: () => {} } } );
+onUpdated(() => {
+  // E.g. service from parent can be used. Not own implementation
+  context.services.doSomeThing();
+});
+```
+
+The onUpdated hook is based on the `collage-context-updated` event, which is dispatched, everytime something on the own context changed. The event emits the updated context.
+You can use the event if necessary, but you should prefere the hook. 
+
+##### onConfigUpdated
+Executes a callback if the config of this context was updated. This hook takes a callback as first parameter. The second parameter is optional and represents the options argument of addEventListener.
+
+ ```js {2-9}
+const context = await expose();
+onConfigUpdated(() => {
+  const mergedConfig = {
+    title: 'My own title',
+    cards: 3,
+    mode: 'standalone',
+    ...context.config, 
+  }; 
+  // do something, when the config was updated
+});
+```
+
+The onUpdated hook is based on the `collage-context-updated` event, which is dispatched, everytime something on the own context changed. The event emits the updated context.
+You can use the event if necessary, but you should prefere the hook. 
+
+
+

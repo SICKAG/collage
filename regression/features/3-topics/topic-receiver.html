@@ -7,15 +7,17 @@
   <title>Document</title>
   <script type="module">
     import { expose } from "@sick-davinci/collage";
-    expose({}).then(({topics}) => {
-      const subscriber = topics.subscribe('messages.news', msg => {
+    expose({services: {messages: {topics: ['news']}}}).then(({topics}) => {
+      topics.messages.news.subscribe(msg => {
+      // const subscriptionId = topics.messages.news.subscribe(msg => {
         const p = document.createElement('p')
         p.innerText = msg
         document.querySelector('main').appendChild(p)
       })
 
       document.querySelector('#btn-unsubscribe').addEventListener(
-        'click', () => topics.unsubscribe(subscriber))
+        'click', () => topics.messages.news.unsubscribe())
+        // 'click', () => topics.messages.news.unsubscribe(subscriptionId))
     })
   </script>
 </head>

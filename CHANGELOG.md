@@ -7,13 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## NEXT
 ### Breaking Changes
 - [DAVIAF-100] - Sending event `collage-fragment-loaded` when fragment is loaded instead of waiting until everything in fragment is resolved
+- [DAVIAF-36] - API Change: Direct Functions: Context.children is now Context.fragments
+- [DAVIAF-36] - API Change: Direct Functions: Direct functions now clustered in the functions property of a fragment ( now `Context.fragments.<fragment-name>.functions.<function-name>` instead of `Context.fragments.<fragment-name>.<function-name>`).
+- [DAVIAF-36] - API Change: The `config`-property in the `Frontend Description Object` has changed to `fragmentsConfig`, to clarify that is is only for configuring of fragments and not the own context.
+- [DAVIAF-36] - API Change: Unsubscribing from a topic now handled via unsubscribing callback
 
 ### Fixed
+- [DAVIAF-94] - Services can not expose service functions and topics at the same level
+- [DAVIAF-102] - Collage can`t handle http redirects
 - [DAVIAF-113] - Check for falsy href property of stylesheet because of jsdom css parser bug
 - [DAVIAF-114] - Added missing main entry in package.json
+- [DAVIAF-117] - Importing collage leads to data-theme-state="pending" even if 'expose' is not used
 
 ### Added
-- [DAVIAF-100] - Sending event `collage-fragment-loaded` when fragment is loaded
+- [DAVIAF-100] - onLoaded() lifecycle hook 
+- [DAVIAF-36] - onConfigUpdate() lifecycle hook
+- [DAVIAF-36] - onContextUpdate() lifecycle hook
 
 
 ## 0.1.0
