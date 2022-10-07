@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      body {
-        background-color: lightseagreen;
-      }
-    </style>
-    <script type="module">
-      import { expose } from "@sick-davinci/collage";
 
-      expose({
-        services: {
-          modal: {
-            set(id) { /* empty default */ console.warn('set-modal', id); },
-            unset(id) { /* empty default */ console.warn('unset-modal', id); },
-          },
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      background-color: lightseagreen;
+    }
+  </style>
+  <script type="module">
+    import { expose } from "@sick-davinci/collage";
+
+    expose({
+      services: {
+        modal: {
+          set(id) { /* empty default */ console.warn('set-modal', id); },
+          unset(id) { /* empty default */ console.warn('unset-modal', id); },
         },
-      }).then((context) => {
-        document.querySelector('header').textContent = context.id;
-        document.querySelector('#set-modal').addEventListener('click', () => {
-          context.services.modal.set(context.id);
-        });
-        document.querySelector('#unset-modal').addEventListener('click', () => {
-          context.services.modal.unset(context.id);
-        });
+      },
+    }).then((context) => {
+      document.querySelector('header').textContent = context.id;
+      document.querySelector('#set-modal').addEventListener('click', () => {
+        context.services.modal.set(context.id);
       });
-    </script>
-  </head>
-  <body>
-    <header>
-    </header>
-    <h1>The modal child</h1>
-    <hr />
-    <p id="my-output"></p>
-    <hr />
-    <button id="set-modal">set modal</button>
-    <button id="unset-modal">unset modal</button>
-  </body>
+      document.querySelector('#unset-modal').addEventListener('click', () => {
+        context.services.modal.unset(context.id);
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+  </header>
+  <h1>The modal child</h1>
+  <hr />
+  <p id="my-output"></p>
+  <hr />
+  <button id="set-modal">set modal</button>
+  <button id="unset-modal">unset modal</button>
+</body>
+
 </html>

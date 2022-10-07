@@ -20,6 +20,11 @@
     "max-len": ["warn", 120],
     "import/extensions": "off",
     "import/no-unresolved": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+        "**/*.spec.ts"
+      ]
+    }]
   }
 }

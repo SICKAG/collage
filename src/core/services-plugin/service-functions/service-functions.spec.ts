@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'jest-without-globals';
 import bootstrap from '../../../lib/bootstrap';
 import serviceFunctions, { getNestedService } from './service-functions';
 import { Context } from '../../../types';

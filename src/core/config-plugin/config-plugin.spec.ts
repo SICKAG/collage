@@ -1,4 +1,5 @@
 // TODO: write Tests for Config Plugin
+import { describe, it, expect } from 'jest-without-globals';
 import { configObjectFrom, extractMergedConfigFromCollageFragment, getConfigByKey } from './config-plugin';
 
 describe('Plugin: config', () => {

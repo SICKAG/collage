@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'jest-without-globals';
 import { SimpleTopicsAPI } from '../simple-topics/model';
 import { arrayToTopicsObject, extractEntriesFromObject, stringToObject } from './serviceTopics';
 
