@@ -1,0 +1,10 @@
+{
+  "name": "microfrontent-concept-stuff",
+  "version": "0.0.0",
+  "description": "Monorepo for the Microfrontend / SAF / SWP activities",
+  "main": "index.js",
+  "repository": "https://gitlab.sick.com/wanja.tschuor/microfrontent-concept-stuff.git",
+  "author": "Wanja Tschuor <wanja.tschuor@sick.de>",
+  "license": "SEE LICENSE FILE",
+  "private": true
+}
