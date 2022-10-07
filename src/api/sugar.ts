@@ -6,8 +6,6 @@
 import { elementName } from '../elements/fragment-element';
 import { Obj } from './types';
 
-export { hasParent } from '../Context';
-
 // This rule is disabled on purpose here, since we construct the promise
 // explicitely ourselfs instead of using the async, await syntax.
 //

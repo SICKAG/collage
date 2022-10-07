@@ -4,16 +4,21 @@
  */
 
 import { ServiceMap } from '../api/types';
-import { hasParent } from '../api/sugar';
 import { getCssVariablesFromDocument } from '../utils/functions';
 import { createObject } from '../utils/transforms';
 import { ThemableContextApi, ThemedFrontendDescription, Theme } from './themable-types';
 import { Expose } from './types';
 
+const bodyData = document.body.dataset;
 const themeState = {
   pending: 'pending',
   ok: 'ok',
 };
+
+/**
+ * optionally allow for strict anti-flickering via `data-await-theme`
+ */
+document.querySelectorAll('[data-await-theme]').forEach(initAntiFlickering);
 
 /**
  * Adds theme support to a Collage expose function
@@ -21,12 +26,13 @@ const themeState = {
  * @param expose - the Collage expose function, to add theme support to
  */
 export default function themable(expose: Expose): Expose {
-  if (hasParent()) {
-    initAntiFlickering();
-  }
-
   return async function themableExpose(description: ThemedFrontendDescription = {})
     : Promise<ThemableContextApi> {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!bodyData.hasOwnProperty('themeState')) {
+      initAntiFlickering();
+    }
+
     const defautTheme = description.theme || collectCssVariables();
 
     const ctx = await expose({
@@ -53,8 +59,9 @@ export default function themable(expose: Expose): Expose {
   };
 }
 
-function initAntiFlickering() {
-  document.body.dataset.themeState = themeState.pending;
+function initAntiFlickering(element = document.body) {
+  // eslint-disable-next-line no-param-reassign
+  element.dataset.themeState = themeState.pending;
   const baseStyle = document.createElement('style');
   baseStyle.innerHTML = `[data-theme-state=${themeState.pending}] {display: none;}`;
   document.head.appendChild(baseStyle);
@@ -84,7 +91,7 @@ function createStyle() {
 }
 
 function setCssVariables(variables: Theme) {
-  document.body.dataset.themeState = themeState.pending;
+  bodyData.themeState = themeState.pending;
   const style = document.querySelector('style[data-collage-active-theme]')
     || createStyle();
 
@@ -93,7 +100,10 @@ function setCssVariables(variables: Theme) {
     .map(([k, v]) => `${k}: ${v};`)
     .join('\n')}
   }`;
-  document.body.dataset.themeState = themeState.ok;
+  document.querySelectorAll('[data-theme-state=pending]').forEach((element) => {
+    // eslint-disable-next-line no-param-reassign
+    (element as HTMLElement).dataset.themeState = themeState.ok;
+  });
 }
 
 function themeServices(defaultTheme: Theme): ServiceMap {

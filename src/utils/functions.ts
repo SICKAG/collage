@@ -148,7 +148,7 @@ export const convertStringToServiceIdentification = (serviceStr: string): Servic
  */
 export const getCssVariablesFromDocument = (doc: Document = document): Map<string, string> => {
   // create array of all stylesheets on this document which are not loaded from other origins
-  const stylesheets = Array.from(doc.styleSheets).filter((sheet) => sheet.href === null || sheet.href.startsWith(window.location.origin));
+  const stylesheets = Array.from(doc.styleSheets).filter((sheet) => !sheet.href || sheet.href.startsWith(window.location.origin));
 
   // remove every entry which is not a css variable
   const cssRules = stylesheets.reduce(

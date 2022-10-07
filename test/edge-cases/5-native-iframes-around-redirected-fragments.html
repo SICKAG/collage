@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Using native iframes and redirects</h1>
+
+  <p>Leaning on the redirect case (number 4) we must deem it normal that somebody would want to implement a micro frontend as a redirected url and put that thing in an iframe.</p>
+  <p>This should also work, regardless of wether the integrated microfrontend is a collage frontend or not.</p>
+  <iframe src="/redirect/test/edge-cases/fragment"></iframe>
+  <p>Currently this barfs on Context.ts:246:8</p>
+</body>
+</html>

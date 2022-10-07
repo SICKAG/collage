@@ -49,7 +49,7 @@ We start by creating a simple application where a user can enter todo items and 
 The application might look something like the following:
 
 :::: code-group
-::: code-group-item index.html
+::: code-group-item todos/index.html
 
 ```html
 <!DOCTYPE html>
@@ -104,7 +104,7 @@ In a similar fashion, let's create a dashboard application that presents a
 set of issue items.
 
 :::: code-group
-::: code-group-item index.html
+::: code-group-item dashboard/index.html
 
 ```html
 <!DOCTYPE html>
@@ -180,7 +180,7 @@ document.addEventListener('submit', event => {
 ```
 
 :::
-::: code-group-item dashboard/dashboard-app.js
+::: code-group-item dashboard/main.js
 
 ```javascript{2-3}
 // Import and call the expose() function
@@ -207,26 +207,27 @@ Just use the `<collage-fragment>` tag to embed the Todo fragment into the Dashbo
 
 ```html{16-19}
 <!DOCTYPE html>
-<head>
-  <title>Issues Dashboard</title>
-  <script src="./dashboard-app.js" type="module"></script>
-</head>
-<body>
-  <main>
-    ...
-    <!-- nothing changed here -->
-  </main>
-  <aside>
-    <!--
-      add the todos app as a fragment inside this arrangement and give it
-      a name for identification
-    -->
-    <collage-fragment
-      url="http://localhost:4000/"
-      name="todos">
-    </collage-fragment>
-  </aside>
-</body>
+<html>
+  <head>
+    <title>Issues Dashboard</title>
+    <script src="./main.js" type="module"></script>
+  </head>
+  <body>
+    <main>
+      ...
+      <!-- nothing changed here -->
+    </main>
+    <aside>
+      <!--
+        add the todos app as a fragment inside this arrangement and give it
+        a name for identification
+      -->
+      <collage-fragment
+        url="http://localhost:4000/"
+        name="todos">
+      </collage-fragment>
+    </aside>
+  </body>
 </html>
 ```
 
@@ -340,7 +341,7 @@ Here as well, we expose our capabilities and use the resulting context for inter
 In this case we would like to have access to the todos 'active' topic and to the direct functions on the fragment we called 'todos' in our DOM.
 
 :::: code-group
-::: code-group-item dashboard/dashboard-app.js
+::: code-group-item dashboard/main.js
 
 ```javascript{1-11,15,23}
 import { expose } from '@sick-davinci/collage'
@@ -380,47 +381,48 @@ document.addEventListener('click', ({target}) => {
 
 ```html{11,12,17,23,28}
 <!DOCTYPE html>
-<head>
-  <title>Issues Dashboard</title>
-  <script src="./dashboard-app.js" type="module"></script>
-</head>
-<body>
-  <main>
-    <details>
-      <summary>Something</summary>
-      This is a thing that needs doing
-      <!-- add a button, so that we can send something to the todos app -->
-      <button data-action="add-todo">Todo</button>
-    </details>
-    <details>
-      <summary>Something else</summary>
-      Also a doable thing
-      <button data-action="add-todo">Todo</button>
-    </details>
-    <details>
-      <summary>Another thing</summary>
-      While we are not yet sure how, we will definitely need to do this thing
-      as well.
-      <button data-action="add-todo">Todo</button>
-    </details>
-    <details>
-      <summary>Bananas</summary>
-      Very important!
-      <button data-action="add-todo">Todo</button>
-    </details>
-  </main>
-  <aside>
-    <!--
-      define the todos app as a fragment inside this arrangement and set 
-      the url to a location we can access the fragment.
-      Also give it a name we can reference it.
-    -->
-    <collage-fragment
-      url="http://localhost:4000/"
-      name="todos">
-    </collage-fragment>
-  </aside>
-</body>
+<html>
+  <head>
+    <title>Issues Dashboard</title>
+    <script src="./main.js" type="module"></script>
+  </head>
+  <body>
+    <main>
+      <details>
+        <summary>Something</summary>
+        This is a thing that needs doing
+        <!-- add a button, so that we can send something to the todos app -->
+        <button data-action="add-todo">Todo</button>
+      </details>
+      <details>
+        <summary>Something else</summary>
+        Also a doable thing
+        <button data-action="add-todo">Todo</button>
+      </details>
+      <details>
+        <summary>Another thing</summary>
+        While we are not yet sure how, we will definitely need to do this thing
+        as well.
+        <button data-action="add-todo">Todo</button>
+      </details>
+      <details>
+        <summary>Bananas</summary>
+        Very important!
+        <button data-action="add-todo">Todo</button>
+      </details>
+    </main>
+    <aside>
+      <!--
+        define the todos app as a fragment inside this arrangement and set 
+        the url to a location we can access the fragment.
+        Also give it a name we can reference it.
+      -->
+      <collage-fragment
+        url="http://localhost:4000/"
+        name="todos">
+      </collage-fragment>
+    </aside>
+  </body>
 </html>
 ```
 
@@ -431,9 +433,11 @@ Voila, you just have created your first application using Collage.
 Now serve both, the Todos fragment (at port 4000) and the Dashboard arrangement by using the vite dev server:
 
 ```bash
-npm run dev &
+npm run dev
+
 cd ../todos
-npm run dev --port 4000 &
+
+npm run dev --port 4000
 ```
 
 :::tip

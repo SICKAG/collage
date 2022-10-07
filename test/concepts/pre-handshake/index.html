@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./pingpong.js"></script>
+  <script src="./has-parent.js" type="module"></script>
+</head>
+<body>
+  <h1>Frame this!</h1>
+  <iframe 
+    src="/redirect/test/concepts/pre-handshake/child.html"
+    frameborder="0"
+    width="500"
+    height="300"
+  ></iframe>
+  <p id="answer" style="border: 1px dashed white; padding: 1em;">...</p>
+
+  <iframe 
+    src="/redirect/test/concepts/pre-handshake/better-child.html"
+    frameborder="0"
+    width="500"
+    height="300"
+  ></iframe>
+</body>
+</html>

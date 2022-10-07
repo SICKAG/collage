@@ -52,28 +52,13 @@ import {
   getCssVariablesFromDocument,
 } from './utils/functions.js';
 import { Context as Ctx } from './model/context.js';
-import { elementName as embedElementName } from './elements/fragment-element.js';
 import { findChildIdentity } from './elements/fragment.js';
 import { ConfigDescriptor } from './api/types.js';
 import { ParentApi } from './model/parentApi.js';
 import { ChildApi } from './model/childApi.js';
+import { hasParent } from './utils/simple-handshake.js';
 
 export { Observable };
-
-/**
- * haz I parent?
- *
- * @returns I has parent!
- */
-export function hasParent(): boolean {
-  try {
-    return !!(window.parent !== window && (
-      window.parent.document.getElementById('davinci-mfo-container')
-      || window.parent.document.getElementsByTagName(embedElementName).length)); // i am running in a karma test context
-  } catch {
-    return window.parent !== window;
-  }
-}
 
 /* eslint-disable no-console */
 class Context implements Ctx {
@@ -81,10 +66,6 @@ class Context implements Ctx {
 
   get contextId() {
     return this._contextId;
-  }
-
-  private _hasParent(): boolean {
-    return hasParent();
   }
 
   /**
@@ -143,14 +124,18 @@ class Context implements Ctx {
    * @param services - provided services
    * @param config - config initialization object
    */
-  constructor(services: Array<IncompleteService>, config: ConfigDescriptor) {
+  constructor(
+    services: Array<IncompleteService>,
+    config: ConfigDescriptor,
+    private hasParent: boolean,
+  ) {
     // first register own services
     this._registerOwnServices(services);
 
     this._config = config;
 
     // only do this if we have a parent
-    if (this._hasParent()) {
+    if (this.hasParent) {
       // Methods the child is exposing to the parent
       const childMethods: Methods = {
         //  get current services of child
@@ -265,7 +250,7 @@ class Context implements Ctx {
   initializeConnection = async (): Promise<unknown> => {
     // only do this if we have a parent
     // note: when testing, we get in this if block, because karma embeds its tests in iframes. Therefore this promise needs to be resolved at some point
-    if (this._hasParent()) {
+    if (this.hasParent) {
       const connectionCompletePromise = new Promise((resolve) => {
         this._initDoneResolvingCallback = resolve;
       });
@@ -382,7 +367,13 @@ class Context implements Ctx {
           };
         },
       };
-      const connection = connectToChild<ChildApi>({ iframe, timeout: this.CONNECTION_TIMEOUT, methods: parentMethods });
+      const connection = connectToChild<ChildApi>({
+        iframe,
+        // TODO: is there a more secure way to enable redirects? Maybe using the preflight check in some way?
+        childOrigin: '*',
+        timeout: this.CONNECTION_TIMEOUT,
+        methods: parentMethods
+      });
       // Wait for onload event of iframe. Otherwise the order, in which the child urls are put in will not be respected
       const cbFunction = () => {
         iframe.removeEventListener('load', cbFunction);
@@ -1390,7 +1381,7 @@ class Context implements Ctx {
  * @param config - initialization config for children
  */
 export const createContext = async (services: Array<IncompleteService>, config: ConfigDescriptor = {}): Promise<Context> => {
-  const context = new Context(services, config);
+  const context = new Context(services, config, !!(await hasParent()));
 
   // Wait for all services to be registered from and to parent before connection is completed from child
   await context.initializeConnection();

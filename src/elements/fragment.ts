@@ -16,7 +16,7 @@ import { elementName, Fragment } from './fragment-element';
  */
 export async function embedInContext(context: Context): Promise<Array<string>> {
   Fragment.CONTEXT = context;
-  await Promise.all([...document.querySelectorAll(elementName)]
+  await Promise.allSettled([...document.querySelectorAll(elementName)]
     .map(async (e) => (e as Fragment).registerAt(context)));
 
   const namedChildren = [...document.querySelectorAll(`${elementName}[name]`)]

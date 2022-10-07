@@ -17,11 +17,13 @@
     "bundle/",
     "src/"
   ],
+  "main": "lib/index.js",
   "module": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "start": "yarn serve",
     "start:doc": "vuepress-vite dev ./docs -c vuepress-config.js -p 8090",
+    "start:edge": "yarn build:watch & http-server -P http://localhost:8082 & http-server -p 8081 & node ./redirect-server.js",
     "build": "esbuild src/index.ts --bundle --format=esm",
     "build:dev": "yarn build --define:process.env.NODE_ENV=\\\"development\\\" --outfile=bundle/collage.js --sourcemap",
     "build:watch": "yarn build:dev --watch",

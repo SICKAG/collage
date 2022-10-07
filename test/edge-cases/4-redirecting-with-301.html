@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module">
+    import { expose } from "/bundle/collage.js"
+    await expose()
+  </script>
+</head>
+<body>
+  <h1>I have all the directions</h1>
+  <p>Composite frontends may often choose to redirect to their actual fragment urls from a url on their origin server.</p>
+  <p>This way arrangements can have easier control over the sources of their fragments.</p>
+  <p>Since actual frontends need to load even more resources, this is often done not via a serverside rewrite, but with a 301 redirect</p>
+  <p>In our case, our fragment is configured to be at <code>/redirect/...</code> which will then redirect (301) to the real server at port 8081</p>
+  <collage-fragment url="/redirect/test/edge-cases/fragment"></collage-fragment>
+  <p>This currently times out at Context.ts:1005:14</p>
+</body>
+</html>
