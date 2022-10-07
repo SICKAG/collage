@@ -47,6 +47,7 @@
             document.querySelector("#my-output").textContent = "Wazz up! " + bla;
             return "Wazz Up!" + bla;
           },
+          foo: (x, y) => `${x}--${y}`, 
         },
       }).then((context) => {
         document.querySelector('header').textContent = context.id;
@@ -63,6 +64,10 @@
         });
         document.querySelector('#btn4').addEventListener('click', () => {
           context.services.named.named2.named2.barr();
+        });
+        document.querySelector('#btn5').addEventListener('click', async () => {
+          const multi = await context.services.foo('one', 123);
+          console.log(multi);        
         });
       });
     </script>
@@ -81,6 +86,7 @@
       <button id="btn2">Parent service</button>
       <button id="btn3">Invalid</button>
       <button id="btn4">Nested service</button>
+      <button id="btn5">Multiple arguments</button>
 
     </div>
     <collage-fragment style="height:600px" url="./service-child.html" name="child"></collage-fragment>

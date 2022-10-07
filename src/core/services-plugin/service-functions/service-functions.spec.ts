@@ -37,15 +37,15 @@ describe('Plugin: service functions', () => {
 
   it('should call a defined service with arguments', async () => {
     const { expose } = bootstrap([serviceFunctions]);
-    const fooService = jest.fn();
+    const fooService = jest.fn((x, y) => `${x} - ${y}`);
     const api = await expose({
       services: {
         foo: fooService,
       },
     }) as Context;
-    (api.services?.foo as CallableFunction)('arg1', 'arg2');
-
-    expect(fooService).toHaveBeenCalledWith(['arg1', 'arg2']);
+    const result = await (api.services?.foo as CallableFunction)('arg1', 'arg2');
+    expect(result).toEqual('arg1 - arg2');
+    expect(fooService).toHaveBeenCalledWith('arg1', 'arg2');
   });
 
   // it('should return the return value of a called service', async () => {

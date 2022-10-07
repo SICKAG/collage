@@ -37,6 +37,9 @@
           onlyInChild1(bla) {
             return "I am a child! " + bla;
           },
+          foo(x, y) {
+            return `${x}+${y}`
+          }
         },
       }).then((context) => {
         console.log('I got CONTEXT', context.services)
@@ -59,7 +62,10 @@
         document.querySelector('#btn-call-named-barr').addEventListener('click', () => {
           context.services.named.named2.barr();
         });
-
+        document.querySelector('#btn-multi-args').addEventListener('click', async () => {
+          const multi = await context.services.foo('two', 321);
+          console.log(multi);        
+        });
       });
     </script>
   </head>
@@ -75,6 +81,7 @@
     <button id="btn-call-bar">Only in child 1</button>
     <button id="btn-call-bazz">bazz</button>
     <button id="btn-call-named-barr">named.named2.barr</button>
+    <button id="btn-multi-args">Multiple args</button>
     <collage-fragment style="height: 500px;" url="./service-child2.html"></collage-fragment>
 
     <!-- <div style="height: 600vh; background-color: red">blubb</div> -->

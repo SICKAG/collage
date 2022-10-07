@@ -6,7 +6,7 @@ export type SimpleTopicsAPI = {
 export type InternalTopicsAPI = {
   topicsPlugin: SimpleTopicsAPI & {
     distribute: (topic: string, message: unknown) => void,
-    getCurrentValue: (args: Array<unknown>) => unknown,
-    publish: (args: Array<unknown>) => void,
+    getCurrentValue: (topic: string) => unknown,
+    publish: (topic: string, message: unknown) => void,
   }
 }

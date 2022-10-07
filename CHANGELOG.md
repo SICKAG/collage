@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [DAVIAF-113] - Check for falsy href property of stylesheet because of jsdom css parser bug
 - [DAVIAF-114] - Added missing main entry in package.json
 - [DAVIAF-117] - Importing collage leads to data-theme-state="pending" even if 'expose' is not used
+- Using services with multiple arguments provide the arguments in an array within the service implementation
 
 ### Added
 - [DAVIAF-100] - onLoaded() lifecycle hook 

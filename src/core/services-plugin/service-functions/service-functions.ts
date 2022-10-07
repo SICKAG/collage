@@ -37,26 +37,32 @@ export function getNestedService(
  * Workflow for handling calling a service
  */
 async function callServiceWorkflow(
-  context: EnhancedContext,
+  { _plugins: { servicePlugin } }: EnhancedContext,
   ownServices: Services,
   service: string,
-  nestedServicePath: Array<string>,
-  args?: unknown,
+  nestedServicePath: string[],
+  ...args: unknown[]
 ) {
+  const fn = (x: unknown) => x as CallableFunction;
   // Check if called service is in branchServices
-  if (getNestedService(context._plugins.servicePlugin.branchServices as Services, nestedServicePath, service)) {
+  if (getNestedService(servicePlugin.branchServices as Services, nestedServicePath, service)) {
     log('service-functions.ts', `service ${service} is in branch`);
     // execute callService of the arrangement
     // eslint-disable-next-line max-len
-    return (context._plugins.servicePlugin.branchServices?.callService as CallableFunction)(service, nestedServicePath, args);
+    return fn(servicePlugin.branchServices?.callService)(
+      service,
+      nestedServicePath,
+      ...args,
+    );
   }
 
   log('service-functions.ts', `service ${service} is NOT in branch`);
+  const ownService = getNestedService(ownServices, nestedServicePath, service);
   // check if the called service is in ownServices
-  if (getNestedService(ownServices, nestedServicePath, service)) {
+  if (ownService) {
     log('service-functions.ts', `service ${service} is in own services`);
     // execute service
-    return (getNestedService(ownServices, nestedServicePath, service) as CallableFunction)(args);
+    return fn(ownService)(...args);
   }
   throw new Error(`Service "${service}" is NOT part of defined services`);
 }
@@ -94,7 +100,7 @@ function handler(
         ownServices,
         service,
         [...nestedServicePath],
-        args,
+        ...args,
       );
     },
   };
@@ -115,12 +121,12 @@ const servicePlugin: PluginFunctions<FrontendDescription, PreviousContext, Enhan
       _plugins: {
         servicePlugin: {
           callService:
-            (service: string, nestedServicePath: Array<string>, args: unknown) => callServiceWorkflow(
+            (service: string, nestedServicePath: Array<string>, ...args: Array<unknown>) => callServiceWorkflow(
               context as EnhancedContext,
               ownServices,
               service,
               nestedServicePath,
-              args,
+              ...args,
             ),
         },
       },

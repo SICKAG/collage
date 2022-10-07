@@ -89,11 +89,9 @@ class SimpleTopics {
    * It is part of an service, which will always be executed by the topmost arrangement
    * and will then spread two all its descendants.
    */
-  onPublish(args: Array<unknown>) {
-    const [topic, message] = args;
-
-    this.topics.set(topic as string, message);
-    this.distribute(topic as string, message);
+  onPublish(topic: string, message: unknown) {
+    this.topics.set(topic, message);
+    this.distribute(topic, message);
   }
 
   /**
@@ -127,11 +125,8 @@ const topicsPlugin: PluginFunctions<FrontendDescription, PreviousContext, Enhanc
             topic: string,
             callback: (message: unknown) => unknown,
           ) => simpleTopics.subscribe(topic, callback),
-          publish: (args: Array<unknown>) => { simpleTopics.onPublish(args); },
-          getCurrentValue: (args: Array<unknown>) => {
-            const [topic] = args;
-            return simpleTopics.getCurrentValue(topic as string);
-          },
+          publish: (topic: string, message: unknown) => { simpleTopics.onPublish(topic, message); },
+          getCurrentValue: (topic: string) => simpleTopics.getCurrentValue(topic),
         },
       },
     } as EnhancedContext;
