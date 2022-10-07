@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragment Deregistration</title>
+
+  <script type="module">
+    import { expose, onLoaded } from "@sick-davinci/collage";
+
+    const context = await expose({
+      services: {
+        marketplaceFrame: {
+          topics: ['topic_1', 'topic_2'],
+          testService: () => console.log('testService'),
+        },
+      },
+    });
+    document.getElementById('print-context-btn').addEventListener('click', () => {
+      debugger
+      console.log(context)
+    });
+    document.getElementById('call-function-btn').addEventListener('click', () => {
+      // console.log(context.fragments);
+      context.fragments['my-fragment'].functions.doSomething();
+    });
+    document.getElementById('deregister-btn').addEventListener('click', () => document.querySelector('collage-fragment').remove());
+
+    document.getElementById('publish').addEventListener('click', () => context.topics.marketplaceFrame.topic_1.publish('a new Value'));
+  </script>
+</head>
+
+<body>
+  <button id="print-context-btn">Print Context</button>
+  <button id="deregister-btn">Deregister Fragment</button>
+  <button id="call-function-btn">Call Function</button>
+  <button id="publish">publis to topic</button>
+
+  <collage-fragment id="child" name="my-fragment" url="./fragment.html"></collage-fragment>
+  <collage-fragment id="child" name="my-fragment1" url="./fragment.html"></collage-fragment>
+  <collage-fragment id="child" name="my-fragment2" url="./fragment.html"></collage-fragment>
+  <collage-fragment id="child" name="my-fragment3" url="./fragment.html"></collage-fragment>
+</body>
+
+</html>

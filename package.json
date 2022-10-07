@@ -37,7 +37,7 @@
     "lint": "eslint ./src --ext js,ts",
     "lint:fix": "eslint ./src --ext js,ts --fix",
     "wdio": "wdio run e2e/wdio.conf.js",
-    "start:wdio": "run-p start:dev wdio --race"
+    "test:wdio": "run-p start:dev wdio --race"
   },
   "keywords": [],
   "dependencies": {

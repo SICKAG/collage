@@ -19,6 +19,16 @@ function customStyle(): string {
 }
 
 export class Fragment extends HTMLElement {
+  _context: unknown;
+
+  set context(context: unknown) {
+    this._context = context;
+  }
+
+  get context() {
+    return this._context;
+  }
+
   set url(url: string) {
     this.setAttribute('url', url);
   }
@@ -33,6 +43,10 @@ export class Fragment extends HTMLElement {
 
   get name(): string {
     return this.getAttribute('name') || '';
+  }
+
+  get uuid(): string {
+    return this.dataset.uuid || '';
   }
 
   isComplete(): boolean {
@@ -51,9 +65,17 @@ export class Fragment extends HTMLElement {
     }
   }
 
+  disconnectedCallback(): void {
+    document.dispatchEvent(new CustomEvent(
+      'collage-fragment-disconnected',
+      { detail: this.dataset.uuid },
+    ));
+  }
+
   createFragment(): void {
     const iframe = document.createElement('iframe');
     iframe.name = createFragmentUUID();
+    this.dataset.uuid = iframe.name;
     iframe.src = this.url || '';
     this.appendChild(iframe);
   }

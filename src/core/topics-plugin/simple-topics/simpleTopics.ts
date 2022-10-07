@@ -5,6 +5,7 @@ import {
 } from '../../../types';
 import { SimpleTopicsAPI, InternalTopicsAPI } from './model';
 import { EnhancedContext as DirectFunctionsEnhancedContext } from '../../direct-functions-plugin/direct-functions';
+import log from '../../../lib/logging';
 
 /**
  * Manages the communication with a publish subscribe mechanism where topics can be dynamically defined at runtime.
@@ -73,13 +74,21 @@ class SimpleTopics {
     // if (this.subscriptions[topic as string]) {
     if (this.subscriptions.get(topic)) {
       this.subscriptions.get(topic)?.forEach((callback) => {
-        callback(message);
+        try {
+          callback(message);
+        } catch (error) {
+          log('simpleTopics', error);
+        }
       });
     }
 
     if (this.context._plugins.directFunctionsPlugin) {
       Object.values(this.context._plugins.directFunctionsPlugin.fragments as Fragments).forEach((fragment) => {
-        fragment.functions.distribute(topic, message);
+        try {
+          fragment.functions.distribute(topic, message);
+        } catch (error) {
+          log('simpleTopics', error);
+        }
       });
     }
   }

@@ -1,5 +1,10 @@
 /* eslint-disable no-use-before-define */
-import { connectToChild, connectToParent } from 'penpal';
+import {
+  CallSender,
+  Connection,
+  connectToChild,
+  connectToParent,
+} from 'penpal';
 import merge from 'lodash.mergewith';
 import { updateContext } from '../index';
 import plugin, { mergeContexts } from '../../lib/collage-plugin';
@@ -14,6 +19,7 @@ import {
 } from './handshake-data';
 import {
   Context,
+  Fragments,
   FrontendDescription,
   Functions,
   GenericPluginAPI,
@@ -27,6 +33,10 @@ import {
 
 const PENPAL_DEBUG = false;
 
+type PreviousContext = {
+  fragments: Fragments
+}
+
 /**
  * Message Types used for Handshake
  */
@@ -36,15 +46,20 @@ const messageTypes = {
   reinitializeFragment: 'reinitialize-fragment',
 };
 
+type Connections = Map<string, Connection<CallSender>>;
+
 /**
  * Handshake Step A-1
  * Listen for messages F-1.1 from potential Fragments calling for their Arrangement
  */
-function listenForCallForArrangement(data: { description: FrontendDescription, context: unknown }) {
+function listenForCallForArrangement(
+  connections: Connections,
+  data: { description: FrontendDescription, context: unknown },
+) {
   log('arrangement.ts', 'A1. listenForCallForArrangement()');
   listenFor({
     type: messageTypes.callForArrangement,
-  }, (id) => { answerToCallForArrangement(data)(id as string); });
+  }, (id) => { answerToCallForArrangement(data)(connections, id as string); });
 }
 
 /**
@@ -80,10 +95,10 @@ function listenForAnswerToCallForArrangement(data: { description: FrontendDescri
  * Connect to fragment, which send the message F-1.1 and answer to it (A-4)
  */
 function answerToCallForArrangement(data: { description: FrontendDescription, context: unknown }) {
-  return (fragmentId: string) => {
+  return (connections: Connections, fragmentId: string) => {
     const iframe = findFragmentInDOM(fragmentId);
     if (iframe && iframe.contentWindow) {
-      connectToFragment(iframe, data);
+      connections.set(fragmentId, connectToFragment(iframe, data));
       log('arrangement.ts', 'A2. answerToCallForArrangement()');
       sendMessage({
         type: messageTypes.answerToCallForArrangement,
@@ -100,13 +115,16 @@ function answerToCallForArrangement(data: { description: FrontendDescription, co
  */
 function connectToFragment(iframe: HTMLIFrameElement, data: { description: FrontendDescription, context: unknown }) {
   log('arrangement.ts', 'A3. connectToFragment()');
-  connectToChild({
+  const connection = connectToChild({
     iframe,
     methods: extractAsArrangement(data),
     // TODO: is there a more secure way to enable redirects? Maybe using the preflight check in some way?
     childOrigin: '*',
     debug: PENPAL_DEBUG,
-  }).promise.then((child) => extractFragmentDescriptionFromPenpalChild( // Listener for (penpal) connectToArrangement
+  });
+
+  // Listener for (penpal) connectToArrangement
+  connection.promise.then((child) => extractFragmentDescriptionFromPenpalChild(
     {
       frameId: iframe.name,
       functions: child as unknown as Functions,
@@ -118,6 +136,8 @@ function connectToFragment(iframe: HTMLIFrameElement, data: { description: Front
       { detail: iframe.name },
     ));
   });
+
+  return connection;
 }
 
 /**
@@ -218,12 +238,29 @@ function findFragmentInDOM(fragmentId: string): HTMLIFrameElement | null {
   );
 }
 
+function disconnectFragment(context: PreviousContext, fragmentId: string, connections: Connections) {
+  Object.keys(context.fragments).some((fragmentName) => {
+    if (context.fragments[fragmentName].__fragmentId === fragmentId) {
+      connections.get(fragmentId)?.destroy();
+      connections.delete(fragmentId);
+      delete context.fragments[fragmentName];
+      return true;
+    }
+    return false;
+  });
+}
+
 export default plugin({
-  enhanceExpose: (description: FrontendDescription, context: unknown) => {
+  enhanceExpose: (description: FrontendDescription, context: PreviousContext) => {
+    const connections: Connections = new Map();
     const data = initiateData({ description, context });
-    listenForCallForArrangement(data);
+    listenForCallForArrangement(connections, data);
     if (window !== window.parent) {
       callForArrangement(data);
     }
+
+    document.addEventListener('collage-fragment-disconnected', (e) => {
+      disconnectFragment(context, (e as CustomEvent).detail, connections);
+    });
   },
 });

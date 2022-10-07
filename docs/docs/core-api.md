@@ -624,5 +624,12 @@ onConfigUpdated(() => {
 The onUpdated hook is based on the `collage-context-updated` event, which is dispatched, everytime something on the own context changed. The event emits the updated context.
 You can use the event if necessary, but you should prefere the hook. 
 
+### Deregistering a fragment
+If you want to remove a fragment from your arrangement, just remove it from the DOM. Collage takes care that the parents context gets cleaned up.
 
+:::tip
+There are several possibilities how to remove an HTML Element from the DOM, for a reference, please see ['Element.remove() - mdn web docs'](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) or ['Node.removeChild() - mnd web docs'](https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild).
 
+If you are using a framework managing the DOM, please see the specific frameworks documentation.
+
+:::

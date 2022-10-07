@@ -70,7 +70,7 @@ export type Plugin<D, C, E> =
 /**
  * Record of Fragments
  */
-export type Fragments = Record<string, { functions: Functions }>;
+export type Fragments = Record<string, { functions: Functions, __fragmentId: string }>;
 
 /**
  * Represents the state of a Fragment at runtime

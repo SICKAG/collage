@@ -61,6 +61,8 @@ function initFragmentsFunctions(context: PreviousContext) {
               log('direct-functions.ts', (context as EnhancedContext)._plugins.directFunctionsPlugin.fragments);
               if (fn === 'isProxy') {
                 return true;
+              } if (fn === '__fragmentId') {
+                return fragmentID;
               }
               if (![...reservedWords, 'functions'].includes(fn)) {
                 throw new Error('invalid access of a parameter'); // TODO: write better error message
@@ -77,6 +79,12 @@ function initFragmentsFunctions(context: PreviousContext) {
 
 const directFunctionsPlugin: PluginFunctions<FrontendDescription, PreviousContext, EnhancedContext> = {
   enhanceExpose({ functions }: FrontendDescription, context: PreviousContext) {
+    document.addEventListener('collage-fragment-disconnected', (e) => {
+      // Object.keys(context._plugins.directFunctionsPlugin.fragments).some(((e as CustomEvent).detail))
+      const fragmentID = (e as CustomEvent).detail;
+      delete (context as EnhancedContext)._plugins.directFunctionsPlugin.fragments[fragmentID];
+    });
+
     return {
       functions,
       fragments: initFragmentsFunctions(context),

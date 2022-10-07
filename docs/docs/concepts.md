@@ -6,6 +6,11 @@ Doing so, Collage works on the scope of [HTML Documents](https://html.spec.whatw
 An HTML Document enhanced this way is called a [**context**](#context)
 
 > Behind the scenes Collage relies on iframe integration and the [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) api.
+>
+> When using Collage to create and embed micro frontends, always consider the common security rules for iframes.
+>
+> Here is a quick overview: https://blogs.halodoc.io/iframe-security-threats-and-the-prevention/
+>
 
 ## Context
 
@@ -34,16 +39,24 @@ The capabilities and features of a context are defined and described by its Fron
 
 ## Service
 
-- A Service is a function or a collection of functions and topics
-- it is uniquely identified by its name and (optionally) version. 
+A Service is a function or a collection of functions and topics and is uniquely identified by its name and (optionally) version. With a Service, you can easily provide functionality to other fragments. This especially comes in handy when you want to provide application functionality like notification handles or modal dialogs to fragments.
+
+Services have certain attributes and restrictions:
+
 - Two implementations of a Service must allways be compatible with each other, e.g. by implementing the same specification.
 - Every service exposed by a context is registered within Collage and kept synchronous between all contexts in the arrangement.
-- If a context in the application is calling a specific service, always the implementation of the first context registered the Service is called. This means, that if a service is provided by each a fragment and its arrangement, always the implementation registered at the arrangement will be executed.
+- If a context in the application is calling a specific service, always the implementation of the context that registered the Service topmost in the DOM tree is called. This means, that if a service is provided by each a fragment and its arrangement, always the implementation registered at the arrangement will be executed.
 - The return value of the implementation is communicated back to the context initially calling the Service.
 - A context can expose any number of Services via its Frontend Description.
 - A Service is always provided to the whole Application.
 - If a context wants to use a service, it must provide an own implementation itself. This is necessary, because all fragments must be [**self contained**](#self-contained).
 - A Service can be imported or implemented in the context.
+
+> Keep in mind, that it is possible to use a provided service from any embedded fragment (and also fragments embedded in fragments). So think twice about the data you want to communicate via services.
+>
+> If your fragment depends on data received via a service, it never should trust these data blindly, but should validate them.
+>
+> Don't use services to work around origin restrictions (e.g. [SOP](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) or [Same Site Cookie Restrictions](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite)).
 
 ## Topics
 
