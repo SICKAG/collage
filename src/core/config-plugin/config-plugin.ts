@@ -66,7 +66,7 @@ const configPlugin: PluginFunctions<FrontendDescription, PreviousContext, Enhanc
       const fragmentElement = document.querySelector(`iframe[name='${iframeId}']`)?.closest('collage-fragment');
       if (fragmentElement) {
         const mergedConfig = extractMergedConfigFromCollageFragment(fragmentElement, description.fragmentsConfig || {});
-        context._plugins.directFunctionsPlugin.fragments[iframeId].functions.updateConfig({ config: mergedConfig });
+        context._plugins.directFunctionsPlugin.fragments[iframeId].functions.updateConfig(mergedConfig);
       }
     });
   },

@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## NEXT
 
+## 0.2.1
+### Fixed
+- [DAVIAF-134] - updateConfig feature not adding new config to the config object but to context
 
 ## 0.2.0
 ### Breaking Changes

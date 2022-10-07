@@ -43,6 +43,14 @@
         console.log(context);
       });
 
+      document.querySelector("#updateBtn").addEventListener('click', () => {
+        const config = {
+          check: 1,
+          overwritten: 'new'
+        }
+        context.fragments.child.updateConfig(config);
+      });
+
       document.querySelector("#context-id").textContent = context.id;
     });
   </script>
@@ -54,6 +62,7 @@
     <div>
       <p id="context-id"></p>
       <button id="btn">log context</button>
+      <button id="updateBtn">Update fragment config</button>
     </div>
   </header>
   FragmentsConfig:

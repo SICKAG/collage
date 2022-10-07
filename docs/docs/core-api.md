@@ -375,12 +375,17 @@ onConfigUpdated(() => {
 It is also possible to update a configuration of an embedded fragment at a later time.
 Therefore the _updateConfig_ method exists on embedded named fragments.
 
+::: tip
+The configuration of the fragment will be completely overwritten by the new config. 
+If a merged configuration with the old config is desired, the merge must be done by yourself.
+:::
+
 ```javascript
   const config = {
     title: 'I am embedded',
     mode: 'embedded',
   }; 
-  context.fragments.myFragment.updateConfig({ config });
+  context.fragments.myFragment.updateConfig(config);
 ```
 
 ## Communication API

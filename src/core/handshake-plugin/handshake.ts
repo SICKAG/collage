@@ -19,6 +19,7 @@ import {
 } from './handshake-data';
 import {
   Context,
+  ContextApi,
   Fragments,
   FrontendDescription,
   Functions,
@@ -173,8 +174,8 @@ function connectToArrangement(data: { description: FrontendDescription, context:
 
 function updateConfigCallback(arrangementDescription: FrontendDescription) {
   return (context: unknown) => {
-    const merged = merge(context, arrangementDescription);
-    updateAndMergeContext(merged);
+    (context as ContextApi).config = arrangementDescription;
+    updateAndMergeContext(context as Context);
   };
 }
 

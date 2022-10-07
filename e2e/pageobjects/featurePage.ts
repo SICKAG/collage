@@ -24,9 +24,14 @@ class FeaturePage extends Page {
     await directFunctionsLink.click();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  public async config() {
+    const configLink = await $('#config');
+    await configLink.click();
+  }
+
   // simpletopics
   // servicetopics
-  // config
 
   /**
    * overwrite specific options to adapt it to page object
