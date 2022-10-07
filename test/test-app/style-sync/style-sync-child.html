@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet'>
+  <title>Style Sync Child</title>
+</head>
+
+<style>
+
+  html {
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+  }
+
+  body {
+    font-family: 'Open Sans', serif;
+    height: 100%;
+    width: 100%;
+  }
+
+  #date {
+    display: none;
+    width: 80px;
+    background-color: white;
+  }
+
+  .iframe-container {
+    /* border: 1px solid black; */
+
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    /* padding-top: 56.25%; */
+    /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+  }
+
+  .responsive-iframe {
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+
+<body>
+  <script src="../../../node_modules/@sick-davinci/basic-elements/dist/bundle.js"></script>
+  <script type="module">
+    import { _internal_expose as expose } from "../../../bundle/collage.js";
+
+    const services = [];
+
+    expose(services, ['./style-sync-grandchild.html'])
+      .then((context) => {
+        document.querySelector('#frame-title').innerHTML = document.querySelector('#frame-title').innerHTML.concat(' - ', context.contextId);
+      });
+
+  </script>
+
+  <h2 id="frame-title">Style Sync Child</h2>
+
+  <davinci-button>Test</davinci-button>
+
+  <div id="davinci-mfo-container" class="wrapper iframe-container"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,260 @@
+:root {
+        /** buttons,links,icons */
+        --davinci-color-primary-light: #009df4;
+        --davinci-color-text-on-primary-light: var(--davinci-color-light, #ffffff);
+
+        /** buttons,links,icons */
+        --davinci-color-primary: #007cc1;
+        --davinci-color-text-on-primary: var(--davinci-color-light, #ffffff);
+
+        /** buttons,links,icons */
+        --davinci-color-primary-dark: #005b8e;
+        --davinci-color-text-on-primary-dark: var(--davinci-color-light, #ffffff);
+
+        /** buttons, background for vertical navigation */
+        --davinci-color-secondary-dark: #50585c;
+        --davinci-color-text-on-secondary-dark: var(--davinci-color-light, #ffffff);
+
+        /** buttons, background for vertical navigation */
+        --davinci-color-secondary: #737f85;
+        --davinci-color-text-on-secondary: var(--davinci-color-light, #ffffff);
+
+        /** buttons, background for vertical navigation */
+        --davinci-color-secondary-light: #8e989d;
+        --davinci-color-text-on-secondary-light: var(--davinci-color-light, #ffffff);
+
+        /** buttons (transactions), is used in a minimalist way */
+        --davinci-color-accent-dark: #e36a00;
+        --davinci-color-text-on-accent-dark: var(--davinci-color-light, #ffffff);
+
+        /** buttons (transactions), is used in a minimalist way */
+        --davinci-color-accent: #f39200;
+        --davinci-color-text-on-accent: var(--davinci-color-light, #ffffff);
+
+        /** buttons (transactions), is used in a minimalist way */
+        --davinci-color-accent-light: #ffa927;
+        --davinci-color-text-on-accent-light: var(--davinci-color-light, #ffffff);
+
+        --davinci-color-backdrop: var(--davinci-color-light, #ffffff);
+        --davinci-color-text-on-backdrop: var(--davinci-color-text, #ffffff);
+
+        /** default background color, text, icons */
+        --davinci-color-background: var(--davinci-color-dark-gray-1, #141718);
+        --davinci-color-text-on-background: var(--davinci-color-text, #ffffff);
+
+        /** default background color for input elements */
+        --davinci-color-background-input: var(--davinci-color-dark-gray-2, #2c3133);
+        --davinci-color-text-on-background-input: var(--davinci-color-text, #ffffff);
+
+        /** Use as light background color for large areas */
+        --davinci-color-background-2: var(--davinci-color-dark-gray-2, #2c3133);
+        --davinci-color-text-on-background-2: var(--davinci-color-text, #ffffff);
+
+        /** Use as alternate background color for large areas. */
+        --davinci-color-background-3: var(--davinci-color-dark-gray-3, #50585c);
+        --davinci-color-text-on-background-3: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 01dp (Standard side sheet) */
+        --davinci-color-background-00dp: var(--davinci-color-background, #141718);
+        --davinci-color-text-on-background-00dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 01dp (Switch, Card (resting), Search bar (resting elevation)) */
+        --davinci-color-background-01dp: #1c1c1c;
+        --davinci-color-text-on-background-01dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 02dp (Contained button (resting elevation)) */
+        --davinci-color-background-02dp: #222222;
+        --davinci-color-text-on-background-02dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 03dp (Refresh indicator Search bar (scrolled state)) */
+        --davinci-color-background-03dp: #232323;
+        --davinci-color-text-on-background-03dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 04dp, Top app bar */
+        --davinci-color-background-04dp: #272727;
+        --davinci-color-text-on-background-04dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 06dp, Floating action button (FAB - resting elevation) Snackbar */
+        --davinci-color-background-06dp: #2c2c2c;
+        --davinci-color-text-on-background-06dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 08dp, Contained button (pressed state), Card (when picked up), Menus and sub menus, Bottom app bar, Bottom navigation bar, Standard bottom sheet Standard side sheet */
+        --davinci-color-background-08dp: #2d2d2d;
+        --davinci-color-text-on-background-08dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 12dp, Floating action button (FAB - pressed) */
+        --davinci-color-background-12dp: #323232;
+        --davinci-color-text-on-background-12dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 16dp, Navigation drawer, Modal bottom sheet Modal side sheet */
+        --davinci-color-background-16dp: #353535;
+        --davinci-color-text-on-background-16dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 20dp */
+        --davinci-color-background-20dp: #363636;
+        --davinci-color-text-on-background-20dp: var(--davinci-color-text, #ffffff);
+
+        /** background for elements with elevation 24dp, Dialog */
+        --davinci-color-background-24dp: #373737;
+        --davinci-color-text-on-background-24dp: var(--davinci-color-text, #ffffff);
+
+        /** default text, buttons, icons */
+        --davinci-color-text: var(--davinci-color-light, #ffffff);
+        --davinci-color-text-on-text: var(--davinci-color-text, #ffffff);
+
+        /** headlines */
+        --davinci-color-text-light: var(--davinci-color-light-gray-1, #eeeff0);
+        --davinci-color-text-on-text-light: var(--davinci-color-text, #ffffff);
+
+        /** text hints */
+        --davinci-color-text-lighter: var(--davinci-color-mid-gray-3, #c5cacc);
+        --davinci-color-text-on-text-lighter: var(--davinci-color-text, #ffffff);
+
+        /** text hints */
+        --davinci-color-text-disabled: var(--davinci-color-dark-gray-3, #50585c);
+        --davinci-color-text-on-text-disabled: var(--davinci-color-text, #ffffff);
+
+        /** border, textfield, container, icons, disabled text */
+        --davinci-color-outline: var(--davinci-color-dark-gray-3, #50585c);
+        --davinci-color-text-on-outline: var(--davinci-color-text, #ffffff);
+
+        /** border, textfield, container, icons, disabled text */
+        --davinci-color-outline-light: var(--davinci-color-dark-gray-4, #737f85);
+        --davinci-color-text-on-outline-light: var(--davinci-color-text, #ffffff);
+
+        /** error text, error border, used only as text and icon color for a notifiaction that indicates a wrong action */
+        --davinci-color-error: #ea0823;
+        --davinci-color-text-on-error: var(--davinci-color-light, #ffffff);
+
+        /** background, used only as background color for a error */
+        --davinci-color-error-light: #fce6e9;
+        --davinci-color-text-on-error-light: var(--davinci-color-dark-gray-2, #2c3133);
+
+        /** warning text, warning border, used only as text and icon color for a notifiaction that indicates something is wrong */
+        --davinci-color-warning: #f5c413;
+        --davinci-color-text-on-warning: var(--davinci-color-dark-gray-2, #2c3133);
+
+        /** background, used only as background color for a warning */
+        --davinci-color-warning-light: #fef9e7;
+        --davinci-color-text-on-warning-light: var(--davinci-color-dark-gray-2, #2c3133);
+
+        /** success text, success border, used only as text and icon color for a notifiaction that indicates when a user successfully completes a task */
+        --davinci-color-success: #63b017;
+        --davinci-color-text-on-success: var(--davinci-color-light, #ffffff);
+
+        /** background, Used only as background color for a success notification */
+        --davinci-color-success-light: #eff7e7;
+        --davinci-color-text-on-success-light: var(--davinci-color-dark-gray-2, #2c3133);
+
+        /** info text, info border, Used only as text and icon color for a information box that notifies the user about something. */
+        --davinci-color-information: #007cc1;
+        --davinci-color-text-on-information: var(--davinci-color-light, #ffffff);
+
+        /** background, Used as background color for a information box. Also with selected rows at tables */
+        --davinci-color-information-light: #e5f1f8;
+        --davinci-color-text-on-information-light: var(--davinci-color-dark-gray-2, #2c3133);
+
+        /** Namur Standard (NAMUR-NE107) For failure state */
+        --davinci-color-namur-ok: #00cc01;
+        --davinci-color-text-on-namur-ok: #000000;
+
+        /** Namur Standard (NAMUR-NE107) For failure state */
+        --davinci-color-namur-failed: #ff0000;
+        --davinci-color-text-on-namur-failed: #000000;
+
+        /** Namur Standard (NAMUR-NE107) For Out Of Specification */
+        --davinci-color-namur-out-of-specification: #ffff00;
+        --davinci-color-text-on-namur-out-of-specification: #000000;
+
+        /** Namur Standard (NAMUR-NE107) For Maintenance Required */
+        --davinci-color-namur-maintenance-required: #0000ff;
+        --davinci-color-text-on-namur-maintenance-required: #000000;
+
+        /** Namur Standard (NAMUR-NE107) For failure state */
+        --davinci-color-namur-check-function: #fe8141;
+        --davinci-color-text-on-namur-check-function: #000000;
+
+        --davinci-color-dark: #000000;
+        --davinci-color-text-on-dark: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-dark-gray-1: #141718;
+        --davinci-color-text-on-dark-gray-1: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-dark-gray-2: #2c3133;
+        --davinci-color-text-on-dark-gray-2: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-dark-gray-3: #50585c;
+        --davinci-color-text-on-dark-gray-3: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-dark-gray-4: #737f85;
+        --davinci-color-text-on-dark-gray-4: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-mid-gray-1: #8e989d;
+        --davinci-color-text-on-mid-gray-1: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-mid-gray-2: #b1b8bc;
+        --davinci-color-text-on-mid-gray-2: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-mid-gray-3: #c5cacc;
+        --davinci-color-text-on-mid-gray-3: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-mid-gray-4: #d9dcde;
+        --davinci-color-text-on-mid-gray-4: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-light-gray-1: #eeeff0;
+        --davinci-color-text-on-light-gray-1: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-light-gray-2: #fbfcfc;
+        --davinci-color-text-on-light-gray-2: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-light: #ffffff;
+        --davinci-color-text-on-light: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-maroon: #691a12;
+        --davinci-color-text-on-maroon: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-burgundy: #a50032;
+        --davinci-color-text-on-burgundy: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-chocolate: #b96400;
+        --davinci-color-text-on-chocolate: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-gold: #c19c31;
+        --davinci-color-text-on-gold: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-sand: #d6c1ab;
+        --davinci-color-text-on-sand: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-goblin-green: #3b5e43;
+        --davinci-color-text-on-goblin-green: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-olive-green: #8c9453;
+        --davinci-color-text-on-olive-green: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-wasabi-green: #abc444;
+        --davinci-color-text-on-wasabi-green: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-emerald-green: #50c878;
+        --davinci-color-text-on-emerald-green: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-tiffany-blue: #00b9af;
+        --davinci-color-text-on-tiffany-blue: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-sky-blue: #89cbdf;
+        --davinci-color-text-on-sky-blue: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-deep-purple: #7000b0;
+        --davinci-color-text-on-deep-purple: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-dark-deep-purple: #3f0064;
+        --davinci-color-text-on-dark-deep-purple: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-purple: #b501eb;
+        --davinci-color-text-on-purple: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-dark-fuchsia: #7d256f;
+        --davinci-color-text-on-dark-fuchsia: var(--davinci-color-text, #ffffff);
+
+        --davinci-color-fuchsia: #ff00ed;
+        --davinci-color-text-on-fuchsia: var(--davinci-color-text, #ffffff);
+}

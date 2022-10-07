@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 
+    since a contained Fragment can define their own collage-theme elements, 
+    those will get collected together with their Arrangement's theme elements
+    and all copied to their contained Fragments
+  -->
+  <style data-collage-theme>
+    .foo {
+      border: 4px dashed black;
+    }
+  </style>
+  <!-- 
+    any `data-collage-theme` elements from the containing arrangement will be
+    copied here
+  -->
+  <script>
+    import { expose, trigger } from '@sick-davinci/collage'
+
+    await expose({
+      /**
+       * TODO discuss? -- is that the way? do we find something better?
+       */
+      collage: {
+        style: {
+          repropagation: 'manual',  // one of 'auto' (default), 'manual', 'off'
+          inherit: 'on' // one of 'on' (default), 'off'
+        }
+      }
+    })
+
+
+    /**
+     * manually trigger style repropagation
+     */
+    trigger.styleRepropagation()
+  </script>
+</head>
+<body>
+  <h1 class="foo">Foo!</h1>
+  <collage-fragment url="./something-else"></collage-fragment>
+</body>
+</html>

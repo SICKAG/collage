@@ -1,0 +1,45 @@
+:root {
+  --color-base: black;
+  --color-background: lightskyblue;
+  --color-primary: blue;
+  --color-secondary: darkviolet;
+}
+
+* {
+  color: var(--color-base);
+}
+
+body {
+  background-color: var(--color-background);
+}
+
+body > header { 
+  background-color: var(--color-primary);
+}
+
+body > footer {
+  border-top: 1px solid var(--color-secondary);
+}
+
+body > nav > :not(:last-child) {
+  padding: 1em;
+  border-bottom: 1px solid var(--color-base);
+}
+
+.on-primary,
+.on-primary * {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.on-primary-invert {
+  color: var(--color-primary);
+  background-color: var(--color-background);
+}
+
+a.active {
+  border-left: 5px solid var(--color-primary);
+  padding-left: 1em;
+  font-weight: bold;
+  text-decoration: none;
+}

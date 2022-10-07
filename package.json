@@ -1,10 +1,68 @@
 {
-  "name": "microfrontent-concept-stuff",
+  "name": "@sick-davinci/collage",
   "version": "0.0.0",
-  "description": "Monorepo for the Microfrontend / SAF / SWP activities",
-  "main": "index.js",
-  "repository": "https://gitlab.sick.com/wanja.tschuor/microfrontent-concept-stuff.git",
-  "author": "Wanja Tschuor <wanja.tschuor@sick.de>",
-  "license": "SEE LICENSE FILE",
-  "private": true
+  "description": "A library to handle communication between micro frontends and enable an easy to use orchestration",
+  "repository": "https://gitlab.sick.com/davinci/libraries/collage.git",
+  "author": "Wanja Tschuor <wanja.tschuor@sick>",
+  "contributors": [
+    "Susanne Kirchner <susanne.kirchner@sick.de>",
+    "Joshua Hagedorn <ravens.aerie@googlemail.com"
+  ],
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "README.md",
+    "LICENSE",
+    "lib/",
+    "bundle/",
+    "src/"
+  ],
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "start": "yarn serve",
+    "start:doc": "vuepress-vite dev ./docs -c vuepress-config.js -p 8090",
+    "build": "esbuild src/index.ts --bundle --format=esm",
+    "build:dev": "yarn build --define:process.env.NODE_ENV=\\\"development\\\" --outfile=bundle/collage.js --sourcemap",
+    "build:watch": "yarn build:dev --watch",
+    "build:prod": "tsc --declaration --outDir ./lib --p ./tsconfig-prod.json",
+    "build:doc": "vuepress-vite build ./docs -c vuepress-config.js",
+    "serve": "yarn build:watch & http-server",
+    "test:watch": "yarn build:dev && karma start --no-single-run karma.conf.js",
+    "test:debug": "yarn test:watch --debug",
+    "test": "yarn build:dev && karma start karma.conf.js",
+    "lint": "eslint ./src --ext js,ts",
+    "lint:fix": "eslint ./src --ext js,ts --fix"
+  },
+  "dependencies": {
+    "penpal": "^6.2.1",
+    "rxjs": "^7.1.0"
+  },
+  "devDependencies": {
+    "@sick-davinci/basic-elements": "^5.3.2",
+    "@sick-davinci/web-coding-guidelines": "^2.1.4",
+    "@types/jasmine": "^3.8.1",
+    "@types/node": "^16.3.1",
+    "@types/postmate": "^1.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "esbuild": "^0.8.51",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "http-server": "^0.12.3",
+    "jasmine": "^3.7.0",
+    "karma": "^6.3.4",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-esbuild": "^2.2.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-jasmine-html-reporter": "^1.7.0",
+    "karma-requirejs": "^1.1.0",
+    "karma-serve-static-map": "^2.0.0",
+    "karma-typescript": "^5.5.1",
+    "requirejs": "^2.3.6",
+    "ts-loader": "^9.2.3",
+    "typescript": "~4.4.0",
+    "vuepress-vite": "^2.0.0-beta.27"
+  }
 }

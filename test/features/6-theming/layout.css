@@ -1,0 +1,100 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.app {
+  display: grid;
+  grid-template-areas: 
+    "header header"
+    "menu content"
+    "footer footer";
+  grid-template-columns: 20vw auto;
+  grid-template-rows: 5em auto 2em;
+  gap: 5px;
+}
+
+.app > header {
+  grid-area: header;
+  display: flex;
+  align-items: stretch;
+}
+
+.app > header > *:not(:last-child) {
+  flex: 1
+}
+
+.app > nav {
+  grid-area: menu;
+}
+
+.app > nav,
+article+aside {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+article+aside > * {
+  flex: 1;
+}
+
+.main-detail {
+  display: flex;
+}
+
+.main-detail > :first-child {
+  flex: 1;
+}
+
+.app > main {
+  grid-area: content;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.app > main > :last-child {
+  flex: 1;
+}
+
+.app > footer {
+  grid-area: footer;
+  display: flex;
+  align-items: center;
+}
+
+.app > header,
+.app > nav,
+.app > footer {
+  padding-left: 2vw;
+}
+
+.fill {
+  width: 80vmin;
+  height: 80vmin;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+}
+
+.card > :first-child {
+  float: left;
+  margin-right: 2em;
+  margin-left: 1em;
+  height: 75vmin;
+  width: 75vmin;
+}
+
+.round-frame {
+  border-radius: 100%;
+}

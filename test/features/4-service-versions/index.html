@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collage - Service Versions</title>
+  <link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.3.1/styles/monokai.min.css">
+  <script src="//unpkg.com/@highlightjs/cdn-assets@11.3.1/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap');
+
+    :root {
+      font-family: Nunito;
+    }
+
+    .side-by-side {
+      display: flex;
+    }
+
+    .side-by-side > * {
+      flex: 1
+    }
+
+    section {
+      padding: 1em;
+    }
+
+    .text {
+      max-width: 60em;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Exposing services in different versions</h1>
+  <article>
+    <h2>Using only default versions</h2>
+
+    <part class="side-by-side">
+      <section>
+        <h3>Parent</h3>
+        <pre><code class="language-javascript">
+expose({
+  services: {
+    foo: {
+      bar: () => 'Hi from parents default impl'
+    }
+  }
+})
+        </code></pre>
+
+      </section>
+
+      <section>
+        <h3>Child</h3>
+        <pre><code class="language-javascript">
+expose({
+  services: {
+    foo: {
+      bar: () => 'Hi from childs default impl'
+    }
+  }
+}).then(({services: {foo}}) => {
+  // expecting 'Hi from parents default impl'
+  showResult(foo.bar())
+})
+        </code></pre>
+
+      </section>
+
+      <section>
+        <h3>Example</h3>
+        <iframe src="./default-versions-parent.html"></iframe>
+      </section>
+    </part>
+  </article>
+
+  <article>
+    <h2>Using matching versions</h2>
+
+    <part class="side-by-side">
+      <section>
+        <h3>Parent</h3>
+        <pre><code class="language-javascript">
+expose({
+  services: {
+    foo: {
+      versions: {
+        '1.0.0': { bar: () => 'Hi from parents first impl' }
+        '2.0.0': { bar: () => 'Hi from parents better impl' }
+      }
+    }
+  }
+})
+        </code></pre>
+
+      </section>
+
+      <section>
+        <h3>Child</h3>
+        <pre><code class="language-javascript">
+expose({
+  services: {
+    foo: {
+      versions: {
+        '1.0.0': { bar: () => 'Hi from childs first impl' }
+        '1.2.0': { bar: () => 'Hi from childs other impl' }
+      }
+    }
+  }
+}).then(({services: {foo: {'1.0.0': foo, '1.2.0': otherFoo}}}) => {
+  // expecting 'Hi from parents first impl'
+  showResult(foo.bar())
+
+  // expecting 'Hi from childs other impl' since the parent did not
+  // override version 1.2.0
+  showResult2(otherFoo.bar())
+})
+        </code></pre>
+
+      </section>
+
+      <section>
+        <h3>Example</h3>
+        <iframe src="./specific-versions-parent.html"></iframe>
+      </section>
+    </part>
+  </article>
+
+  <article class="text">
+    <h2>On automatic version matching</h2>
+
+    <p>
+      The Collage will <b>NOT</b> support any form of automatic version matching. Here is 
+      why.
+    </p>
+    <p>
+      There are a few different concepts in use, to automatically match versions
+      to <i>compatible</i> counterparts. The most known being <b>sem-ver</b>.
+    </p>
+    <p>
+      We debated, putting some form of that into the api but descided against it
+      for the reason of simplicity.
+    </p>
+    <p>
+      Given the context of the Collage, there is not really a realistic use case for
+      trying to match versions together in any automated form. Doing so does
+      however needlesly complicate the implementation and the concepts used
+      in the code.
+    </p>
+    <p>
+      So until there are some solid use cases for it, the Collage will only support
+      direct version matching, treating the <i>versionless</i> service 
+      implementation as a kind of <i>default version</i> that itself will only
+      match other default versions of the same service.
+    </p>
+    <p>
+      If that setup is to restrictive for your usecase and you are already using
+      <i>semver</i> as version identifiers, consider leaving the last diget from
+      the version you describe in the Collage.
+      <br>
+      So instead of defining version <code>1.3.15</code>, consider only 
+      describing version <code>1.3</code>. This way, any implementation on a 
+      minor version will automatically match the one your are exposing.
+    </p>
+  </article>
+</body>
+</html>

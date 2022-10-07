@@ -1,2 +1,11 @@
-.vscode/
 node_modules/
+out/
+bundle/
+lib/
+coverage/
+*.tgz
+yarn-error.log
+.vscode/
+docs/.vuepress/.cache
+docs/.vuepress/.temp
+dist/

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PubSub Child 2</title>
+</head>
+
+<style>
+  body {
+    background-color: cadetblue;
+    height: 100%;
+    width: 100%;
+  }
+
+  html {
+    height: 100%;
+    width: 100%;
+  }
+
+  .iframe-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    /* padding-top: 56.25%; */
+    /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+  }
+
+  .responsive-iframe {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+
+<body>
+  <script type="module">
+    import { _internal_expose as expose } from "../../../bundle/collage.js";
+
+    let context;
+
+    const services = [
+      {
+        id: 'notification',
+        version: '0.0.0',
+        impl: (msg) => {
+          console.log('not implemented yet');
+        }
+      },
+      {
+        id: 'languageService',
+        version: '0.0.0',
+        impl: (method, args) => {
+          console.log(method, args);
+        }
+      },
+    ];
+
+    let observable;
+    let subscription;
+    expose(services, [])
+      .then((ctx) => {
+        document.querySelector("#contextId").innerHTML = ctx.contextId;
+
+        document.getElementById("publish").addEventListener('click', () => {
+          ctx.callService({ id: 'languageService', version: '0.0.0' }, 'publish', ['languageKey', document.querySelector('#valueField').value]);
+        });
+        document.getElementById("notifyBtn").addEventListener('click', () => {
+          ctx.callService({ id: 'notification', version: '0.0.0' }, 'notify', [`notification from child ${ctx.contextId}`])
+        });
+
+        document.getElementById("subscribe").addEventListener('click', async () => {
+          observable = await ctx.callService({ id: 'languageService', version: '0.0.0' }, 'subscribe', ['languageKey']);
+          subscription = observable.subscribe((nextValue) => {
+            document.getElementById('lang').innerHTML = nextValue;
+          })
+        });
+
+        document.getElementById("unsubscribe").addEventListener('click', () => {
+          subscription.unsubscribe();
+        });
+
+        document.getElementById("unsubscribe2").addEventListener('click', () => {
+          ctx.callService({ id: 'languageService', version: '0.0.0' }, 'unsubscribe', ['languageKey']);
+        });
+
+        context = ctx;
+      });
+  </script>
+
+  <h2>pubSubChild 2</h2>
+
+  <p id='lang'></p>
+  <p id='contextId'></p>
+
+  <button id="subscribe">Subscribe</button>
+  <button id="unsubscribe">Unsubscribe over observable</button>
+  <button id="unsubscribe2">Unsubscribe over callservice</button>
+  <button id="publish">Set Language</button>
+  <input id="valueField" type="text" />
+
+  <button id="notifyBtn">trigger notification</button>
+  <div id="davinci-mfo-container" class="wrapper iframe-container"></div>
+  <p id="date"></p>
+
+</body>
+
+</html>

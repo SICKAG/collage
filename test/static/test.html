@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child</title>
+</head>
+
+<body>
+
+  <script type="module">
+    import { _internal_expose as expose } from '/bundle/collage.js';
+
+    const services = [
+      {
+        id: 'notification',
+        version: '0.0.0',
+        impl: (method, args) => { console.log('from test.html ' + args[0]) }
+      },
+      {
+        id: 'test1',
+        version: '0.0.0',
+        impl: (method, args) => { console.log('from test.html test1 service ' + args[0]) }
+      },
+      {
+        id: 'test2',
+        version: '0.0.0',
+        impl: (method, args) => { return('from test.html test2 service ' + args[0]) }
+      },
+      {
+        id: 'languageService',
+        version: '0.0.0',
+        impl: (method, _args) => {
+          switch (method) {
+            case 'blubb':
+              return ('it works!');
+            default:
+              return '';
+          }
+        },
+        isSubscribable: true,
+        subscriptionTopics: ['languageKey']
+      }
+    ];
+
+    expose(services, [])
+      .then((context) => {
+        context.callService({ id: 'notification', version: '0.0.0' }, 'notify', ['this is a child message']);
+
+        document.getElementById('notify').addEventListener('click', () => {
+          context.callService({ id: 'notification', version: '0.0.0' }, 'notify', ['this is a child message']).then((response) => {
+            document.getElementById('response').value = response;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+
+        document.getElementById('test2').addEventListener('click', () => {
+          context.callService({ id: 'test2', version: '0.0.0' }, '', ['test.html']).then((response) => {
+            document.getElementById('response').value = response;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+
+        document.getElementById('errorService').addEventListener('click', () => {
+          context.callService({ id: 'notification', version: '0.0.0' }, 'invalidMethod', []).then().catch(
+            (err) => {
+              document.getElementById('response').value = err;
+              document.getElementById('response').dispatchEvent(new Event('change'));
+            });
+        });
+
+        document.getElementById('serviceRegistry').addEventListener('click', () => {
+          const serviceRegistry = context.getServiceRegistry();
+          document.getElementById('response').value = JSON.stringify(Object.fromEntries(serviceRegistry));
+          document.getElementById('response').dispatchEvent(new Event('change'));
+        });
+
+        document.getElementById('deregister').addEventListener('click', () => {
+          context.deregisterService({ id: 'test2', version: '0.0.0' })
+            .then(() => {
+              document.getElementById('response').value = 'deregistered';
+              document.getElementById('response').dispatchEvent(new Event('change'));
+            })
+            .catch((error) => {
+              document.getElementById('response').value = error;
+              document.getElementById('response').dispatchEvent(new Event('change'));
+            });
+        });
+
+        document.getElementById('deregisterInvalid').addEventListener('click', () => {
+          context.deregisterService({ id: 'non-available', version: '0.0.0' }).then().catch((error) => {
+            document.getElementById('response').value = error;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+        
+        document.getElementById('deregisterNotOwn').addEventListener('click', () => {
+          context.deregisterService({ id: 'notification', version: '0.0.0' }).then().catch((error) => {
+            document.getElementById('response').value = error;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+
+        document.getElementById('deregisterPubSub').addEventListener('click', () => {
+          context.deregisterService({ id: 'languageService', version: '0.0.0' }).then( () => {
+            document.getElementById('response').value = 'pub sub deregistered';
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+
+        document.getElementById("subscribe").addEventListener('click', async () => {
+          context.callService({ id: 'languageService', version: '0.0.0' }, 'subscribe', ['languageKey'])
+            .then((observable) => {
+              observable.subscribe((nextValue) => {
+                document.getElementById('response').value = nextValue;
+                document.getElementById('response').dispatchEvent(new Event('change'));
+              })
+            });
+        });
+
+        document.getElementById("publish").addEventListener('click', () => {
+          context.callService({ id: 'languageService', version: '0.0.0' }, 'publish', ['languageKey', 'de'])
+            .then(() => {
+              document.getElementById('response').value = 'published';
+              document.getElementById('response').dispatchEvent(new Event('change'));
+            });
+        });
+      });
+
+  </script>
+
+  <h2>Child</h2>
+  <div id='davinci-mfo-container'></div>
+  <button id='notify'>Notify</button>
+  <button id='errorService'>Error service</button>
+  <button id='serviceRegistry'>Service registry</button>
+  <button id='deregister'>Deregister</button>
+  <button id='deregisterInvalid'>Deregister Invalid</button>
+  <button id='deregisterNotOwn'>Deregister not own</button>
+  <button id='deregisterPubSub'>Deregister pubSub</button>
+  <button id='test2'>Test 2</button>
+  <button id='subscribe'>Subscribe</button>
+  <button id='publish'>Publish</button>
+
+  <input id='response'>
+
+</body>
+
+</html>

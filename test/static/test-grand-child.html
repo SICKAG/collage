@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child with child</title>
+</head>
+
+<body>
+
+  <script type="module">
+    import { _internal_expose as expose } from '/bundle/collage.js';
+
+    const services = [
+      {
+        id: 'notification',
+        version: '0.0.0',
+        impl: (method, args) => { console.log('from test-grand-child.html ' + args[0]) }
+      },
+      {
+        id: 'test2',
+        version: '0.0.0',
+        impl: (method, args) => { return('from test-grand-child.html test2 service ' + args[0]) }
+      }
+    ];
+
+    expose(services, ['./test.html'])
+      .then((context) => {
+        document.getElementById('notify').addEventListener('click', () => {
+          context.callService({ id: 'notification', version: '0.0.0' }, 'notify', ['this is a child message']).then((response) => {
+            document.getElementById('response').value = response;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+
+        document.getElementById('serviceRegistry').addEventListener('click', () => {
+          const serviceRegistry = context.getServiceRegistry();
+          document.getElementById('response').value = JSON.stringify(Object.fromEntries(serviceRegistry));
+          document.getElementById('response').dispatchEvent(new Event('change'));
+        });
+      });
+
+  </script>
+
+  <h2>Child with child</h2>
+  <div id='davinci-mfo-container'></div>
+  <button id='notify'>Notify</button>
+  <button id='serviceRegistry'>Service registry</button>
+  <input id='response'>
+
+</body>
+
+</html>

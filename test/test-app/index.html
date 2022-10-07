@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Frame</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet'>
+  <link href='./style.css' rel='stylesheet'>
+</head>
+
+<body>
+  <!-- 1. Load libraries -->
+  <script src="../../node_modules/@sick-davinci/basic-elements/dist/bundle.js"></script>
+
+  <!-- 2. Import expose from @sick-davinci/collage -->
+  <script type='module'>
+    import { _internal_expose as expose } from '../../../bundle/collage.js';
+
+    // 3. Define Services
+    const services = [
+      {
+        id: 'time',
+        version: '0.0.0',
+        impl: (method, args) => {
+          return Date.now();
+        }
+      },
+      {
+        id: 'notification',
+        version: '0.0.0',
+        impl: (method, args) => {
+          const notificationService = import('./services/notification-service.js');
+          notificationService.then((service) => {
+            service.callService(method, args);
+          });
+        }
+      },
+      {
+        id: 'languageService',
+        version: '0.0.0',
+        impl: (method, args) => {
+          switch (method) {
+            case 'blubb':
+              return ('it works!');
+              break;
+            default:
+              break;
+          }
+        },
+        isSubscribable: true,
+        subscriptionTopics: ['languageKey']
+      },
+    ];
+
+    const regularChildSrcs = ['./regular/child.html', './regular/child2.html'];
+    const pubSubChildSrcs = ['./pub-sub/pubSubChild.html', './pub-sub/pubSubChild2.html'];
+    const styleSyncChildSrcs = ['./style-sync/style-sync-child.html'];
+    const scanViewChildSrcs = ['http://localhost:8081'];
+
+    expose(services, scanViewChildSrcs).then((context) => {
+
+      const languageService = services.find((service) => { return service.id === 'languageService' });
+
+      // Subscribe to language service initially
+      (async () => {
+        context.subscribe(languageService, ['languageKey'], (nextValue) => {
+          document.getElementById('lang').value = nextValue;
+        });
+      })();
+
+      document.querySelector('#frame-title').innerHTML = document.querySelector('#frame-title').innerHTML.concat(' - ', context.contextId);
+      document.getElementById('btn2').addEventListener('click', () => context.callService({ id: '2', version: '0.0.0' }, 'test').then(response => {
+        console.log(response);
+      }));
+
+      document.getElementById('features-select').addEventListener('change', (event) => {
+
+        const descendants = context.getDescendants();
+        descendants.forEach(descendant => {
+          context.deregisterChildContext(descendant);
+        });
+
+        switch (document.getElementById('features-select').value) {
+          case 'reqularChildSrcs':
+            regularChildSrcs.forEach((src) => {
+              context.registerChildContext(src)
+            });
+            document.getElementById('pub-sub-example-controls').hidden = true;
+            document.getElementById('services-example-controls').hidden = false;
+            document.getElementById('style-sync-example-controls').hidden = true;
+            document.getElementById('scanview-example-controls').hidden = true;
+            break;
+          case 'pubSubChildSrcs':
+            pubSubChildSrcs.forEach((src) => {
+              context.registerChildContext(src)
+            });
+            document.getElementById('pub-sub-example-controls').hidden = false;
+            document.getElementById('services-example-controls').hidden = true;
+            document.getElementById('style-sync-example-controls').hidden = true;
+            document.getElementById('scanview-example-controls').hidden = true;
+            break;
+          case 'styleSyncChildSrcs':
+            styleSyncChildSrcs.forEach((src) => {
+              context.registerChildContext(src)
+            });
+            document.getElementById('pub-sub-example-controls').hidden = true;
+            document.getElementById('services-example-controls').hidden = true;
+            document.getElementById('style-sync-example-controls').hidden = false;
+            document.getElementById('scanview-example-controls').hidden = true;
+            break;
+          case 'scanViewChildSrcs':
+            scanViewChildSrcs.forEach((src) => {
+              context.registerChildContext(src)
+            });
+            document.getElementById('pub-sub-example-controls').hidden = true;
+            document.getElementById('services-example-controls').hidden = true;
+            document.getElementById('style-sync-example-controls').hidden = true;
+            document.getElementById('scanview-example-controls').hidden = false;
+            break;
+
+          default:
+            console.log(document.getElementById('features-select').value);
+            break;
+        }
+      });
+
+      document.getElementById('subscribe').addEventListener('click', async () => {
+        observable = await context.callService({ id: 'languageService', version: '0.0.0' }, 'subscribe', ['languageKey']);
+        subscription = observable.subscribe((nextValue) => {
+          document.getElementById('lang').innerHTML = nextValue;
+        })
+      });
+
+      document.getElementById('publish').addEventListener('click', () => {
+        context.callService({ id: 'languageService', version: '0.0.0' }, 'publish', ['languageKey', document.querySelector('#valueField').value]);
+      });
+
+
+      document.getElementById('unsubscribe').addEventListener('click', () => {
+        subscription.unsubscribe();
+      });
+
+      document.getElementById('unsubscribe2').addEventListener('click', () => {
+        context.callService({ id: 'languageService', version: '0.0.0' }, 'unsubscribe', ['languageKey']);
+      });
+
+      document.getElementById('deregister-context-btn').addEventListener('click', () => context.deregisterChildContext(document.getElementById('deregister-context-id').value)
+        .then(response => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      );
+
+      document.getElementById('start-scans').addEventListener('click', () => {
+        const isMocked = document.getElementById('scanview-mockdata').checked;
+        const dataSource = document.getElementById('scanview-ip').value;
+        const scanId = document.getElementById('scanview-id').value;
+
+        // const configurationCallObject = {
+        const service = { id: 'configurationService', version: '0.0.0' };
+        const method = isMocked ? 'mockdata' : '';
+        const args = [dataSource, scanId];
+        // };
+
+        const descendants = context.getDescendants();
+        const childContext = context.getChild(descendants[0]);
+        childContext.child.callServiceDirectly({service, method, args});
+      });
+
+      document.getElementById('scanview-mockdata').addEventListener('change', (event) => {
+        document.getElementById('scanview-data-source').hidden = event.detail;
+      });
+
+      document.getElementById('setstyle').addEventListener('click', () => {
+        const variableElement = document.getElementById('cssVariable');
+        const valueElement = document.getElementById('cssVariableValue');
+
+        let styles = new Map();
+        styles.set(variableElement.value, valueElement.value);
+        context.overwriteCssVariables(styles);
+
+        valueElement.value = '';
+
+      })
+    });
+  </script>
+
+  <div class="frame-ui frame-controls">
+    <h2 id="frame-title">Frame</h2>
+    <div class='ui-control-group'>
+      <davinci-drop-down label='load-feature-example' id='features-select' value='scanViewChildSrcs'>
+        <davinci-option value='styleSyncChildSrcs'>Style-Sync</davinci-option>
+        <davinci-option value='reqularChildSrcs'>Regular</davinci-option>
+        <davinci-option value='pubSubChildSrcs'>Pub-Sub</davinci-option>
+        <davinci-option value='scanViewChildSrcs'>scanView</davinci-option>
+      </davinci-drop-down>
+    </div>
+  </div>
+  <div class='frame-ui'>
+
+    <div class='demo'>
+
+      <div>
+      </div>
+
+      <!-- <div hidden="getElementById('feature-select').value === 'pubSubChildSrcs'"> -->
+      <div id="pub-sub-example-controls" hidden>
+        <div>
+          <davinci-value-display id="lang" label="Language Subscription"></davinci-value-display>
+          <davinci-button type="bare" id='subscribe'>Subscribe language service</davinci-button>
+          <davinci-button type="bare" id='unsubscribe'>Unsubscribe language service over observable</davinci-button>
+          <davinci-button type="bare" id='unsubscribe2'>Unsubscribe language service over callservice</davinci-button>
+        </div>
+        <div>
+          <davinci-button type="bare" id='publish'>Publish</davinci-button>
+          <davinci-text-field id='valueField' label='publish value' type='text' />
+        </div>
+      </div>
+
+      <div id="services-example-controls" hidden>
+        <davinci-button type="bare" id='btn2'>call service 2</davinci-button>
+        <davinci-button type="bare" id='deregister-context-btn'>Deregister Context</davinci-button>
+        <davinci-text-field id='deregister-context-id' type='text' />
+      </div>
+
+      <div id="style-sync-example-controls" hidden>
+        <davinci-text-field id="cssVariable" label="variable" value="--davinci-color-primary"></davinci-text-field>
+        <davinci-text-field id="cssVariableValue" label="new value" value="blue"></davinci-text-field>
+        <davinci-button type="bare" id='setstyle'>overwrite style</davinci-button>
+      </div>
+
+      <div id="scanview-example-controls">
+        <davinci-checkbox id="scanview-mockdata" checked>use mockdata</davinci-checkbox>
+        <davinci-button type="bare" id='start-scans'>start scans</davinci-button>
+        <div id="scanview-data-source" hidden>
+          <davinci-text-field id="scanview-ip" label="data source url" value="192.168.8.160"></davinci-text-field>
+          <davinci-text-field id="scanview-id" label="viewer id" value="default"></davinci-text-field>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div id='davinci-mfo-container' class='wrapper iframe-container'></div>
+
+</body>
+
+</html>

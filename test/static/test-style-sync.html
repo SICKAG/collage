@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child</title>
+
+  <style>
+    :root {
+      --css-test-variable: blue;
+    }
+    #style-sync-testee {
+      background-color: var(--css-test-variable);
+      width: 10px;
+      height: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script type="module">
+    import { _internal_expose as expose } from '/bundle/collage.js';
+
+    const services = [
+      {
+        id: 'normal-response',
+        version: '0.0.0',
+        impl: (method, args) => { return 'child: normal response' }
+      },
+      {
+        id: 'promise-response',
+        version: '0.0.0',
+        impl: async (method, args) => {
+          // Return after 1 second
+          return await new Promise < string > ((res) => {
+            setTimeout(() => res('child: promise response'), 1000);
+          });
+        }
+      },
+      {
+        id: 'import-script-response',
+        version: '0.0.0',
+        impl: async (method, args) => {
+          const importService = await import('../utils/services.js');
+          return await importService.callService('import-script-response');
+        }
+      }
+    ];
+
+    expose(services, [])
+      .then((context) => {
+        document.getElementById('normal-response').addEventListener('click', () => {
+          context.callService({ id: 'normal-response', version: '0.0.0' }, '', []).then((response) => {
+            document.getElementById('response').value = response;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+        document.getElementById('promise-response').addEventListener('click', () => {
+          context.callService({ id: 'promise-response', version: '0.0.0' }, '', []).then((response) => {
+            document.getElementById('response').value = response;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+        document.getElementById('import-script-response').addEventListener('click', () => {
+          context.callService({ id: 'import-script-response', version: '0.0.0' }, '', ['']).then((response) => {
+            document.getElementById('response').value = response;
+            document.getElementById('response').dispatchEvent(new Event('change'));
+          });
+        });
+      });
+
+  </script>
+
+  <h2>Style Sync Child</h2>
+  <div id='davinci-mfo-container'></div>
+  <div id='style-sync-testee'></div>
+  <input id='response'>
+
+</body>
+
+</html>
