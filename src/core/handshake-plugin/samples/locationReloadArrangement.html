@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module">
+    import { expose, onUpdated } from "@sick-davinci/collage";
+
+    function isCollageUUID(id) {
+      return id && /^collage-fragment-[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(id);
+    }
+    function setupCollage(description) {
+      return new Promise((resolve) => {
+        let context;
+        onUpdated(() => {
+          resolve(context);
+        }, { once: true });
+
+        expose(description).then((ctx) => {
+          context = ctx;
+          if (!isCollageUUID(window.name)) {
+            resolve(context);
+          }
+        });
+      });
+    }
+
+    setupCollage({
+      fragmentsConfig: {
+        bla: {
+          mode: 'single',
+        },
+      },
+    }).then((context) => {
+      context.topics.subscribe('msg', (val) => {
+        if (val) {
+          console.log('Arrangement: new publish', val);
+          const li = document.createElement('li');
+          li.innerText = val;
+          document.querySelector('#output').appendChild(li);
+        }
+      });
+      document.querySelector('#btn').addEventListener('click', () => {
+        context.fragments.bla.functions.triggerReload();
+      });
+    })
+  </script>
+</head>
+
+<body>
+  <h1>Arrangement</h1>
+  <main>
+    <button id="btn"> Trigger fragment reload</button>
+    <ul id="output"></ul>
+    <collage-fragment url="./locationReloadFragment.html" name="bla"></collage-fragment>
+  </main>
+
+</body>
+
+</html>

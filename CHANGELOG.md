@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## NEXT
 
+## 0.2.2
+### Fixed
+- [DAVIAF-161] - Incorrect penpal clean up when fragment is refreshing / reloading itself
+
 ## 0.2.1
 ### Fixed
 - [DAVIAF-134] - updateConfig feature not adding new config to the config object but to context

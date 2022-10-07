@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module">
+    import { expose, onUpdated, onConfigUpdated } from "@sick-davinci/collage";
+
+    function isCollageUUID(id) {
+      return id && /^collage-fragment-[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(id);
+    }
+    function setupCollage(description) {
+      return new Promise((resolve) => {
+        let context;
+        onUpdated(() => {
+          resolve(context);
+        }, { once: true });
+
+        expose(description).then((ctx) => {
+          context = ctx;
+          if (!isCollageUUID(window.name)) {
+            resolve(context);
+          }
+        });
+      });
+    }
+
+    setupCollage({
+      functions: {
+        triggerReload: () => window.location.reload()
+      }
+    }).then(context => {
+      document.querySelector('#output').textContent = context.id;
+      context.topics.publish('msg', Math.random());
+      onConfigUpdated(() => {
+        const li = document.createElement('li');
+        li.innerText = JSON.stringify(context.config);
+        document.querySelector('#config').appendChild(li);
+      });
+    })
+  </script>
+</head>
+
+<body>
+  <h1>Fragment</h1>
+  <main>
+    <p id="output"></p>
+    <ul id="config"></ul>
+  </main>
+
+</body>
+
+</html>

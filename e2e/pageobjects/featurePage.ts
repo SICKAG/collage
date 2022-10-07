@@ -30,6 +30,12 @@ class FeaturePage extends Page {
     await configLink.click();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  public async reloadBug() {
+    const reloadBugLink = await $('#reloadBug');
+    await reloadBugLink.click();
+  }
+
   // simpletopics
   // servicetopics
 

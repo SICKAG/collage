@@ -45,6 +45,7 @@ const messageTypes = {
   callForArrangement: 'call-for-arrangement',
   answerToCallForArrangement: 'answer-to-call-for-arrangement',
   reinitializeFragment: 'reinitialize-fragment',
+  reloadedFragment: 'reloaded-fragment',
 };
 
 type Connections = Map<string, Connection<CallSender>>;
@@ -99,7 +100,24 @@ function answerToCallForArrangement(data: { description: FrontendDescription, co
   return (connections: Connections, fragmentId: string) => {
     const iframe = findFragmentInDOM(fragmentId);
     if (iframe && iframe.contentWindow) {
-      connections.set(fragmentId, connectToFragment(iframe, data));
+      // If a fragment triggers a window.reload we need to do this check.
+      // Penpal will handle clean up for us, when a child is getting reloaded.
+      // But therefore we are not allowed to call connectToChild from parent again.
+      if (!connections.get(fragmentId)) {
+        connections.set(fragmentId, connectToFragment(iframe, data));
+      } else {
+        listenFor({
+          type: messageTypes.reloadedFragment,
+          listenOnce: true,
+        }, (id) => {
+          if (id === fragmentId) {
+            document.dispatchEvent(new CustomEvent(
+              'collage-fragment-loaded',
+              { detail: fragmentId },
+            ));
+          }
+        });
+      }
       log('arrangement.ts', 'A2. answerToCallForArrangement()');
       sendMessage({
         type: messageTypes.answerToCallForArrangement,
@@ -169,6 +187,11 @@ function connectToArrangement(data: { description: FrontendDescription, context:
       listenForReinitializeFragment(data);
       updateAndMergeContext(merge(data.context, newDescription));
       reinitializeFragments();
+      sendMessage({
+        type: messageTypes.reloadedFragment,
+        recepient: window.parent,
+        content: window.name,
+      });
     });
 }
 
