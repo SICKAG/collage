@@ -1,5 +1,4 @@
 // TODO: write Tests for Direct Functions Plugin
-import { describe, it, expect } from 'jest-without-globals';
 import bootstrap from '../../lib/bootstrap';
 import directFunctions from './direct-functions';
 

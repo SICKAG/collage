@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'jest-without-globals';
 import { createFragmentUUID, isCollageUUID, v4 } from './uuid';
 
 describe('Lib: uuid', () => {
