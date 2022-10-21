@@ -1,4 +1,3 @@
-import { describe, it, expect } from 'jest-without-globals';
 import bootstrap from '../../lib/bootstrap';
 import { Context } from '../../types';
 import createContext from './create-context';
