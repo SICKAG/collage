@@ -1,14 +1,19 @@
 {
-  "name": "@sick-davinci/collage",
+  "name": "@collage/collage",
   "version": "0.0.0",
   "description": "A library to handle communication between micro frontends and enable an easy to use orchestration",
-  "repository": "https://gitlab.sick.com/davinci/libraries/collage.git",
+  "repository": "https://github.com/SICKAG/collage.git",
   "author": "Wanja Tschuor <wanja.tschuor@sick>",
   "contributors": [
     "Susanne Kirchner <susanne.kirchner@sick.de>",
     "Joshua Hagedorn <ravens.aerie@googlemail.com"
   ],
   "license": "MIT",
+  "keywords": [
+    "micro frontends",
+    "micro-frontends",
+    "microfrontend"
+  ],
   "files": [
     "dist",
     "src",
@@ -30,16 +35,13 @@
     "start:doc": "cross-env DEVELOP=true vuepress-vite dev ./docs -c ./docs/vuepress-config.js -p 8090",
     "start": "run-p start:*",
     "build": "tsc && vite build",
-    "build:doc": "vuepress-vite build ./docs -c ./docs/vuepress-config.js",
+    "build:doc": "cross-env BASE_URL=collage vuepress-vite build ./docs -c ./docs/vuepress-config.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
     "lint": "eslint ./src --ext js,ts",
-    "lint:fix": "eslint ./src --ext js,ts --fix",
-    "wdio": "wdio run e2e/wdio.conf.js",
-    "test:wdio": "run-p start:dev wdio --race"
+    "lint:fix": "eslint ./src --ext js,ts --fix"
   },
-  "keywords": [],
   "dependencies": {
     "lodash.mergewith": "^4.6.2",
     "penpal": "^6.2.1"
