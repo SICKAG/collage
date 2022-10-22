@@ -1,11 +1,10 @@
-import { defaultTheme } from '@vuepress/theme-default';
+import { defaultTheme } from 'vuepress-vite';
 
 export default {
   lang: 'en-US',
   title: 'Collage',
   description: 'micro frontends made simple',
   dest: './docs/dist',
-  base: process.env.BASE_URL || '',
 
   theme: defaultTheme({
     _logo: 'https://vuejs.org/images/logo.png',
