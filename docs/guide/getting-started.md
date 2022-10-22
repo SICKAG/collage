@@ -15,7 +15,7 @@ To wet your appetite and give you a feeling for the Collage library, **let's cre
 > micro frontends via _Services_, _Topics_, _Function Calls_ and _Configuration_
 > backed by modern standard browser technologies.
 >
-> In Collage, we call a micro frontend a [**fragment**](/docs/concepts.html#fragment) and the combination of micro frontends an [**arrangement**](/docs/concepts.html#arrangement)
+> In Collage, we call a micro frontend a [**fragment**](../docs/concepts.html#fragment) and the combination of micro frontends an [**arrangement**](../docs/concepts.html#arrangement)
 
 ## Setup
 
@@ -246,9 +246,9 @@ But the really interesting part comes when we add some interaction between both 
 To do so, we first describe the capabilities of both the Dashboard and the Todo fragment to define how one can interact with them. In our case we describe a service-level topic to post our active todos to and
 a function that others can call on us directly, to add a todo item.
 
-The returned promise resolves into the [**Collage Context**](/docs/concepts.html#context), which gives us
-access to functionality that is defined within our arrangement by a [**Frontend Description Object**](/docs/core-api.html#frontend-description).
-Here we will need the [**Topics API**](/docs/core-api.html#topics-api) specifically, to publish the currently active todo items.
+The returned promise resolves into the [**Collage Context**](../docs/concepts.html#context), which gives us
+access to functionality that is defined within our arrangement by a [**Frontend Description Object**](../docs/core-api.html#frontend-description).
+Here we will need the [**Topics API**](../docs/core-api.html#topics-api) specifically, to publish the currently active todo items.
 :::: code-group
 ::: code-group-item todos/main.js
 
@@ -332,7 +332,7 @@ document.addEventListener('change', publishActiveTodos)
 
 ::::
 :::tip
-You can read more about the [Collage Context API](/docs/core-api.html#context-api) and the [Collage Topics API](/docs/core-api.html#topics-api) in our [API documentation](/docs/core-api.html)
+You can read more about the [Collage Context API](../docs/core-api.html#context-api) and the [Collage Topics API](../docs/core-api.html#topics-api) in our [API documentation](../docs/core-api.html)
 :::
 
 Now we describe the Dashboard fragment and add some Buttons for creating todos in the Todo fragment.
@@ -441,5 +441,5 @@ npm run dev --port 4000
 ```
 
 :::tip
-If you want to learn more about the [concepts](/docs/concepts/) and [features](/docs/features/) or the [API](/docs/core-api/) of Collage, please have a look at our Docs.
+If you want to learn more about the [concepts](../docs/concepts/) and [features](../docs/features/) or the [API](../docs/core-api/) of Collage, please have a look at our Docs.
 :::

@@ -16,7 +16,7 @@ expose(frontendDescription); // Returns a Promise<ContextApi>
 :::
 ::::
 
-By calling the expose function, an HTML Document is automatically upgraded to a [**Context**](/docs/concepts.html#context).
+By calling the expose function, an HTML Document is automatically upgraded to a [**Context**](./concepts.html#context).
 It is now embeddable and can embedd other Contexts.
 The expose function can be called without a parameter, to just enable the basic Context features or called with a [**Frontend Description Object**](#frontend-description) as parameter, to enable more features of Collage.
 
@@ -95,24 +95,6 @@ const frontendDescription = {
 const contextApi = await expose(frontendDescription);
 // ...
 ```
-<details>
-<summary markdown="span">diff to v0.1</summary>
-
-<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
-
-  ```js {5}
-  // ...
-  const frontendDescription = {
-    services: {/*...*/},
-    functions: {/*...*/},
-    config: {/*...*/},
-  };
-
-  const contextApi = await expose(frontendDescription);
-  // ...
-  ```
-</div>
-</details>
 
 A Context is described by a Frontend Description Object. It consists of three parts, describing the capabilities, behavior and identity of a fragment.
 Each part is optional, you can combine them as it suites your use case.
@@ -127,7 +109,7 @@ services: {
 }
 ```
 
-[**Services**](/docs/concepts.html#service) are one of the core concepts of Collage. You define services in the `services` object of the Frontend Description object.
+[**Services**](./concepts.html#service) are one of the core concepts of Collage. You define services in the `services` object of the Frontend Description object.
 
 Services can either be defined singular - like `myService(value)` from the example, or be combined into a service collection - like `myNamedServices`. This especially comes in handy when you import services from third party modules.
 
@@ -214,24 +196,7 @@ const contextApi = await expose();
 context.fragments.namedChild.functions.doSomething('my value');
 ```
 
-::::
-
-<details>
-<summary markdown="span">diff to v0.1</summary>
-
-<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
-
-:::: code-group
-::: code-group-item arrangement.js
-
-```js{2}
-const contextApi = await expose();
-context.children.namedChild.doSomething('my value');
-```
-
-::::
-</div>
-</details>
+::::  
 
 ### Config
 
@@ -243,21 +208,6 @@ fragmentsConfig: {
   }
 }
 ```
-<details>
-<summary markdown="span">diff to v0.1</summary>
-
-<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
-
-  ```js {1}
-    config: {
-      'myFragment': {
-        configParam1: 'some value',
-        configParam2: 'some other value',
-      }
-    }
-  ```
-</div>
-</details>
 
 The arrangement Configuration (aka fragmentsConfig) allows an arrangement to overwrite a default configuration of its contained fragments.
 To do so, an arrangement can define config objects in three different ways which then are merged to a final config object under the hood.
@@ -404,24 +354,8 @@ const contextApi = {
   id: 'contextId',          // context id
 };
 ```
-<details>
-<summary markdown="span">diff to v0.1</summary>
 
-<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
-
-  ```js {3}
-const contextApi = {
-  services: { /* ... */ },  // services exposed by this Context
-  children: { /* ... */ },  // all contained fragments
-  topics: { /* ... */ },    // exposed topics
-  config: { /* ... */ },    // config described by containing arrangement
-  id: 'contextId',          // context id
-};
-```
-</div>
-</details>
-
-By calling the expose function, you get access to the Context API. You can call services, access named children (see [Initializing and Exposing](/docs/concepts.html#initializing-and-exposing)), config and id as well as publish and subscribe to topics.
+By calling the expose function, you get access to the Context API. You can call services, access named children (see [Initializing and Exposing](./concepts.html#initializing-and-exposing)), config and id as well as publish and subscribe to topics.
 
 The expose function returns a Promise\<ContextApi\>, so you can simply await on it or do something in its then-callback.
 :::: code-group
@@ -456,23 +390,11 @@ const contextApi = await expose(/* ... */);
 contextApi.fragments.childName.functions.someFunction();
 ```
 
-<details>
-<summary markdown="span">diff to v0.1</summary>
-
-<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
-
-```js {2}
-  const contextApi = await expose(/* ... */);
-  context.child.someFunction();
-```
-</div>
-</details>
-
 To use [functions](#functions) of the fragment, you need direct access to the fragments Context. You gain that via the Context APIs framents object
 
 ### Topics API
 
-See [**Topics**](/docs/concepts.html#topics) in the [Concepts description](/docs/concepts/).
+See [**Topics**](./concepts.html#topics) in the [Concepts description](./concepts/).
 
 The Topics feature allows an easy way to subscribe to topics and publish new values on them.
 
@@ -537,17 +459,6 @@ To unsubscribe from a topic, just call the unsubscribeCallback.
 ```javascript
 unsubscribeCallback();
 ```
-
-<details>
-<summary markdown="span">diff to v0.1</summary>
-
-<div style="opacity: 0.65; border: solid 1px; border-radius: 5px; padding: 0 10px 0 10px">
-
-```js {1}
-contextApi.topics.foo.myTopic.unsubscribe()
-```
-</div>
-</details>
 
 ##### Publishing Messages
 

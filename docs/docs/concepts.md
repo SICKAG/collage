@@ -14,7 +14,7 @@ An HTML Document enhanced this way is called a [**context**](#context)
 
 ## Context
 
-By calling the [expose function](/docs/core-api.html#expose-function), an HTML Document is automatically upgraded to a **context**. Being a context comes with two main features:
+By calling the [expose function](../docs/core-api.html#expose-function), an HTML Document is automatically upgraded to a **context**. Being a context comes with two main features:
 
 1. A context can embed other contexts
 1. A context can be embedded into other contexts
@@ -23,7 +23,7 @@ This means, a context is always both an application embedding micro frontends an
 
 ## Arrangement
 
-An arrangement defines the layout and configuration of it's embedded fragments and is able to use the [**Direct Functions API**](/docs/core-api.html#direct-functions-api) to communicat with its fragments directly.
+An arrangement defines the layout and configuration of it's embedded fragments and is able to use the [**Direct Functions API**](../docs/core-api.html#direct-functions-api) to communicat with its fragments directly.
 
 An arrangement can be a fragment itself and thus be embedded into other arrangements.
 
@@ -31,11 +31,11 @@ An arrangement can be a fragment itself and thus be embedded into other arrangem
 
 Any Micro Frontend with an initialized context (by calling `expose`) is called a fragment.
 
-A fragment defines its internal layout and exposes capabilities and properties to the arrangement via the [**Frontend Description Object**](/docs/core-api.html#frontend-description).
+A fragment defines its internal layout and exposes capabilities and properties to the arrangement via the [**Frontend Description Object**](../docs/core-api.html#frontend-description).
 
 ## Frontend Description
 
-The capabilities and features of a context are defined and described by its Frontend Description. These can be [**Services**](#service), [**Topics**](topic), [**Direct Functions**](/docs/core-api.html#direct-functions-api) or a [**Theme**](/docs/core-api.html#theme).
+The capabilities and features of a context are defined and described by its Frontend Description. These can be [**Services**](#service), [**Topics**](topic), [**Direct Functions**](../docs/core-api.html#direct-functions-api) or a [**Theme**](../docs/core-api.html#theme).
 
 ## Service
 
@@ -61,7 +61,7 @@ Services have certain attributes and restrictions:
 ## Topics
 
 Topics are an efficient way to communicate messages to the whole application.
-To do so, a context can publish a message on that topic. Any other context, that has subscribed to that topic gets the message and can react approprietly to the message. Information about how to use topics are found in the [**Topics API**](/docs/core-api.html#topics-api) section of the [API documentation](/docs/core-api/).
+To do so, a context can publish a message on that topic. Any other context, that has subscribed to that topic gets the message and can react approprietly to the message. Information about how to use topics are found in the [**Topics API**](../docs/core-api.html#topics-api) section of the [API documentation](../docs/docs/core-api/).
 
 ## Self Sufficiency
 

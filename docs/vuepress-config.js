@@ -1,29 +1,19 @@
-module.exports = {
+import { defaultTheme } from '@vuepress/theme-default';
+
+export default {
   lang: 'en-US',
   title: 'Collage',
   description: 'micro frontends made simple',
   dest: './docs/dist',
+  base: process.env.BASE_URL || '',
 
-  themeConfig: {
+  theme: defaultTheme({
     _logo: 'https://vuejs.org/images/logo.png',
     navbar: [
       {
         text: 'Home',
         link: '/',
       },
-      ...(() => (process.env.DEVELOP ? [{
-        text: 'Regression',
-        children: [
-          {
-            text: 'Integration',
-            link: '/regression/integration',
-          },
-          {
-            text: 'Features',
-            link: '/regression/features',
-          },
-        ],
-      }] : []))(),
       {
         text: 'Guide',
         link: '/guide/getting-started',
@@ -46,18 +36,9 @@ module.exports = {
         ],
       },
       {
-        text: 'v0.2.x',
-        children: [
-          {
-            text: 'v0.1.x',
-            link: 'https://0-1-0.d16bk28qniba3b.amplifyapp.com/',
-          },
-        ],
-      },
-      {
-        text: 'GitLab',
-        link: 'https://gitlab.sick.com/platforms/davinci/libraries/collage',
+        text: 'github',
+        link: 'https://github.com/SICKAG/collage',
       },
     ],
-  },
+  }),
 };
