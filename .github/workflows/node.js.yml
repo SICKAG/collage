@@ -77,7 +77,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -85,7 +85,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: node_modules
-        key: cache-key
+        key: cache-key2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -95,12 +95,12 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: ./docs/dist
+        path: ./docs/.vuepress/dist
   
   deploy:
     environment:
       name: github-pages
-      url: http://sickag.github.io/collage
+      url: http://SICKAG.github.io/collage
       #url: ${{ steps.deployment.outputs.page_url }}
     
     runs-on: ubuntu-latest

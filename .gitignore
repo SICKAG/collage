@@ -7,5 +7,7 @@ yarn-error.log
 .vscode/
 docs/.vuepress/.cache
 docs/.vuepress/.temp
+docs/.vuepress/dist
 dist/
 junit.xml
+node_modules

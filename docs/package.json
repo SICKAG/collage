@@ -7,6 +7,9 @@
     "doc": "docs",
     "example": "examples"
   },
+  "dependencies": {
+    "vuepress": "^2.0.0-beta.52"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
