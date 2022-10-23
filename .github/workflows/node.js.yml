@@ -24,7 +24,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: node_modules
-        key: cache-key
+        key: cache-key-2
     - name: Install Dependencies
       run: npm ci --legacy-peer-deps
 
@@ -43,7 +43,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: node_modules
-        key: cache-key
+        key: cache-key-2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -64,7 +64,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: node_modules
-        key: cache-key
+        key: cache-key-2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -85,7 +85,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: node_modules
-        key: cache-key2
+        key: cache-key-2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
