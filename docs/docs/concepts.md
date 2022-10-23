@@ -61,7 +61,7 @@ Services have certain attributes and restrictions:
 ## Topics
 
 Topics are an efficient way to communicate messages to the whole application.
-To do so, a context can publish a message on that topic. Any other context, that has subscribed to that topic gets the message and can react approprietly to the message. Information about how to use topics are found in the [**Topics API**](../docs/core-api.html#topics-api) section of the [API documentation](../docs/docs/core-api/).
+To do so, a context can publish a message on that topic. Any other context, that has subscribed to that topic gets the message and can react approprietly to the message. Information about how to use topics are found in the [**Topics API**](../docs/core-api.html#topics-api) section of the [API documentation](../docs/core-api/).
 
 ## Self Sufficiency
 
@@ -120,7 +120,7 @@ Further more: style propagation can be oppted out on, if you like to follow a di
 
 Exposing a frontend to be used as a `fragment` in other `arrangements` and initializing a context for a frontend to orchestrate child `fragments` with is always done in tandem. Meaning you can't have one without the other.
 
-To initialize your frontend and start using `Collage` functionality, first describe frontend with a **[Frontend Description object](#frontend-description)** the **[topics](#topics-api)**, **[style variables](#style-synchronization)** and **[functions](#context-api)** this specific frontend is interacting with as well as a **[config](#config)** containing metadata to describe your frontend.
+To initialize your frontend and start using `Collage` functionality, first describe frontend with a **[Frontend Description object](#frontend-description)** the **[topics](#topics)**, **[style variables](#style-synchronization)** and **[functions](#context-api)** this specific frontend is interacting with as well as a **[config](#config)** containing metadata to describe your frontend.
 
 ```javascript
 const {

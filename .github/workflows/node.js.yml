@@ -97,7 +97,9 @@ jobs:
       with:
         path: ./docs/.vuepress/dist
   
-  deploy:
+  deploy_doc:
+    # TODO: enable deploy_doc job as soon as repository is public
+    if: ${{ false }}  # disable for now
     environment:
       name: github-pages
       url: http://SICKAG.github.io/collage
