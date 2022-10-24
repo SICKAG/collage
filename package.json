@@ -1,6 +1,6 @@
 {
   "name": "@collage/collage",
-  "version": "0.0.0",
+  "version": "0.2.3",
   "description": "A library to handle communication between micro frontends and enable an easy to use orchestration",
   "repository": {
     "type": "git",
