@@ -12,6 +12,9 @@
     "Joshua Hagedorn <ravens.aerie@googlemail.com"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/SICKAG/collage/issues"
   },
