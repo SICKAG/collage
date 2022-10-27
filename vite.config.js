@@ -6,14 +6,14 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'src/index.ts',
-      name: '@sick-davinci/collage',
+      name: '@collage/collage',
       fileName: (format) => `collage.${format}.js`,
     },
     sourcemap: true,
   },
   resolve: {
     alias: {
-      '@sick-davinci/collage': '/src/index.ts',
+      '@collage/collage': '/src/index.ts',
     },
   },
   server: {
