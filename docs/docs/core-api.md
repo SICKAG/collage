@@ -4,17 +4,12 @@
   
  ## expose Function
 
-:::: code-group
-::: code-group-item src/api/index.ts>expose
-
 ```js
+// src/api/index.ts>expose
 // ...
 expose(frontendDescription); // Returns a Promise<ContextApi>
 // ...
 ```
-
-:::
-::::
 
 By calling the expose function, an HTML Document is automatically upgraded to a [**Context**](./concepts.html#context).
 It is now embeddable and can embedd other Contexts.
@@ -22,17 +17,13 @@ The expose function can be called without a parameter, to just enable the basic 
 
 ## \<collage-fragment\> custom element
 
-:::: code-group
-::: code-group-item index.html
-
 ```html
+<!-- index.html -->
 <collage-fragment 
   url="http://path/to/the/child.html">
 </collage-fragment>
 ```
 
-:::
-::::
 Composing an application that uses other fragments as _children_ is enabled by the use of the `collage-fragment` custom element.
 
 The name property is required, if you want to integrate it in a way that fragments can communicate and share functionality with each other. If you just want to embed a fragment in the arrangement, you simply can omit it. A frontend without it can exist on your page and interact with **[topics](#topics-api)**.
@@ -46,20 +37,17 @@ However a fragment integrated this way lives on its own - like in an iframe. Oth
 If you wish to be able to call functions that the contained fragment exposes, you need to express a name by which you plan to interact with the child via code.
 This way, when your app initializes with Collage, you will find all functions, exposed by the child fragment accessable on your context under the given name.
 
-:::: code-group
-::: code-group-item index.html
 
-```html {3}
+```html {4}
+<!-- index.html -->
 <collage-fragment
   url="http://path/to/the/child.html"
   name="myFragment">
 </collage-fragment>
 ```
 
-:::
-::: code-group-item main.js
-
-```js {2,6}
+```js {3,7}
+// main.js
 const {
   fragments: { myFragment },
   services,
@@ -68,9 +56,6 @@ onClickAt("#btn-cast-spell", () => {
   myFragment.functions.doSomeThing("with a value");
 });
 ```
-
-:::
-::::
 
 To be sure, that the initialization process is completed and the embedded fragment can be used on the arrangement, there is a sugar method called _onLoaded_. This function takes the name of a fragment as first parameter and a callback as second.
 
@@ -172,10 +157,8 @@ functions: {
 
 In contrast to Services, Functions can be called on Contexts directly. Also, the Context calling a function does not need to expose the function it wants to call itself.
 
-:::: code-group
-::: code-group-item fragment.js
-
 ```js
+// fragment.js
 expose({
   functions: {
     doSomething(value) {
@@ -188,15 +171,12 @@ expose({
 });
 ```
 
-:::
-::: code-group-item arrangement.js
-
-```js{2}
+```js{3}
+// arrangement.js
 const contextApi = await expose();
 context.fragments.namedChild.functions.doSomething('my value');
 ```
 
-::::  
 
 ### Config
 
@@ -218,10 +198,9 @@ Collage will merge configurations for specific fragments in following hierarchic
   1. the config properties on the \<collage-fragment\> element
 
 
-:::: code-group
-::: code-group-item least-specific
 
-``` js {3}
+``` js {4}
+// least-specific
 await expose({
   fragmentsConfig: {
     'http://path/to/the/child.html': {
@@ -236,10 +215,9 @@ await expose({
 });
 ```
 
-:::
-::: code-group-item middle-specific
 
-``` js{3}
+``` js{4}
+// middle-specific
 await expose({
   fragmentsConfig: {
     'myFragment': {
@@ -253,10 +231,8 @@ await expose({
 });
 ```
 
-:::
-::: code-group-item most-specific
-
-``` html {4-6}
+``` html {5-7}
+<!-- most-specific -->
 <collage-fragment
   url="http://path/to/the/child.html"
   name="myFragment"
@@ -265,9 +241,6 @@ await expose({
   config-mode="embedded">
 </collage-fragment>
 ```
-
-:::
-::::
 
 The configs above would combine to a config object for the fragment `myFragment` with the following properties:
 ```js
@@ -358,10 +331,9 @@ const contextApi = {
 By calling the expose function, you get access to the Context API. You can call services, access named children (see [Initializing and Exposing](./concepts.html#initializing-and-exposing)), config and id as well as publish and subscribe to topics.
 
 The expose function returns a Promise\<ContextApi\>, so you can simply await on it or do something in its then-callback.
-:::: code-group
-::: code-group-item await
 
 ```js
+// await
 const contextApi = await expose({
   services: {
     todos: {
@@ -371,17 +343,13 @@ const contextApi = await expose({
   },
 });
 ```
-:::
-::: code-group-item then()
 
 ```javascript
+// then()
 expose(/* ... */).then((context) => {
   // ...
 });
 ```
-
-:::
-::::
 
 ### Child Functions
 
