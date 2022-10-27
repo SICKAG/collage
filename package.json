@@ -1,15 +1,15 @@
 {
-  "name": "@collage/collage",
-  "version": "0.2.4",
+  "name": "@collage/core",
+  "version": "0.2.5",
   "description": "A library to handle communication between micro frontends and enable an easy to use orchestration",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SICKAG/collage.git"
   },
-  "author": "Wanja Tschuor <wanja.tschuor@sick>",
+  "author": "Wanja Tschuor <wanja.tschuor@sick.de>",
   "contributors": [
     "Susanne Kirchner <susanne.kirchner@sick.de>",
-    "Joshua Hagedorn <ravens.aerie@googlemail.com"
+    "Joshua Hagedorn <ravens.aerie@googlemail.com>"
   ],
   "license": "MIT",
   "publishConfig": {

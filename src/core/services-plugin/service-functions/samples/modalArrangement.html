@@ -40,7 +40,7 @@
     }
   </style>
   <script type="module">
-    import { expose } from "@collage/collage";
+    import { expose } from "@collage/core";
     function findFragment(id) {
       return [...document.querySelectorAll('collage-fragment')]
         .find(element => element.querySelector('iframe').name == id);

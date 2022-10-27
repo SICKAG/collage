@@ -30,10 +30,10 @@ Vite just created you two separate projects containing everything you need to de
 
 ```bash
 cd dashboard
-npm i @collage/collage
+npm i @collage/core
 
 cd ../todos
-npm i @collage/collage
+npm i @collage/core
 ```
 
 ::: tip
@@ -167,7 +167,7 @@ For now we just promote the Todos App and the Dashboard App to fragments by call
 
 ```javascript{2-3}
 // Import and call the expose() function
-import { expose } from '@collage/collage'
+import { expose } from '@collage/core'
 expose()
 
 function addTodoItem(text) {
@@ -184,7 +184,7 @@ document.addEventListener('submit', event => {
 
 ```javascript{2-3}
 // Import and call the expose() function
-import { expose } from '@collage/collage'
+import { expose } from '@collage/core'
 expose()
 
 // nothing else to do for now
@@ -253,7 +253,7 @@ Here we will need the [**Topics API**](../docs/core-api.html#topics-api) specifi
 ::: code-group-item todos/main.js
 
 ```javascript{1-11,18-23,34,45}
-import { expose } from '@collage/collage'
+import { expose } from '@collage/core'
 const context = await expose({
   services: {
     todos: {
@@ -344,7 +344,7 @@ In this case we would like to have access to the todos 'active' topic and to the
 ::: code-group-item dashboard/main.js
 
 ```javascript{1-11,15,23}
-import { expose } from '@collage/collage'
+import { expose } from '@collage/core'
 const context = await expose({
   services: {
     todos: {

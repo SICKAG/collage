@@ -57,5 +57,5 @@ const api = await expose({
 ## Installation
 
 ```bash
-npm install @collage/collage
+npm install @collage/core
 ```
