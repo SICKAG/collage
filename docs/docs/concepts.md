@@ -74,8 +74,6 @@ It should also be designed in such a way, that a meaningful user interaction can
 
 ## (coming soon) Style Synchronization
 
-<!-- TODO: enable section when https://deagxjira.sickcn.net/jira/browse/DAVIAF-109 is done -->
-
 > *Comming Soon*
 >
 > The concept and Api descript here is NOT yet part of the current version of Collage. Is WILL however be implemented in the near future.
