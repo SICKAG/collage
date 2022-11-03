@@ -48,8 +48,10 @@ We start by creating a simple application where a user can enter todo items and 
 
 The application might look something like the following:
 
+:::: code-group
+::: code-group-item todos/index.html
+
 ```html
-<!-- todos/index.html -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -69,8 +71,10 @@ The application might look something like the following:
 </html>
 ```
 
+:::
+::: code-group-item todos/main.js
+
 ```javascript
-// todos/main.js
 function addTodoItem(text) {
   if (!text) return;
 
@@ -87,6 +91,9 @@ document.addEventListener("submit", (event) => {
 });
 ```
 
+:::
+::::
+
 ::: tip
 Just overwrite the main.js file, vite created for you [earlier](#setup).
 :::
@@ -97,8 +104,10 @@ In a similar fashion, let's create a dashboard application that presents a
 set of issue items.
 
 
+:::: code-group
+::: code-group-item dashboard/index.html
+
 ```html
-<!-- dashboard/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -129,10 +138,15 @@ set of issue items.
 </html>
 ```
 
+:::
+::: code-group-item dashboard/main.js
+
 ```javascript
-// dashboard/main.js
 // there's nothing here yet...
 ```
+
+:::
+::::
 
 ::: tip
 Here as well, just overwrite the main.js file, vite created for you [earlier](#setup).
@@ -149,8 +163,10 @@ Every Collage fragment starts by describing its capabilities with the
 `expose()` function.
 For now we just promote the Todos App and the Dashboard App to fragments by calling expose() without a description. We will add some interaction later. The Dashboard App also must be a fragment to be able to embed other fragments.
 
-```javascript{3-4}
-// todos/main.js
+:::: code-group
+::: code-group-item todos/main.js
+
+```javascript{2-3}
 // Import and call the expose() function
 import { expose } from '@collage/core'
 expose()
@@ -164,14 +180,19 @@ document.addEventListener('submit', event => {
 })
 ```
 
-```javascript{3-4}
-// dashboard/main.js
+:::
+::: code-group-item dashboard/main.js
+
+```javascript{2-3}
 // Import and call the expose() function
 import { expose } from '@collage/core'
 expose()
 
 // nothing else to do for now
 ```
+
+:::
+::::
 
 :::tip
 Fragments which are embedding other fragments are called arrangements.
@@ -182,8 +203,10 @@ Fragments which are embedding other fragments are called arrangements.
 Now that we have two beautiful fragments, lets create an arrangement of both.
 Just use the `<collage-fragment>` tag to embed the Todo fragment into the Dashboard fragment.
 
-```html{17-20}
-<!-- dashboard/index.html -->
+:::: code-group
+::: code-group-item dashboard/index.html
+
+```html{16-19}
 <!DOCTYPE html>
 <html>
   <head>
@@ -209,6 +232,7 @@ Just use the `<collage-fragment>` tag to embed the Todo fragment into the Dashbo
 </html>
 ```
 
+::::
 
 Now you can crank up an http-server to serve your application and try it out.
 :::tip
@@ -227,8 +251,10 @@ The returned promise resolves into the [**Collage Context**](../docs/concepts.ht
 access to functionality that is defined within our arrangement by a [**Frontend Description Object**](../docs/core-api.html#frontend-description).
 Here we will need the [**Topics API**](../docs/core-api.html#topics-api) specifically, to publish the currently active todo items.
 
-```javascript{2-12,19-24,35,46}
-// todos/main.js
+:::: code-group
+::: code-group-item todos/main.js
+
+```javascript{1-11,18-23,34,45}
 import { expose } from '@collage/core'
 const context = await expose({
   services: {
@@ -276,9 +302,11 @@ document.addEventListener('submit', event => {
 document.addEventListener('change', publishActiveTodos)
 
 ```
+:::
+
+::: code-group-item todos/index.html
 
 ```html
-<!-- todos/index.html -->
 <!DOCTYPE html>
 <!-- 
   Nothing changed here.
@@ -301,6 +329,9 @@ document.addEventListener('change', publishActiveTodos)
 </html>
 ```
 
+:::
+
+::::
 :::tip
 You can read more about the [Collage Context API](../docs/core-api.html#context-api) and the [Collage Topics API](../docs/core-api.html#topics-api) in our [API documentation](../docs/core-api.html)
 :::
@@ -310,8 +341,10 @@ Here as well, we expose our capabilities and use the resulting context for inter
 
 In this case we would like to have access to the todos 'active' topic and to the direct functions on the fragment we called 'todos' in our DOM.
 
-```javascript{2-12,16,24}
-// dashboard/main.js
+:::: code-group
+::: code-group-item dashboard/main.js
+
+```javascript{1-11,15,23}
 import { expose } from '@collage/core'
 const context = await expose({
   services: {
@@ -344,8 +377,10 @@ document.addEventListener('click', ({target}) => {
 })
 ```
 
-```html{12,13,18,24,29}
-<!-- dashboard/index.html -->
+:::
+::: code-group-item dashboard/index.html
+
+```html{11,12,17,23,28}
 <!DOCTYPE html>
 <html>
   <head>
@@ -391,6 +426,9 @@ document.addEventListener('click', ({target}) => {
   </body>
 </html>
 ```
+
+:::
+::::
 
 Voila, you just have created your first application using Collage.
 Now serve both, the Todos fragment (at port 4000) and the Dashboard arrangement by using the vite dev server:

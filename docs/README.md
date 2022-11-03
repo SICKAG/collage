@@ -21,7 +21,10 @@ features:
   #   details: Style your application - Collage synchronzes the styles so the micro frontends you integrate fit in perfectly
 ---
 
-```html{3-7} 
+:::: code-group
+::: code-group-item html
+
+```html{4-8}
 <body>
   <div class="somewhere">
     <!-- include a micro frontend effortlessly -->
@@ -34,6 +37,9 @@ features:
 </body>
 ```
 
+:::
+::: code-group-item js
+
 ```javascript
 const api = await expose({
   // expose the api of your micro frontend
@@ -44,7 +50,8 @@ const api = await expose({
   },
 });
 ```
-
+:::
+::::
 
 ## Installation
 

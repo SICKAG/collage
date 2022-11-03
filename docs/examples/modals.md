@@ -17,8 +17,9 @@ Or to put it more simple: An Arrangement may want to use a fragment like a `wind
 
 ### Arrangement
 
+:::: code-group
+::: code-group-item index.html
 ```html
-<!-- index.html -->
 <body>
   <button data-trigger="ask-the-oracle">Ask the question</button>
   <collage-fragment url="/oracle" name="oracle"></collage-fragment>
@@ -26,8 +27,9 @@ Or to put it more simple: An Arrangement may want to use a fragment like a `wind
 </body>
 ```
 
+:::
+::: code-group-item style.css
 ```css
-/* style.css */
 .front-and-center {
   position: absolute;
   left: 10vw;
@@ -37,8 +39,9 @@ Or to put it more simple: An Arrangement may want to use a fragment like a `wind
 }
 ```
 
+:::
+::: code-group-item code.js
 ```javascript
-// code.js
 import { expose } from collage
 
 const { children: oracle } = expose()
@@ -56,11 +59,14 @@ document.addEventListener('click', async ({ target }) => {
 })
 ```
 
+:::
+::::
 
 ### Fragment
 
+:::: code-group
+::: code-group-item index.html
 ```html
-<!-- index.html -->
 <body>
   <header>
   I <em>AM</em> mysterious!
@@ -78,8 +84,9 @@ document.addEventListener('click', async ({ target }) => {
 </body>
 ```
 
+:::
+::: code-group-item code.js
 ```javascript
-// code.js
 document.addEventListener('click', ({ target }) => {
   if (target.closest('button')) {
     document.querySelector('.answer').textContent = 'Interesting...'
@@ -101,7 +108,8 @@ await expose({
   }
 })
 ```
-
+:::
+::::
 
 ## Fragments asking to become modal
 
@@ -111,8 +119,9 @@ to become modal within the surrounding Arrangement.
 Since the embedded fragment will be the one to initiate the state change to the
 arrangement, it should propably call a service to communicate that intention.
 
+:::: code-group
+::: code-group-item fragment.js
 ```javascript
-// fragment.js
 const { services: { modal }, id } = await expose({
   services: {
     modal: {
@@ -131,8 +140,9 @@ await modal.set(id)
 await modal.unset(id)
 ```
 
+:::
+::: code-group-item arrangement.js
 ```javascript
-// arrangement.js
 function triggerFragmentModal(id, force) {
   findFragmentElement({ id }).classList.trigger('front-and-center', force)
 }
@@ -150,3 +160,5 @@ await expose({
   }
 })
 ```
+:::
+::::
