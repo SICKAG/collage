@@ -33,7 +33,7 @@
   "type": "module",
   "main": "./dist/collage.umd.js",
   "module": "./dist/collage.es.js",
-  "typings": "./dist/src/index.d.ts",
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/collage.es.js",
@@ -41,9 +41,8 @@
     }
   },
   "scripts": {
-    "start:dev": "vite",
-    "start:doc": "cross-env DEVELOP=true vuepress dev ./docs -c ./docs/vuepress-config.mjs -p 8090",
-    "start": "run-p start:*",
+    "dev": "vite",
+    "doc": "cross-env DEVELOP=true vuepress dev ./docs -c ./docs/vuepress-config.mjs -p 8090",
     "build": "tsc && vite build",
     "build:doc": "cross-env BASE_URL=collage vuepress build ./docs -c ./docs/vuepress-config.mjs",
     "test": "jest",
