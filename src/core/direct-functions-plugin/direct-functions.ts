@@ -58,7 +58,7 @@ function initFragmentsFunctions(context: PreviousContext) {
           {},
           {
             get: (__, fn: string) => {
-              log('direct-functions.ts', (context as EnhancedContext)._plugins.directFunctionsPlugin.fragments);
+              log('direct-functions.ts', (context as EnhancedContext)._plugins.directFunctionsPlugin?.fragments);
               if (fn === 'isProxy') {
                 return true;
               } if (fn === '__fragmentId') {
@@ -82,7 +82,7 @@ const directFunctionsPlugin: PluginFunctions<FrontendDescription, PreviousContex
     document.addEventListener('collage-fragment-disconnected', (e) => {
       // Object.keys(context._plugins.directFunctionsPlugin.fragments).some(((e as CustomEvent).detail))
       const fragmentID = (e as CustomEvent).detail;
-      delete (context as EnhancedContext)._plugins.directFunctionsPlugin.fragments[fragmentID];
+      delete (context as EnhancedContext)._plugins.directFunctionsPlugin?.fragments[fragmentID];
     });
 
     return {
