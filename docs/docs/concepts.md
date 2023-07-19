@@ -43,7 +43,7 @@ A Service is a function or a collection of functions and topics and is uniquely 
 
 Services have certain attributes and restrictions:
 
-- Two implementations of a Service must allways be compatible with each other, e.g. by implementing the same specification.
+- Two implementations of a Service must always be compatible with each other, e.g. by implementing the same specification.
 - Every service exposed by a context is registered within Collage and kept synchronous between all contexts in the arrangement.
 - If a context in the application is calling a specific service, always the implementation of the context that registered the Service topmost in the DOM tree is called. This means, that if a service is provided by each a fragment and its arrangement, always the implementation registered at the arrangement will be executed.
 - The return value of the implementation is communicated back to the context initially calling the Service.
