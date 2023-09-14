@@ -372,7 +372,7 @@ document.addEventListener('click', ({target}) => {
 
     // since we added a name to the 'davinci-fragment' in our DOM, we can refer
     // directly to functions declared on that fragment.
-    context.fragments.functions.todos.addTodoItem(name)
+    context.fragments.todos.functions.addTodoItem(name)
   }
 })
 ```
