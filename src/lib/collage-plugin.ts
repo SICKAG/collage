@@ -6,9 +6,14 @@ import {
 /**
  * D, E, P refer to
  *
- * Description, Expected and Provided and are used here for better readability
+ * Description, Enhanced and Provided and are used here for better readability
  */
 
+/**
+ * Helper function to merge two contexts
+ * @param context
+ * @param append
+ */
 export function mergeContexts(context: unknown, append: unknown) {
   merge(context, append, (c, a) => {
     if (!c) {
@@ -29,8 +34,15 @@ export function mergeContexts(context: unknown, append: unknown) {
   });
 }
 
-// TODO: Find out if we can unify the buildContext etc functions
-
+/**
+ * Builds the context type returnd by a call of expose in a micro-frontend by merging the existing context
+ * type with a plugin specific context type. This happens one after the other for each plugin.
+ *
+ * @param previous context before the plugin is called
+ * @param pluginFunction function returning the plugin specific context type and functions
+ * @returns the exposed function to be used in the micro-frontend.
+ * The expoesed function then returns the merged context type.
+ */
 function buildContext<D, C, E>(
   previous: (description: D) => C | Promise<C>, // "collage function"
   pluginFunction: (description: D, context: C) => Promise<E> | E | void,
@@ -43,7 +55,14 @@ function buildContext<D, C, E>(
   };
 }
 
-function enhanceUpdateContextBlubb<C, E>(
+/**
+ * Defines the enhanceUpdateContext function
+ *
+ * @param previous context before enhanceUpdateContext is called
+ * @param pluginFunction function to be appended to the context so it is available after the plugin is bootstrapped
+ * @returns the enhanced context
+ */
+function defineEnhanceUpdateContext<C, E>(
   previous: (context: C) => C | Promise<C>, // "collage Function"
   pluginFunction: (context: C) => Promise<E> | E | void,
 ) {
@@ -83,7 +102,7 @@ export default function plugin<D, C, E>(
 ): Plugin<D, C, E> {
   return (previous: Collage<D, C>) => ({
     expose: buildContext(previous.expose, enhanceExpose),
-    updateContext: enhanceUpdateContextBlubb(previous.updateContext, enhanceUpdateContext),
+    updateContext: defineEnhanceUpdateContext(previous.updateContext, enhanceUpdateContext),
     reservedWords: concatReservedWords(previous.reservedWords, reservedWords),
     extractContextAsArrangement: extractPluginSpecificProperties(
       previous.extractContextAsArrangement,
