@@ -1,5 +1,5 @@
 # Arrangement
-An arrangement defines the layout and configuration of it's embedded fragments and is able to use the Direct Functions API to communicat with its fragments directly.
+An arrangement defines the layout and configuration of it's embedded fragments and is able to use the Direct Functions API to communicate with its fragments directly.
 An arrangement can be a fragment itself and thus be embedded into other arrangements.
 
 The arrangement initiates the handshake with each of its fragments to enable communication.

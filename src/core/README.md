@@ -1,27 +1,21 @@
 # Core Concepts
 
-Core concepts and their implementations build upon each other.
+The core concepts and their implementations as plugins build upon each other and each enhance collage by their specific features.
 
-## Notes
+1. The `<collage-fragment>` custom element.
+1. The `create-context` plugin
+1. The `handshake` plugin
+1. The `service-functions` plugin
+1. The `service-topics` plugin
+1. The `simple-topics` plugin
 
-How the connection between arrangement and fragment should work:
+### Notes
 
-The connection should be mediated be the custom element, since that is the point where I am in the parents code context but acually know about a specific child I want to connect.
+How the connection between arrangement and fragment works:
 
-A successful connection should then augment the childs context with _stuff_ from the parent.
+The connection is mediated by the custom element, since that is the point where we are in the parents code context but acually know about a specific child to connect.
 
-Problems:
-  - if the context is not **global**, then how can we get hold of it in the 
-    custom element
-  - exactly HOW do we modify that context and what is the result
-  - how do we keep a separation of domains? We don't want to know about configuration or services at this point.
-
-> Maybe use a custom event for which we can initiate event handlers (with bubbeling) during expose?
-
-> Maybe the custom element listens for a specific postMessage call that should get sent by the contained document **IF** it is a collage fragment.
-> If such a message occours, the listener will:
-> 1. mediate a penpal connection
-> 2. 
+A successful connection then enhances the fragments context with methods from the arrangement.
 
 ## Create Context
 
@@ -41,24 +35,24 @@ And creates the following context api:
 }
 ```
 
-### Parent handshake
+## Handshake
+
+
+
+> penpal wants to always initiate a handshake from parent to child, while we intend to do it the other way round, so we are setting up the handshake in a separate plugin
 
 The handshake between us and a potential parent works like this:
 
-1. before `expose` is even called (during the import), a beacon for potential fragments is initialized.
+1. before `expose` is called (during the import), a beacon for potential fragments is initialized.
 2. when a fragment calls `expose`, it sends a _ping_ postMessage to the window at `window.parent`
-3. when after 300ms no answer arrives, we asume to be alone and end the handshake here
-4. if we receive a answer message, we assume to be embedded in an arrangement. 
+3. when after 300ms no answer arrives, we asume to be alone and end the handshake
+4. if we receive an answer message, we assume to be embedded in an arrangement. 
 
-That's it
-
+For a more detailled description of the handshake, see [Handshake plugin documentation](./handshake-plugin/README.md).
 
 ## Simple services
 
 Using penpal, we expose a number of functions that we can use ourselfs later on. These functions may be overwritten by a arrangement if one exists and if it contains a service function with the same name.
-
-
-> **ATTENTION** penpal wants to always initiate a handshake from parent to child, while we intend to do it the other way round (!)
 
 ```javascript
 const {
