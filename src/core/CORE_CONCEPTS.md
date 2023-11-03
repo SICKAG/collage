@@ -2,12 +2,12 @@
 
 The core concepts and their implementations as plugins build upon each other and each enhance collage by their specific features.
 
-1. The `<collage-fragment>` custom element.
-1. The `create-context` plugin
-1. The `handshake` plugin
-1. The `service-functions` plugin
-1. The `service-topics` plugin
-1. The `simple-topics` plugin
+1. The [collage-fragment](../elements/README.md) custom element.
+1. The [create-context](./create-context/CREATE_CONTEXT.md) plugin
+1. The [handshake](./handshake-plugin/HANDSHAKE.md) plugin
+1. The [direct functions](./direct-functions-plugin/DIRECT_FUNCTIONS.md) plugin
+1. The [services](./services-plugin/SERVICES.md) plugin
+1. The [topics](./topics-plugin/TOPICS.md) plugin
 
 ### Notes
 
