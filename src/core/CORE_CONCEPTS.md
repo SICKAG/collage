@@ -20,33 +20,33 @@ A successful connection then enhances the fragments context with methods from th
 ## Create Context
 The most basic concept in collage is that of a context. At it's base a context is simply the representation of a uniquly identified fragment and the connection to a potential parent.
 
-For a more detailled description of the handshake, see [Create Context plugin documentation](./create-context/README.md).
+For a more detailled description of the handshake, see [Create Context plugin documentation](./create-context/CREATE_CONTEXT.md).
 
 
 ## Handshake
 To set up the communication between a fragment and an arrangement, collage performs a handshake between them.
 
-For a more detailled description of the handshake, see [Handshake plugin documentation](./handshake-plugin/README.md).
+For a more detailled description of the handshake, see [Handshake plugin documentation](./handshake-plugin/HANDSHAKE.md).
 
 ## Service Functions
 Services are functions, an arrangement can provide to all the fragments (and their fragments).
 
-For a more detailled description of the service functions, see [Services plugin documentation](./services-plugin/README.md).
+For a more detailled description of the service functions, see [Services plugin documentation](./services-plugin/SERVICES.md).
 
 ## Direct Functions
 Direct Functions can be called on a fragment directly by its arrangement
 
-For a more detailled description of direct functions, see [Direct Functions plugin documentation](./direct-functions-plugin/README.md).
+For a more detailled description of direct functions, see [Direct Functions plugin documentation](./direct-functions-plugin/DIRECT_FUNCTIONS.md).
 
 ## Topics
 The Topics feature allows an easy way to subscribe to topics and publish new values to topics.
 
-For a more detailled description of the topics plugin, see [Topics plugin documentation](./topics-plugin/README.md).
+For a more detailled description of the topics plugin, see [Topics plugin documentation](./topics-plugin/TOPICS.md).
 
 ## Config
 With configurations an arrangement gets the possibility to configure an embedded fragment and overwrite the default configuration of it.
 
-For a more detailled description of the config plugin, see [Config plugin documentation](./config-plugin/README.md).
+For a more detailled description of the config plugin, see [Config plugin documentation](./config-plugin/CONFIG_PLUGIN.md).
 
 
 ## Finalize Api

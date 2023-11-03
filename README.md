@@ -11,6 +11,8 @@ With Collage you can upgrade a web application of all sorts to either a micro fr
 For information about collage and its capabilities, please have a look at our [Official Documentation](https://sickag.github.io/collage/).
 
 ---
+## Developer Documentation
+For details about the architecture and structure of collage, please have a look at our [Developer Documentation](./src/DEVELOPER_DOCUMENTATION.md).
 
 ## Preview
 To create and embed micro frontends with collage you just need to add a few lines on top of your already existing Application:
