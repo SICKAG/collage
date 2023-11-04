@@ -438,7 +438,7 @@ npm run dev
 
 cd ../todos
 
-npm run dev --port 4000
+npm run dev -- --port 4000
 ```
 
 :::tip
