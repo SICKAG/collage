@@ -444,3 +444,117 @@ npm run dev --port 4000
 :::tip
 If you want to learn more about the [concepts](../docs/concepts/) and [features](../docs/features/) or the [API](../docs/core-api/) of Collage, please have a look at our Docs.
 :::
+
+## Typescript
+
+Of course, collage is typed and you can use it in your typescript projects.
+The above example then looks like this.
+
+:::: code-group
+::: code-group-item dashboard/main.ts
+
+```typescript
+import { ContextApi, ServiceTopic, expose } from '@collage/core'
+const context = await expose({
+  services: {
+    todos: {
+      topics: ['active']
+    }
+  }
+}) as ContextApi & { topics: MyTopics }
+
+
+// Declare the custom topics we want to use in our app
+type MyTopics = {
+  todos: {
+    active: ServiceTopic
+  }
+}
+
+const activeTodos = context.topics.todos.active;
+
+// whenever the active todos change, we want to react to that and disable the
+// 'add-todo' buttons on the issues matching those
+activeTodos.subscribe(todos => {
+  for (const details of [...document.querySelectorAll('details')]) {
+    const summary = details.querySelector('summary')
+    const button = details.querySelector('[data-action=add-todo]') as HTMLButtonElement
+    if (button && summary) {
+      button.disabled = (todos as string[]).includes(summary.textContent!)
+    }
+  }
+})
+
+
+document.addEventListener('click', ({ target }) => {
+  if (target instanceof Element && target.closest('[data-action=add-todo]')) {
+    const name = target.closest('details')!.querySelector('summary')!.textContent
+    // since we added a name to the 'davinci-fragment' in our DOM, we can refer
+    // directly to functions declared on that fragment.
+    context.fragments.todos.functions.addTodoItem(name)
+  }
+})
+```
+
+:::
+::: code-group-item dashboard/todos.ts
+```typescript
+import { ContextApi, ServiceTopic, expose } from '@collage/core'
+const context = await expose({
+  services: {
+    todos: {
+      topics: ['active']
+    }
+  },
+  functions: {
+    addTodoItem
+  }
+}) as ContextApi & { topics: MyTopics }
+
+
+// Declare the custom topics we want to use in our app
+type MyTopics = {
+  todos: {
+    active: ServiceTopic
+  }
+}
+
+
+function publishActiveTodos() {
+  // The topic api provides `publish` and `subscribe` methods to each defined
+  // topic.
+  // We use that to publish an array of all todo items that are not already
+  // checked off.
+  context.topics.todos.active.publish(
+    ([...document.querySelectorAll('[type=checkbox]')] as HTMLInputElement[])
+      .filter(({checked}) => !checked)
+      .map(input => input.closest('label'))
+      .map(label => label?.textContent)
+  )
+}
+
+function addTodoItem(text: string) {
+  if (!text) return
+
+  const item = document.createElement('li')
+  item.innerHTML = `<label><input type="checkbox">${text}</label>`
+  document.querySelector('#add-todo')?.before(item)
+
+  // re-publish the active items, since they have changed
+  publishActiveTodos()
+}
+
+document.addEventListener('submit', event => {
+  event.preventDefault()
+  const input = document.querySelector('[name=new-todo]') as HTMLInputElement
+  if (input) {
+    addTodoItem(input.value)
+    input.value = ''
+  }
+})
+
+// re-publish the active items, since they have changed
+document.addEventListener('change', publishActiveTodos)
+```
+:::
+::::

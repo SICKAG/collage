@@ -1,4 +1,4 @@
-import { ServiceTopicsAPI } from './service-topics/model';
+import { ServiceTopicsAPI, ServiceTopic } from './service-topics/model';
 import { SimpleTopicsAPI } from './simple-topics/model';
 
-export type { SimpleTopicsAPI, ServiceTopicsAPI };
+export type { SimpleTopicsAPI, ServiceTopicsAPI, ServiceTopic };
