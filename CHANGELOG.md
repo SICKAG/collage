@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## next minor
+### Fixed
+- types export in package.json
+
+### Added
+- Add and export ServiceTopics type
+
 ## 0.2.9
 ### Fixed
 - #16 an error is no longer thrown if a non-collage application is used as collage-fragment and removed from DOM
