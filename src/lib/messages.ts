@@ -46,17 +46,17 @@ export function listenFor(
 }
 
 /**
- * Send a postMessage event to the given recepient
+ * Send a postMessage event to the given recipient
  */
 export function sendMessage(
   {
-    recepient,
+    recipient,
     context = MESSAGE_TOKEN,
     targetOrigin = '*',
     type,
     content = '',
   }: {
-    recepient: Window,
+    recipient: Window,
     context?: string,
     targetOrigin?: string,
     type: string,
@@ -64,5 +64,5 @@ export function sendMessage(
   },
 ) {
   log('messages.ts', '-->', content, type);
-  recepient.postMessage({ context, type, content }, targetOrigin);
+  recipient.postMessage({ context, type, content }, targetOrigin);
 }

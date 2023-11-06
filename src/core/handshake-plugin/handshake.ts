@@ -75,7 +75,7 @@ function callForArrangement(data: { description: FrontendDescription, context: u
 
   sendMessage({
     type: messageTypes.callForArrangement,
-    recepient: window.parent,
+    recipient: window.parent,
     content: window.name,
   });
 }
@@ -123,7 +123,7 @@ function answerToCallForArrangement(data: { description: FrontendDescription, co
       // Handshake Step A-3.2
       sendMessage({
         type: messageTypes.answerToCallForArrangement,
-        recepient: iframe.contentWindow,
+        recipient: iframe.contentWindow,
         content: window.origin,
       });
     }
@@ -196,7 +196,7 @@ function connectToArrangement(data: { description: FrontendDescription, context:
       reinitializeFragments();
       sendMessage({
         type: messageTypes.reloadedFragment,
-        recepient: window.parent,
+        recipient: window.parent,
         content: window.name,
       });
     });
@@ -243,7 +243,7 @@ function sendReinitializeMessage(iframe: Element) {
   if (contentWindow) {
     sendMessage({
       type: messageTypes.reinitializeFragment,
-      recepient: contentWindow,
+      recipient: contentWindow,
     });
   } else {
     log('arrangement.ts', 'F-3.4 !empty iframe', name);
