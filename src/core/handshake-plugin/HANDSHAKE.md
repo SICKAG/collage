@@ -23,7 +23,7 @@ The handshake between a fragment and a potential arrangement works like this:
 
 ### Sequence Diagrams of the handshake procedure
 
-In the following sequence diagram describes the handshake procedure in detail.
+The following sequence diagram describes the handshake procedure in detail.
 The steps of the handshake procedure are prefixed in pointy brackets with the following meaning.
 
 * `<A-1>` Step 1 that is performed in the arrangement

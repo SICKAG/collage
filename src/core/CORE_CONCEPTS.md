@@ -13,7 +13,7 @@ The core concepts and their implementations as plugins build upon each other and
 
 How the connection between arrangement and fragment works:
 
-The connection is mediated by the custom element, since that is the point where we are in the parents code context but acually know about a specific child to connect.
+The connection is mediated by the custom element, since that is the point where we are in the parents code context but actually know about a specific child to connect.
 
 A successful connection then enhances the fragments context with methods from the arrangement.
 

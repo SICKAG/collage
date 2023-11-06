@@ -35,13 +35,13 @@ export function mergeContexts(context: unknown, append: unknown) {
 }
 
 /**
- * Builds the context type returnd by a call of expose in a micro-frontend by merging the existing context
+ * Builds the context type returned by a call of expose in a micro-frontend by merging the existing context
  * type with a plugin specific context type. This happens one after the other for each plugin.
  *
  * @param previous context before the plugin is called
  * @param pluginFunction function returning the plugin specific context type and functions
  * @returns the exposed function to be used in the micro-frontend.
- * The expoesed function then returns the merged context type.
+ * The exposed function then returns the merged context type.
  */
 function buildContext<D, C, E>(
   previous: (description: D) => C | Promise<C>, // "collage function"

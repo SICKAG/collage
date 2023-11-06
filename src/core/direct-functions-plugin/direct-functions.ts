@@ -7,7 +7,7 @@ import log from '../../lib/logging';
 import { reservedWords } from '../index';
 
 /**
- * The Direct Functions Plugin enhances the fragment with the possibility to provide fuctions
+ * The Direct Functions Plugin enhances the fragment with the possibility to provide functions
  * to the arrangement directly.
  */
 
@@ -99,7 +99,7 @@ function initFragmentsFunctions(context: PreviousContext) {
 }
 
 /**
- * The Direct Functions Plugin enhances the fragment with the possibility to provide fuctions
+ * The Direct Functions Plugin enhances the fragment with the possibility to provide functions
  * to the arrangement directly.
  *
  * It does so by adding a functions property to the context, which is a proxy to all functions defined by

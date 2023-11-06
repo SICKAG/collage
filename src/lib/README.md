@@ -20,7 +20,7 @@ The other functions are for setting up a collage context and performing the hand
 Module for internal logging
 
 ## messages
-When establishing the connection between a fragment and its arrangement, penpal is not available for communication jet. So we are using the postMessage Api directly for performing a handshake.
+When establishing the connection between a fragment and its arrangement, penpal is not available for communication yet. So we are using the postMessage Api directly for performing a handshake.
 
 ## uuid
 util functions to define unique ids for fragments
