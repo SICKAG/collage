@@ -470,7 +470,7 @@ contextApi.topics.foo.myTopic.publish('a new Value');
 ```
 
 
-### Lifecycle Hooks
+## Lifecycle Hooks
 Collage is asynchronous. To trigger certain activities in an Arrangement or Fragment, you can use Lifecycle Hooks.
 
 A hook returns a function, which can be executed to deregister the hook (analogous to addEventListener and removeEventListener).
@@ -496,7 +496,7 @@ const options = { once: true };
 // No need for using the returned deregister function
 onUpdated(callback, options);
 ```
-##### onLoaded
+#### onLoaded
 To be sure, that the initialization process is completed and the embedded fragment can be used on the arrangement, this hook exists. This hook takes the name of a fragment as first parameter and a callback as second. The third parameter is optional and represents the options argument of addEventListener.
 
 The onLoaded hook Executes a callback if a fragment with a specific name is loaded.
@@ -510,7 +510,7 @@ onLoaded("myFragment", () => {
 The onLoaded hook is based on the `collage-fragment-loaded` event, which is dispatched, if an embedded fragment is completed with the initial loading. The event emits the context id of the fragment, which was loaded.
 You can use the event if necessary, but you should prefere the hook. 
 
-##### onUpdated
+#### onUpdated
 Executes a callback if the context of this fragment is updated. This hook takes a callback as first parameter. The second parameter is optional and represents the options argument of addEventListener.
 
  ```js {2-5}
@@ -524,7 +524,7 @@ onUpdated(() => {
 The onUpdated hook is based on the `collage-context-updated` event, which is dispatched, everytime something on the own context changed. The event emits the updated context.
 You can use the event if necessary, but you should prefere the hook. 
 
-##### onConfigUpdated
+#### onConfigUpdated
 Executes a callback if the config of this context was updated. This hook takes a callback as first parameter. The second parameter is optional and represents the options argument of addEventListener.
 
  ```js {2-9}
@@ -543,7 +543,7 @@ onConfigUpdated(() => {
 The onConfigUpdated hook is also based on the `collage-context-updated` event, which is dispatched, everytime something on the own context changed. The event emits the updated context.
 You can use the event if necessary, but you should prefer the hook.
 
-### Deregistering a fragment
+## Deregistering a fragment
 If you want to remove a fragment from your arrangement, just remove it from the DOM. Collage takes care that the parents context gets cleaned up.
 
 :::tip

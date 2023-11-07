@@ -11,6 +11,9 @@ Embed micro frontends in your application.
 ### Configure embedded micro frontends
 Configure embedded micro frontends to fit them perfectly into your application.
 
+### Fragment Functions
+Provide functions which are directly executable on the micro frontend by an Arrangement
+
 ### Service API
 Provide services to other micro frontends and the whole Arrangement and use services, other Contexts are exposing.
 
@@ -19,9 +22,6 @@ Publish messages or subscribe to topics which are available for all parts of you
 
 ### (coming soon) Style Synchronization
 Define styles for your application, the embedded micro frontends will adopt it. Users of your application can also change styles at runtime, e.g. to switch to a dark-theme.
-
-### (coming soon) Style Synchronization
-Micro frontends adopt the styling of their parents to make your application look like one piece.
 
 ## Non-functional Features
 

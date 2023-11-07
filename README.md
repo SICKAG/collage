@@ -22,7 +22,7 @@ To create and embed micro frontends with collage you just need to add a few line
   <div class="somewhere">
     <!-- include a micro frontend effortlessly -->
     <collage-fragment
-      src="/url/to/micro-frontend"
+      url="/url/to/micro-frontend"
       config-something="Configure this!"
       name="my-micro-frontend">
     </collage-fragment>
