@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <title>Embedding a Fragment</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding: 1em;
+    }
+  </style>
+  <script type="module">
+    import { expose } from "@collage/core";
+
+    expose().then(context => {
+      document.getElementById("contextid").innerText = context.id;
+    })
+  </script>
+</head>
+
+<body>
+  <h1>Arrangement</h1>
+  <div>
+    This example shows the embedding of a fragment into an arrangement
+  </div>
+  <div>
+    ContextID: <span id="contextid"></span>
+  </div>
+  <collage-fragment url="./fragment.html"></collage-fragment>
+</body>
+
+</html>

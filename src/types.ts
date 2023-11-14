@@ -49,6 +49,8 @@ export type PluginFunctions<D, C, E> = {
 }
 
 /**
+ * Collage object returned by the bootstrap function
+ *
  * extractContextAsArrangement: Extracts the important information from a context, needed by a fragment from its
  * arrangement
  */
@@ -62,7 +64,11 @@ export type Collage<D, C> = {
 }
 
 /**
- * Enhances collage with additional features
+ * A Plugin is a function that enhances collage with additional features
+ *
+ * <D> stands for Description
+ * <C> stands for Context - before the enhancement
+ * <E> stands for Enhanced Context - after the enhancement
  */
 export type Plugin<D, C, E> =
   (previous: Collage<D, C>) => Collage<D, E>

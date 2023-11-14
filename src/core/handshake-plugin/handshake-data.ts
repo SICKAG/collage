@@ -13,7 +13,7 @@ export function initiateData(data: { description: FrontendDescription, context: 
 /**
  * Extracts the important information from a context, needed by a fragment from its arrangement
  *
- * @params data -
+ * @param data - the FrontendDescription and Context of the arrangement
  */
 // FIXME: This should be part of The Service Plugin
 export function extractAsArrangement(data: { description: FrontendDescription, context: unknown}) {

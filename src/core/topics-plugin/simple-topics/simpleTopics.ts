@@ -10,7 +10,7 @@ import log from '../../../lib/logging';
 /**
  * Manages the communication with a publish subscribe mechanism where topics can be dynamically defined at runtime.
  *
- * Sequence Diagram: see {@link README.md}
+ * Sequence Diagram: see {@link TOPICS.md}
  */
 
 type PreviousContext = DirectFunctionsEnhancedContext & {

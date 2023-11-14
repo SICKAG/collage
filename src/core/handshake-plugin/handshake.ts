@@ -32,6 +32,7 @@ import {
  * Sequence Diagram: see {@link arrangement.md}
  */
 
+// TODO: Add a possibility to pass the penpal debug flag at runtime
 const PENPAL_DEBUG = false;
 
 type PreviousContext = {
@@ -74,7 +75,7 @@ function callForArrangement(data: { description: FrontendDescription, context: u
 
   sendMessage({
     type: messageTypes.callForArrangement,
-    recepient: window.parent,
+    recipient: window.parent,
     content: window.name,
   });
 }
@@ -119,9 +120,10 @@ function answerToCallForArrangement(data: { description: FrontendDescription, co
         });
       }
       log('arrangement.ts', 'A2. answerToCallForArrangement()');
+      // Handshake Step A-3.2
       sendMessage({
         type: messageTypes.answerToCallForArrangement,
-        recepient: iframe.contentWindow,
+        recipient: iframe.contentWindow,
         content: window.origin,
       });
     }
@@ -130,12 +132,16 @@ function answerToCallForArrangement(data: { description: FrontendDescription, co
 
 /**
  * Handshake Step A-3
- * Starting a penpal connection to a fragment (A-3.1) and merge the new context to the old (A-3.2).
+ * Starting a penpal connection to a fragment (A-3.1) and merge the new context to the old (A-3.3).
  */
-function connectToFragment(iframe: HTMLIFrameElement, data: { description: FrontendDescription, context: unknown }) {
+function connectToFragment(
+  fragmentIframe: HTMLIFrameElement,
+  data: { description: FrontendDescription, context: unknown },
+) {
   log('arrangement.ts', 'A3. connectToFragment()');
+  // Step A-3.1 - uses penpal function "connectToChild"
   const connection = connectToChild({
-    iframe,
+    iframe: fragmentIframe,
     methods: extractAsArrangement(data),
     // TODO: is there a more secure way to enable redirects? Maybe using the preflight check in some way?
     childOrigin: '*',
@@ -145,14 +151,14 @@ function connectToFragment(iframe: HTMLIFrameElement, data: { description: Front
   // Listener for (penpal) connectToArrangement
   connection.promise.then((child) => extractFragmentDescriptionFromPenpalChild(
     {
-      frameId: iframe.name,
+      frameId: fragmentIframe.name,
       functions: child as unknown as Functions,
     },
   )).then(async (contextPart) => {
     await updateAndMergeContext(merge(data.context, contextPart));
     document.dispatchEvent(new CustomEvent(
       'collage-fragment-loaded',
-      { detail: iframe.name },
+      { detail: fragmentIframe.name },
     ));
   });
 
@@ -165,6 +171,7 @@ function connectToFragment(iframe: HTMLIFrameElement, data: { description: Front
  */
 function connectToArrangement(data: { description: FrontendDescription, context: unknown }) {
   log('arrangement.ts', 'F3. connectToArrangement()');
+  // Step F-3.1 - uses penpal function "connectToParent"
   connectToParent({
     methods: extractAsFragment({
       description: data.description,
@@ -189,7 +196,7 @@ function connectToArrangement(data: { description: FrontendDescription, context:
       reinitializeFragments();
       sendMessage({
         type: messageTypes.reloadedFragment,
-        recepient: window.parent,
+        recipient: window.parent,
         content: window.name,
       });
     });
@@ -203,11 +210,11 @@ function updateConfigCallback(arrangementDescription: FrontendDescription) {
 }
 
 /**
- * Handshake Step A-3.2 and F-3.3
+ * Handshake Step A-3.3 and F-3.3
  * Update the context and merge it with the old one.
  */
 async function updateAndMergeContext(context: Context) {
-  log('arrangement.ts', 'A-3.2 / F-3.3 updateContext');
+  log('arrangement.ts', 'A-3.3 / F-3.3 updateContext');
   const nextContext = await updateContext(context);
   mergeContexts(context, nextContext as Context);
   document.dispatchEvent(new CustomEvent(
@@ -236,7 +243,7 @@ function sendReinitializeMessage(iframe: Element) {
   if (contentWindow) {
     sendMessage({
       type: messageTypes.reinitializeFragment,
-      recepient: contentWindow,
+      recipient: contentWindow,
     });
   } else {
     log('arrangement.ts', 'F-3.4 !empty iframe', name);

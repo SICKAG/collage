@@ -6,8 +6,23 @@ import {
 import log from '../../lib/logging';
 import { reservedWords } from '../index';
 
+/**
+ * The Direct Functions Plugin enhances the fragment with the possibility to provide functions
+ * to the arrangement directly.
+ */
+
+/**
+ * There are no specific requirements to the context before this plugin is applied.
+ */
 type PreviousContext = { /** */ }
 
+/**
+ * After applying this plugin, the context has the following properties
+ * @property fragments - a proxy object, which provides access to the embedded fragments (sub fragments of this one)
+ * @property functions - a proxy object, which provides access to the functions of this fragment
+ * @property _plugins - a property, which contains all plugins, which are applied to this fragment - especially
+ * the direct functions plugin
+ */
 export type EnhancedContext = PreviousContext & {
   fragments: Fragments;
   functions: Functions;
@@ -18,17 +33,23 @@ export type EnhancedContext = PreviousContext & {
   }
 }
 
+/**
+ * Executes a function on a fragment
+ * @param context - the arrangement context
+ * @param fragmentID - the id of the fragment, which provides the function
+ * @param functionName - the name of the function
+ */
 function executeFunction(context: EnhancedContext, fragmentID: string, functionName: string) {
   return (
     (context._plugins.directFunctionsPlugin.fragments as Fragments)[fragmentID].functions as Functions)[functionName];
 }
 
 /**
- * Manages the communication via direct functions.
- * Direct functions can be called on contexts directly.
- * A fragment can provide such functions to its arrangement, which therefore can executed this functions.
+ * Creates a proxy handler for the functions of a fragment
+ * @param context - the arrangement context
+ * @param fragmentID - the id of the fragment, which provides the function
+ * @returns a proxy handler for the functions of a fragment
  */
-
 function functionsHandler(context: EnhancedContext, fragmentID: string): ProxyHandler<Functions> {
   return {
     get: (__: unknown, fn: string) => {
@@ -77,6 +98,19 @@ function initFragmentsFunctions(context: PreviousContext) {
   );
 }
 
+/**
+ * The Direct Functions Plugin enhances the fragment with the possibility to provide functions
+ * to the arrangement directly.
+ *
+ * It does so by adding a functions property to the context, which is a proxy to all functions defined by
+ * the fragment. This proxy is also available on the fragments property of the context, so it can be called
+ * directly on the fragments name like following:
+ * `context.fragments.nameOfChild.foo()`
+ * It also adds a fragments property to the context, which is a proxy to all embedded "sub" fragments of the fragment.
+ *
+ * The plugin takes care to clean up the proxies, when a fragment is removed from the arrangement. This is done
+ * by listening to the collage-fragment-disconnected event.
+ */
 const directFunctionsPlugin: PluginFunctions<FrontendDescription, PreviousContext, EnhancedContext> = {
   enhanceExpose({ functions }: FrontendDescription, context: PreviousContext) {
     document.addEventListener('collage-fragment-disconnected', (e) => {
