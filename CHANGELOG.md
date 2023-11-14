@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## next minor
+## 0.2.11
+### Fixed
+- revert removing types export in package.json for more compatibility with different typescript setups and bundlers
+
+## 0.2.10
 ### Fixed
 - types export in package.json
 

@@ -33,6 +33,7 @@
   "type": "module",
   "main": "./dist/collage.umd.js",
   "module": "./dist/collage.es.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
