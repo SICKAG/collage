@@ -1,5 +1,5 @@
 # Create Context
-The most basic concept in collage is that of a context. At it's base a context is simply the representation of a uniquly identified fragment and the connection to a potential parent.
+The most basic concept in collage is that of a context. As its base a context is simply the representation of a uniquely identified fragment and the connection to a potential parent.
 
 This takes no argument.
 

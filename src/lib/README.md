@@ -14,7 +14,7 @@ The `updateContext` function is used by the syntactic sugar functions (see [Synt
 
 The `expose` function is the only function which is exported directly to be used in the micro-frontends.
 
-The other functions are for setting up a collage context and performing the handshake between Fragment and Arrangement.
+The other functions are for setting up a collage context and performing the handshake between fragment and arrangement.
 
 ## logging
 Module for internal logging

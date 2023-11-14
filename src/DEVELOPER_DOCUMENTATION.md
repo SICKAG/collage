@@ -20,7 +20,7 @@ You can start the dev server by running
 npm run dev
 ```
 
-This will start a dev server. You then can view and debug the example and integration tests defined in the sample folders of the plugins (src/core/)
+This will start a dev server. You can then view and debug the example and integration tests defined in the sample folders of the plugins (src/core/)
 
 ### Running the tests
 
@@ -30,7 +30,7 @@ You can (and should) keep the unit test running in watch mode while developing
 npm run test:watch
 ```
 
-> Hint: you can keep the dev server and and the unit test running at the same time
+> Hint: you can keep the dev server and the unit test running at the same time
 
 ## What we are building upon:
 
@@ -78,7 +78,7 @@ In short:
 
 Every contribution is welcome, as we want to make collage a vivid community project.
 
-At the moment we lack a system to enable plug ins dynamically, so each plugin must be built and bundled with the library. We are evaluating to change that in the future, so everybody could add functionality to collage.
+At the moment we lack a system to enable plugins dynamically, so each plugin must be built and bundled with the library. We are evaluating to change that in the future, so everybody could add functionality to collage.
 
 ### Creating a new plugin/feature
 
