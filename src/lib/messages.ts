@@ -8,6 +8,9 @@ type Message = {
   content: unknown,
 }
 
+/**
+ * Listen for postMessage events and call callback if the message matches the given type
+ */
 export function listenFor(
   {
     type,
@@ -42,15 +45,18 @@ export function listenFor(
   window.addEventListener('message', listenerCallback);
 }
 
+/**
+ * Send a postMessage event to the given recipient
+ */
 export function sendMessage(
   {
-    recepient,
+    recipient,
     context = MESSAGE_TOKEN,
     targetOrigin = '*',
     type,
     content = '',
   }: {
-    recepient: Window,
+    recipient: Window,
     context?: string,
     targetOrigin?: string,
     type: string,
@@ -58,5 +64,5 @@ export function sendMessage(
   },
 ) {
   log('messages.ts', '-->', content, type);
-  recepient.postMessage({ context, type, content }, targetOrigin);
+  recipient.postMessage({ context, type, content }, targetOrigin);
 }

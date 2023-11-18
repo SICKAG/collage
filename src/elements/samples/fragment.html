@@ -1,0 +1,21 @@
+<head>
+  <style>
+    body {
+      background-color: antiquewhite;
+    }
+  </style>
+  <script type="module">
+    import { expose } from "@collage/core";
+
+    expose().then(context => {
+      document.getElementById("contextid").innerText = context.id;
+    })
+  </script>
+</head>
+
+<body>
+  <h1>Fragment</h1>
+  <div>
+    ContextID: <span id="contextid"></span>
+  </div>
+</body>
