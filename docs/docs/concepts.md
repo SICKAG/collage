@@ -12,6 +12,14 @@ An HTML Document enhanced this way is called a [**context**](#context)
 > Here is a quick overview: https://blogs.halodoc.io/iframe-security-threats-and-the-prevention/
 >
 
+<br>
+
+If we look at an application like in following picture, then we see a collage, which consists of several parts. There is the application frame, which we call an [**arrangement**](#arrangement). The arrangement can embed one or several micro frontends, which we also call [**fragment**](#fragment). This fragment can embed another fragment. As soon as a fragment embeds another, we call it fragment and simultanously arrangement. 
+
+![Concept](/concept.png)
+
+
+
 ## Context
 
 By calling the [expose function](../docs/core-api.html#expose-function), an HTML Document is automatically upgraded to a **context**. Being a context comes with two main features:
@@ -38,6 +46,7 @@ A fragment defines its internal layout and exposes capabilities and properties t
 The capabilities and features of a context are defined and described by its Frontend Description. These can be [**Services**](#service), [**Topics**](topic), [**Direct Functions**](../docs/core-api.html#direct-functions-api) or a [**Theme**](../docs/core-api.html#theme).
 
 ## Service
+Services are a request response communication mechanism.
 
 A Service is a function or a collection of functions and topics and is uniquely identified by its name and (optionally) version. With a Service, you can easily provide functionality to other fragments. This especially comes in handy when you want to provide application functionality like notification handles or modal dialogs to fragments.
 
@@ -46,6 +55,7 @@ Services have certain attributes and restrictions:
 - Two implementations of a Service must always be compatible with each other, e.g. by implementing the same specification.
 - Every service exposed by a context is registered within Collage and kept synchronous between all contexts in the arrangement.
 - If a context in the application is calling a specific service, always the implementation of the context that registered the Service topmost in the DOM tree is called. This means, that if a service is provided by each a fragment and its arrangement, always the implementation registered at the arrangement will be executed.
+![Services](/services.png)
 - The return value of the implementation is communicated back to the context initially calling the Service.
 - A context can expose any number of Services via its Frontend Description.
 - A Service is always provided to the whole Application.
@@ -59,9 +69,14 @@ Services have certain attributes and restrictions:
 > Don't use services to work around origin restrictions (e.g. [SOP](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) or [Same Site Cookie Restrictions](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite)).
 
 ## Topics
+Topics are a publish subscribe communication mechanism. They are an efficient way to communicate messages to the whole application.
 
-Topics are an efficient way to communicate messages to the whole application.
-To do so, a context can publish a message on that topic. Any other context, that has subscribed to that topic gets the message and can react approprietly to the message. Information about how to use topics are found in the [**Topics API**](../docs/core-api.html#topics-api) section of the [API documentation](../docs/core-api/).
+To do so, a context can publish a message on that topic. Any other context, that has subscribed to that topic gets the message and can react appropriately to the message. 
+
+![Topics](/topics.png)
+
+
+Information about how to use topics are found in the [**Topics API**](../docs/core-api.html#topics-api) section of the [API documentation](../docs/core-api/).
 
 ## Self Sufficiency
 

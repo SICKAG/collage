@@ -19,7 +19,18 @@ features:
   # TODO: add this claim as soon as DAVIAF-109 is done
   # - title: Seamlessly Integratable
   #   details: Style your application - Collage synchronzes the styles so the micro frontends you integrate fit in perfectly
+
+
 ---
+## What`s in it for me?
+Create an application that consists of different micro frontends
+- which can be developed in completely independent and autonomously working teams
+- that already existed as non-micro frontends before, but are extended to be reused as micro frontends
+- which have their own scope and are isolated and therefore do not affect others
+
+
+<br>
+
 
 :::: code-group
 ::: code-group-item html
