@@ -206,7 +206,7 @@ Just use the `<collage-fragment>` tag to embed the Todo fragment into the Dashbo
 :::: code-group
 ::: code-group-item dashboard/index.html
 
-```html{16-19}
+```html{17-20}
 <!DOCTYPE html>
 <html>
   <head>
@@ -254,7 +254,7 @@ Here we will need the [**Topics API**](../docs/core-api.html#topics-api) specifi
 :::: code-group
 ::: code-group-item todos/main.js
 
-```javascript{1-11,18-23,34,45}
+```javascript{2-11,18-23,34,45}
 import { expose } from '@collage/core'
 const context = await expose({
   services: {
@@ -344,7 +344,7 @@ In this case we would like to have access to the todos 'active' topic and to the
 :::: code-group
 ::: code-group-item dashboard/main.js
 
-```javascript{1-11,15,23}
+```javascript{1-8,10,14-20,22-30}
 import { expose } from '@collage/core'
 const context = await expose({
   services: {
@@ -380,7 +380,7 @@ document.addEventListener('click', ({target}) => {
 :::
 ::: code-group-item dashboard/index.html
 
-```html{11,12,17,23,28}
+```html{13,18,24,29}
 <!DOCTYPE html>
 <html>
   <head>
@@ -414,9 +414,8 @@ document.addEventListener('click', ({target}) => {
     </main>
     <aside>
       <!--
-        define the todos app as a fragment inside this arrangement and set 
-        the url to a location we can access the fragment.
-        Also give it a name we can reference it.
+        add the todos app as a fragment inside this arrangement and give it
+        a name for identification
       -->
       <collage-fragment
         url="http://localhost:4000/"
